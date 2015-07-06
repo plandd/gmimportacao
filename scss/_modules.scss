@@ -1,0 +1,258 @@
+/**
+ * ------------------------------------------------------------------
+ * Ícones
+ * ------------------------------------------------------------------
+ */
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?8xs4pg');
+	src:url('fonts/icomoon.eot?#iefix8xs4pg') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?8xs4pg') format('truetype'),
+		url('fonts/icomoon.woff?8xs4pg') format('woff'),
+		url('fonts/icomoon.svg?8xs4pg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon_down:before {
+	content: "\e610";
+}
+.icon-icon_left:before {
+	content: "\e611";
+}
+.icon-icon_right:before {
+	content: "\e612";
+}
+.icon-icon_up:before {
+	content: "\e613";
+}
+.icon-newsletter:before {
+	content: "\e604";
+}
+.icon-email:before {
+	content: "\e605";
+}
+.icon-addcar:before {
+	content: "\e606";
+}
+.icon-youtube:before {
+	content: "\e607";
+}
+.icon-logout:before {
+	content: "\e608";
+}
+.icon-search:before {
+	content: "\e609";
+}
+.icon-zoom:before {
+	content: "\e60a";
+}
+.icon-instagram:before {
+	content: "\e60b";
+}
+.icon-carshop:before {
+	content: "\e60c";
+}
+.icon-certificate:before {
+	content: "\e60d";
+}
+.icon-user:before {
+	content: "\e60e";
+}
+.icon-users:before {
+	content: "\e60f";
+}
+.icon-shield:before {
+	content: "\e603";
+}
+.icon-chevron-down:before {
+	content: "\e614";
+}
+.icon-rtl:before {
+	content: "\e615";
+}
+.icon-twitter:before {
+	content: "\e602";
+}
+.icon-facebook:before {
+	content: "\e601";
+}
+.icon-mail:before {
+	content: "\e600";
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Placeholders
+ * ------------------------------------------------------------------
+ */
+%full-height {
+	height: 100%;
+}
+%transition {
+	@include transition(all .3s linear);
+}
+%radius {
+		border-radius: $global-radius;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Seletores
+ * ------------------------------------------------------------------
+ */
+figure {
+	margin: 0;
+}
+a {
+	@extend %transition;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Tipografia
+ * ------------------------------------------------------------------
+ */
+
+//Peso
+.font-lite {
+	font-weight: 300;
+}
+.font-regular {
+	font-weight: 400;
+}
+.font-bold {
+	font-weight: 700;
+}
+.font-black {
+	font-weight: 900;
+}
+
+//tamanho
+.font-small {
+	font-size: rem-calc(12);
+}
+.font-normal {
+	font-size: rem-calc(14);
+}
+.font-medium {
+	font-size: rem-calc(16);
+}
+
+//cores
+.primary {
+	color: $primary-color;
+}
+.secondary {
+	color: $secondary-color;
+}
+.info {
+	color: $info-color;
+}
+.white {
+	color: $white;
+}
+.ghost {
+	color: $ghost;
+}
+
+//caixa
+.text-up {
+	text-transform: uppercase;
+}
+.text-low {
+	text-transform: lowercase;
+}
+
+//altura da linha
+.lh-small {
+	line-height: 1;
+}
+.lh-zero {
+	line-height: 0;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Backgrounds
+ * ------------------------------------------------------------------
+ */
+.bg-primary {
+	background-color: $primary-color;
+}
+.bg-secondary {
+	background-color: $secondary-color;
+}
+.bg-info {
+	background-color: $info-color;
+}
+.bg-ghost {
+	background-color: $ghost;
+}
+.bg-white {
+	background-color: $white;
+}
+.bg-cover {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: 0 50%;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Comportamentos
+ * ------------------------------------------------------------------
+ */
+.d-block {
+	display: block;
+}
+.d-iblock {
+	display: inline-block;
+}
+.d-table {
+	display: table;
+}
+.d-table-cell {
+	display: table-cell;
+	vertical-align: middle;
+}
+.rel {
+	position: relative;
+}
+.abs {
+	position: absolute;
+}
+.full-height {
+	@extend %full-height;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Margens
+ * ------------------------------------------------------------------
+ */
+.no-margin {
+	margin: 0 !important;
+}
+.divide-20 {
+	@extend .small-12;
+	@extend .left;
+	margin-bottom: rem-calc(20);
+}
+.pd-left-20 {
+	padding-left: rem-calc(20);
+}

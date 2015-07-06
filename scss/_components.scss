@@ -1,0 +1,374 @@
+/**
+ * --------------------------------------------------------------------------
+ * Cabeçalho
+ * --------------------------------------------------------------------------
+ */
+
+//Barra do topo com social
+.nav-top {
+  > .row {
+    > .d-table {
+      height: rem-calc(40);
+    }
+  }
+
+  ul {
+    li:first-child {
+      margin-left: 0;
+    }
+    a {
+      @extend .white;
+      @extend .font-lite;
+      @extend .font-small;
+      opacity: .8;
+      //border-bottom: 1px solid $white;
+      &:hover {
+        opacity: 1;
+        border-bottom: 1px solid $white;
+      }
+    }
+  }
+}
+
+//Links das redes sociais no topo
+.social-top {
+  right: rem-calc(10);
+  top: 0;
+  @extend %full-height;
+
+  h4 {
+    @extend .d-table;
+    @extend .text-center;
+    @extend .no-margin;
+    @extend .left;
+    @extend %transition;
+    @extend .rel;
+    width: rem-calc(40);
+    height: rem-calc(40);
+
+    &:before {
+      content: "";
+      @extend .d-block;
+      @extend %full-height;
+      @extend .abs;
+      top: 0; left: 0;
+      border-left: 1px solid rgba($white,.3);
+    }
+
+    &:last-child {
+      &:after {
+        content: "";
+        @extend .d-block;
+        @extend %full-height;
+        @extend .abs;
+        top: 0; right: 0;
+        border-right: 1px solid rgba($white,.3);
+      }
+    }
+
+    &:hover {
+      @extend .bg-white;
+      a {
+        @extend .primary;
+      }
+    }
+
+    a {
+      @extend .d-table-cell;
+      @extend .white;
+    }
+  }
+}
+
+//Container da marca
+%header-height {
+  height: rem-calc(120);
+}
+.brand-section {
+  > .d-table {
+    @extend %header-height;
+  }
+}
+
+//logo
+.logo {
+  h1 {
+    @extend .d-table-cell;
+  }
+}
+
+//form de busca
+%search-height {
+  height: rem-calc(50);
+}
+.search-form {
+  @extend %search-height;
+  @extend .bg-white;
+  .icon-search {
+    @extend .d-iblock;
+    font-size: rem-calc(30);
+    line-height: rem-calc(50);
+    margin-left: rem-calc(10);
+  }
+  input[type="text"] {
+    @extend %search-height;
+    @extend .left;
+    @extend .no-margin;
+    width: rem-calc(308);
+    border: none;
+    box-shadow: inset 0px 0px 0px transparent;
+    &:focus {
+      @extend .bg-white;
+    }
+  }
+  label {
+    @extend .left;
+  }
+  .button {
+    @extend %search-height;
+    @extend .no-margin;
+    @extend .font-bold;
+    line-height: 1;
+    padding-left: rem-calc(10);
+    padding-right: rem-calc(10);
+    border: 2px outset $ghost;
+  }
+}
+
+//Ofertas da semana
+.week-offer  {
+  @extend .d-iblock;
+  @extend .text-up;
+  margin-bottom: 0;
+  line-height: 0;
+  margin-left: rem-calc(10);
+
+  > a {
+    @extend %search-height;
+    @extend .font-bold;
+    padding: rem-calc(13.5);
+    border: 2px outset $primary-color;
+  }
+
+  &:hover {
+    .week-feature {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+.week-feature {
+  width: rem-calc(651);
+  border: 10px solid $primary-color;
+  right: 0;
+  top: 100%;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  @extend %transition;
+  @extend .bg-primary;
+  img {
+    width: 100%;
+    @extend .left;
+    height: auto;
+  }
+}
+
+//Carrinho de compras
+.shop-car {
+
+  @extend .lh-zero;
+  padding: rem-calc(0 10);
+  z-index: 999;
+
+  .icon-chevron-down {
+    font-size: rem-calc(16);
+    @extend .d-iblock;
+    line-height: rem-calc(50);
+  }
+
+  > a {
+    @extend .d-block;
+    @extend .lh-zero;
+    @extend .secondary;
+    @extend .left;
+
+    .icon-carshop {
+      font-size: rem-calc(50);
+    }
+  }
+
+  &:hover {
+    @extend .bg-white;
+    .items-cart {
+      visibility: visible;
+      opacity: 1;
+    }
+    .icon-carshop {
+      @include translateX(0);
+    }
+  }
+
+}
+.qtd-cart {
+  width: rem-calc(20);
+  height: rem-calc(20);
+  border-radius: 100%;
+  @extend .d-iblock;
+  @extend .text-center;
+  @extend .font-small;
+  @extend .font-lite;
+  @extend .white;
+  line-height: rem-calc(20);
+  left: rem-calc(35);
+  top: rem-calc(2);
+}
+.items-cart {
+  width: rem-calc(414);
+  right: 0;
+  top: 100%;
+  @extend .bg-white;
+  @extend %transition;
+  overflow-x: hidden;
+  padding: rem-calc(40 10);
+  border-bottom: 4px solid $primary-color;
+  visibility: hidden;
+  opacity: 0;
+}
+.no-items {
+  @extend .rel;
+  padding: rem-calc(0 20);
+  height: rem-calc(100);
+
+  .icon-carshop {
+    font-size: rem-calc(160);
+    color: $vapor;
+    top: rem-calc(-24); left: 0;
+    z-index: 0;
+    @extend %transition;
+    @include translateX(-100%);
+  }
+
+  hgroup {
+    z-index: 9;
+  }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * Navegação
+ * --------------------------------------------------------------------------
+ */
+
+//Menu principal
+#main-menu {
+  @extend .bg-secondary;
+
+  .main-items {
+    @extend .no-margin;
+    > li {
+      margin-left: 0;
+      &:first-child {
+        @extend .bg-primary;
+      }
+      &:hover {
+        @extend .bg-white;
+        > a {
+          @extend .primary;
+        }
+      }
+    }
+    > li > a {
+      @extend .white;
+      @extend .d-iblock;
+      @extend .rel;
+      height: rem-calc(50);
+      line-height: rem-calc(50);
+      font-size: rem-calc(16);
+      padding: 0 20px;
+
+      &:before {
+        content: "";
+        @extend .d-block;
+        @extend %full-height;
+        @extend .abs;
+        top: 0; left: 0;
+        border-left: 1px solid rgba($white,.1);
+      }
+      .icon-icon_down {
+        @extend .rel;
+        @extend .secondary;
+        top: 2px;
+      }
+    }
+  }
+}
+
+//Mega menu
+%mega-height {
+  height: rem-calc(420);
+}
+.mega-menu {
+  top: 100%;
+  left: 0;
+  @extend %mega-height;
+}
+.nav-cat {
+  @extend %full-height;
+  @extend .bg-white;
+  width: rem-calc(240);
+  border-right: 1px solid tint($vapor, 10%);
+  header {
+    height: rem-calc(70);
+    padding: 0 20px;
+    h6 {
+      line-height: rem-calc(70);
+    }
+  }
+}
+.cat-list {
+  > li {
+    @extend .small-14;
+    @extend .left;
+    border-top: 1px solid tint($vapor, 10%);
+    > div {
+      width: rem-calc(860);
+      @extend %full-height;
+      border-left: 1px solid tint($vapor, 10%);
+      left:100%;
+      top: 0;
+      @extend .bg-white;
+    }
+  }
+  a {
+    @extend .secondary;
+    @extend .d-iblock;
+    @extend .small-14;
+    height: rem-calc(38);
+    line-height: rem-calc(38);
+    padding: 0 20px;
+    &:hover {
+      @extend .bg-primary;
+      @extend .white;
+    }
+  }
+}
+
+.subcats {
+  @extend .d-block;
+  @extend %full-height;
+  width: rem-calc(550);
+  ul {
+    border-top: 1px solid tint($vapor, 10%);
+  }
+  li {
+    @extend .small-7;
+    @extend .left;
+  }
+  a {
+    &:hover {
+      @extend .bg-white;
+      color: $primary-color !important;
+    }
+  }
+}
