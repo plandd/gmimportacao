@@ -9,13 +9,14 @@
     <script src="bower_components/modernizr/modernizr.js"></script>
   </head>
   <body>
+    <div id="mo-adv" class="small-16 abs full-height"></div>
     <!-- cabeçalho -->
-    <header id="header" class="small-14 left">
-      <nav class="nav-top small-14 left bg-primary">
+    <header id="header" class="small-16 left rel">
+      <nav class="nav-top small-16 left">
         <div class="row rel">
-          <div class="d-table small-14 columns">
-            <div class="small-14 d-table-cell">
-              <ul class="inline-list no-margin small-14 columns">
+          <div class="d-table small-16 columns">
+            <div class="small-16 d-table-cell">
+              <ul class="inline-list no-margin small-16 columns">
                 <li><a href="tel:5583986616331">Televendas: ligue +55 (83) 3030-5454</a></li>
                 <li><a href="#">Atendimento</a></li>
                 <li><a href="#">Meus pedidos</a></li>
@@ -23,11 +24,11 @@
               </ul>
             </div>
           </div>
-
+          <!-- redes sociais -->
           <div class="social-top top abs">
-            <h4><a href="#" class="icon-facebook"></a></h4>
-            <h4><a href="#" class="icon-twitter"></a></h4>
-            <h4><a href="#" class="icon-instagram"></a></h4>
+            <h4><a href="#" class="icon-icon_facebook"></a></h4>
+            <h4><a href="#" class="icon-icon_twitter"></a></h4>
+            <h4><a href="#" class="icon-icon_insta"></a></h4>
           </div>
         </div>
       </nav>
@@ -39,10 +40,10 @@
           </h1>
         </figure>
         <div class="small-10 columns d-table">
-          <div class="small-14 d-table-cell">
+          <div class="small-16 d-table-cell">
             <!-- busca -->
             <form action="" class="search-form small-8 left">
-              <label for="s"><span class="icon-search ghost"></span></label>
+              <label for="s"><span class="icon-icon_busca icon-search ghost"></span></label>
               <label><input id="s" type="text" placeholder="Busca por marca, fabricante ou produto" title="Busca por marca, fabricante ou produto"></label>
               <input type="submit" value="Buscar" class="right button secondary text-up">
             </form>
@@ -51,7 +52,7 @@
             <h1 class="week-offer left rel">
               <a href="#" title="Oferta da semana" class="button no-margin">
                 Oferta da semana
-                <span class="icon-icon_down secondary font-medium"></span>
+                <span class="icon-icon_down_3 secondary font-medium"></span>
               </a>
 
               <figure class="week-feature abs">
@@ -62,15 +63,15 @@
             <!-- Carrinho de pedidos -->
             <h1 class="shop-car right no-margin rel">
               <a href="#" title="Seu carrinho de pedidos secondary" class="rel">
-                <span class="icon-carshop left"></span>
-                <span class="icon-chevron-down left secondar"></span>
+                <span class="icon-carshop icon-icon_carrinho  left"></span>
+                <span class="icon-chevron-down icon-icon_down_2 left secondar"></span>
                 <span class="qtd-cart bg-primary abs">0</span>
               </a>
 
               <nav class="items-cart abs">
-                <div class="small-14 left d-table no-items">
-                  <span class="icon-carshop abs"></span>
-                  <div class="d-table-cell small-14">
+                <div class="small-16 left d-table no-items">
+                  <span class="icon-carshop icon-icon_carrinho abs"></span>
+                  <div class="d-table-cell small-16">
                     <hgroup class="no-margin right small-11 rel">
                       <h4 class="font-regular primary no-margin">Seu carrinho está vazio</h4>
                       <h6 class="font-regular no-margin">Adicione produtos para fazer seu pedido</h6>
@@ -85,63 +86,728 @@
     </header>
 
     <!-- menu principal -->
-    <nav id="main-menu" class="small-14 left">
+    <nav id="main-menu" class="small-16 left rel">
       <div class="row rel">
-        <ul class="inline-list main-items">
-          <li>
-            <a href="#">Produtos <span class="icon-icon_down d-iblock"></span></a>
+        
+        <div class="small-3 columns rel main-items">
+            <a href="#" title="Pesquisar por fabricantes" class="active choose-search rel">
+              <div class="small-16 left">
+                <small>Pesquisar por</small>
+                <span><strong>Fabricantes</strong></span>
+              </div>
+              <span class="small-16 abs text-center">
+                <i class="icon-icon_down_3"></i>
+              </span>
+            </a>
 
-            <div class="mega-menu small-14 abs">
-              <nav class="nav-cat left rel">
-                <header class="small-14 left">
-                  <h6 class="font-regular no-margin primary">Navegue pelas categorias</h6>
-                </header>
-                <ul class="no-bullet small-14 left no-margin cat-list">
-                  <li>
-                    <a href="#">Acessórios e periféricos</a>
-                    <div class="submega abs">
-                      <!-- subcategorias -->
-                      <div class="subcats left">
-                        <header class="small-14 left">
-                          <h6 class="font-regular no-margin primary">Acessórios e periféricos</h6>
-                        </header>
-                        <ul class="no-bullet no-margin small-14 left">
-                          <li><a href="#">Caixas de som</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <a href="#">Armazenamento</a>
-                  </li>
-                  <li>
-                    <a href="#">Computadores</a>
-                  </li>
-                  <li>
-                    <a href="#">Energia</a>
-                  </li>
-                  <li>
-                    <a href="#">Impressão</a>
-                  </li>
-                  <li>
-                    <a href="#">Redes</a>
-                  </li>
-                  <li>
-                    <a href="#">Telefonia</a>
-                  </li>
-                  <li>
-                    <a href="#">Vídeo</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </li>
+            <a href="#" title="Pesquisar por fabricantes" class="choose-search rel">
+              <div class="small-16 left">
+                <small>Pesquisar por</small>
+                <span><strong>Grupos</strong></span>
+              </div>
+              <span class="small-16 abs text-center">
+                <i class="icon-icon_down_3"></i>
+              </span>
+            </a>
+        </div>
+
+        <ul class="inline-list main-items left">
           <li><a href="#">Destaques</a></li>
           <li><a href="#">Novos produtos</a></li>
-          <li><a href="#">Em promoção</a></li>
+          <li><a href="#">Promoção</a></li>
+        </ul>
+        
+        <ul class="inline-list main-items right partner-login">
+          <li>
+            <a href="#" title="Área do parceiro"><span class="icon-icon_perfil rel"></span> Área do parceiro</a>
+            <div class="bg-white partner-form abs">
+              <header class="divide-20">
+                <h6 class="ghost no-margin font-lite">Faça seu login e para ter acesso aos seus dados</h6>
+              </header>
+              <form class="small-16 left">
+                <p><input type="text" name="cnpj" placeholder="CNPJ" class="small-16 left"></p>
+                <p><input type="password" name="senha" placeholder="SENHA" class="small-16 left"></p>
+                <p><button type="submit" class="text-up small-16 no-margin font-normal" title="Fazer login">Fazer login</button></p>
+                <p><button class="text-up small-16 request-account secondary no-margin font-normal" title="Solicitar cadastro">Solicitar cadastro</button></p>
+              </form>
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
+
+    <section id="home-content" class="small-16 left">
+      <div class="row">
+        <aside id="sidebar" class="small-3 left">
+          <nav class="search-menu small-16 columns">
+            <!-- Fabricantes -->
+            <ul class="no-bullet active">
+              <li><a href="#">Marca 1</a></li>
+              <li><a href="#">Marca 2</a></li>
+              <li><a href="#">Marca 3</a></li>
+              <li><a href="#">Marca 4</a></li>
+              <li><a href="#">Marca 5</a></li>
+              <li><a href="#">Marca 6</a></li>
+              <li><a href="#">Marca 7</a></li>
+              <li><a href="#">Marca 8</a></li>
+              <li><a href="#">Marca 9</a></li>
+              <li><a href="#">Marca 10</a></li>
+              <li><a href="#">Marca 11</a></li>
+              <li><a href="#">Marca 12</a></li>
+              <li><a href="#">Marca 13</a></li>
+              <li><a href="#">Marca 14</a></li>
+              <li><a href="#">Marca 15</a></li>
+              <li><a href="#">Marca 16</a></li>
+              <li><a href="#">Marca 17</a></li>
+              <li><a href="#">Marca 18</a></li>
+              <li><a href="#">Marca 19</a></li>
+              <li><a href="#">Marca 20</a></li>
+              <li><a href="#">Marca 21</a></li>
+              <li><a href="#">Marca 22</a></li>
+              <li><a href="#">Marca 23</a></li>
+              <li><a href="#">Marca 24</a></li>
+              <li><a href="#">Marca 25</a></li>
+              <li><a href="#">Marca 26</a></li>
+              <li><a href="#">Marca 27</a></li>
+              <li><a href="#">Marca 28</a></li>
+              <li><a href="#">Marca 29</a></li>
+              <li><a href="#">Marca 30</a></li>
+              <li><a href="#">Marca 31</a></li>
+              <li><a href="#">Marca 32</a></li>
+              <li><a href="#">Marca 33</a></li>
+              <li><a href="#">Marca 34</a></li>
+              <li><a href="#">Marca 35</a></li>
+              <li><a href="#">Marca 36</a></li>
+              <li><a href="#">Marca 37</a></li>
+              <li><a href="#">Marca 38</a></li>
+              <li><a href="#">Marca 39</a></li>
+              <li><a href="#">Marca 40</a></li>
+              <li><a href="#">Marca 41</a></li>
+              <li><a href="#">Marca 42</a></li>
+              <li><a href="#">Marca 43</a></li>
+              <li><a href="#">Marca 44</a></li>
+              <li><a href="#">Grupo 40</a></li>
+              <li><a href="#">Grupo 41</a></li>
+              <li><a href="#">Grupo 42</a></li>
+              <li><a href="#">Grupo 43</a></li>
+              <li><a href="#">Grupo 44</a></li>
+            </ul>
+
+            <!-- Grupos -->
+            <ul class="no-bullet">
+              <li><a href="#">Grupo 1</a></li>
+              <li><a href="#">Grupo 2</a></li>
+              <li><a href="#">Grupo 3</a></li>
+              <li><a href="#">Grupo 4</a></li>
+              <li><a href="#">Grupo 5</a></li>
+              <li><a href="#">Grupo 6</a></li>
+              <li><a href="#">Grupo 7</a></li>
+              <li><a href="#">Grupo 8</a></li>
+              <li><a href="#">Grupo 9</a></li>
+              <li><a href="#">Grupo 10</a></li>
+              <li><a href="#">Grupo 11</a></li>
+              <li><a href="#">Grupo 12</a></li>
+              <li><a href="#">Grupo 13</a></li>
+              <li><a href="#">Grupo 14</a></li>
+              <li><a href="#">Grupo 15</a></li>
+              <li><a href="#">Grupo 16</a></li>
+              <li><a href="#">Grupo 17</a></li>
+              <li><a href="#">Grupo 18</a></li>
+              <li><a href="#">Grupo 19</a></li>
+              <li><a href="#">Grupo 20</a></li>
+              <li><a href="#">Grupo 21</a></li>
+              <li><a href="#">Grupo 22</a></li>
+              <li><a href="#">Grupo 23</a></li>
+              <li><a href="#">Grupo 24</a></li>
+              <li><a href="#">Grupo 25</a></li>
+              <li><a href="#">Grupo 26</a></li>
+              <li><a href="#">Grupo 27</a></li>
+              <li><a href="#">Grupo 28</a></li>
+              <li><a href="#">Grupo 29</a></li>
+              <li><a href="#">Grupo 30</a></li>
+              <li><a href="#">Grupo 31</a></li>
+              <li><a href="#">Grupo 32</a></li>
+              <li><a href="#">Grupo 33</a></li>
+              <li><a href="#">Grupo 34</a></li>
+              <li><a href="#">Grupo 35</a></li>
+              <li><a href="#">Grupo 36</a></li>
+              <li><a href="#">Grupo 37</a></li>
+              <li><a href="#">Grupo 38</a></li>
+              <li><a href="#">Grupo 39</a></li>
+              <li><a href="#">Grupo 40</a></li>
+              <li><a href="#">Grupo 41</a></li>
+              <li><a href="#">Grupo 42</a></li>
+              <li><a href="#">Grupo 43</a></li>
+              <li><a href="#">Grupo 44</a></li>
+              <li><a href="#">Grupo 40</a></li>
+              <li><a href="#">Grupo 41</a></li>
+              <li><a href="#">Grupo 42</a></li>
+              <li><a href="#">Grupo 43</a></li>
+              <li><a href="#">Grupo 44</a></li>
+            </ul>
+          </nav>
+
+          <!-- Produtos em destaques -->
+          <section id="testimonials" class="small-16 columns section-block">
+            <header class="section-header small-16 left">
+              <h4 class="text-up no-margin ghost left">Reconhecimentos</h4>
+            </header>
+
+            <nav id="nav-testimonials" class="small-16 left">
+              <figure class="small-16 left item">
+                <a href="media/rec.jpg" data-lightbox="testimonials" class="d-block divide-10"><img src="media/rec.jpg" alt=""></a>
+                <figcaption class="small-16 left">
+                  <p class="font-small no-margin">A GMI é parceiro Gold do Intel® Channel Partner Program.</p>
+                </figcaption>
+              </figure>
+
+              <figure class="small-16 left item">
+                <a href="media/rec.jpg" data-lightbox="testimonials" class="d-block divide-10"><img src="media/rec.jpg" alt=""></a>
+                <figcaption class="small-16 left">
+                  <p class="font-small no-margin">A GMI é parceiro Gold do Intel® Channel Partner Program.</p>
+                </figcaption>
+              </figure>
+            </nav>
+          </section>
+
+        </aside>
+        
+        <!-- coluna direita -->
+        <div class="small-13 left">
+          <!-- home slider -->
+          <section id="home-slider" class="small-16 columns rel">
+            <nav class="small-16 left rel cycle-slideshow"
+              data-cycle-fx="scrollHorz" 
+              data-cycle-timeout="6000"
+              data-cycle-slides="> figure"
+              data-cycle-next=".prev-slider"
+              data-cycle-prev=".next-slider"
+              data-cycle-pager=".slider-pager"
+              data-cycle-pager-template="<span></span>"
+            >
+              <figure class="small-16 full-height" data-thumb="http://die-markengestalter.de/uploads/projekte/reetec/ree_4.jpg">
+              </figure>
+
+              <figure class="small-16 full-height" data-thumb="http://gmimportacao.com.br/slideshow/img1.jpg">
+              </figure>
+            </nav>
+
+            <!-- navegar -->
+            <a href="#" class="small-1 abs nav-slider prev-slider d-table">
+              <div class="d-table-cell small-16 text-center">
+                <i class="icon-icon_left_5"></i>
+              </div>
+            </a>
+            <a href="#" class="small-1 abs nav-slider next-slider d-table">
+              <div class="d-table-cell small-16 text-center">
+                <i class="icon-icon_right_5"></i>
+              </div>
+            </a>
+
+            <!-- paginar -->
+            <div class="small-16 abs slider-pager text-center"></div>
+          </section>
+          
+          <!-- newsletter -->
+          <section class="small-16 columns">
+            <div id="newsletter" class="small-16 left">
+              <div class="d-table-cell small-16 text-center">
+                <div class="small-8 left col-left">
+                  <i class="icon-icon_newsletter ghost left"></i>
+                  <hgroup class="text-left left">
+                    <p class="text-up ghost no-margin font-small">Assine nossa newsletter</p>
+                    <h4 class="text-up ghost no-margin lh-small font-medium">E receba várias novidades da GMI!</h4>
+                  </hgroup>
+                </div>
+
+                <div class="small-8 left col-right">
+                  <form class="form-newsletter small-16 left">
+                    <input type="email" name="email" class="small-12 left" placeholder="Digite seu melhor email" required title="Seu e-mail">
+                    <button type="submit" class="small-4 left button secondary shape text-up">Assinar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Distribuidores oficiais -->
+          <section id="partners-slider" class="small-16 columns section-block">
+            <header class="section-header small-16 left">
+              <h4 class="text-up no-margin ghost left">Distribuidor oficial</h4>
+              <nav class="right nav-partners">
+                <a href="#" class="d-block prev-partner icon-icon_left_4" title="Anterior"></a>
+                <a href="#" class="d-block next-partner icon-icon_right_4" title="Próximo"></a>
+              </nav>
+            </header>
+
+            <nav id="list-partners" class="small-12 left">
+              <figure class="item">
+                <a href="#"><img src="media/asus.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/greatek.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/intelbras.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/linkone.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/ragtek.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/asus.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/greatek.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/intelbras.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/linkone.png" alt=""></a>
+              </figure>
+              <figure class="item">
+                <a href="#"><img src="media/ragtek.png" alt=""></a>
+              </figure>
+            </nav>
+          </section>
+
+          <!-- Produtos em destaques -->
+          <section id="popular-products" class="small-16 columns section-block">
+            <header class="section-header small-16 left">
+              <h4 class="text-up no-margin ghost left">Produtos em destaque</h4>
+            </header>
+            
+            <nav id="list-products" class="small-16 columns">
+              <ul class="small-block-grid-5">
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd1.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Gabinete GMI V4">Gabinete GMI V4</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd2.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Estabilizador APC Microsol 115V">Estabilizador APC Microsol 115V</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd3.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Placa Mãe GMI G31 CPU LGA775">Placa Mãe GMI G31 CPU LGA775</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd4.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Fonte GMI 700W REAL">Fonte GMI 700W REAL</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+                
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd1.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Gabinete GMI V4">Gabinete GMI V4</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd2.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Estabilizador APC Microsol 115V">Estabilizador APC Microsol 115V</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd3.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Placa Mãe GMI G31 CPU LGA775">Placa Mãe GMI G31 CPU LGA775</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd4.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Fonte GMI 700W REAL">Fonte GMI 700W REAL</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd1.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Gabinete GMI V4">Gabinete GMI V4</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd2.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Estabilizador APC Microsol 115V">Estabilizador APC Microsol 115V</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd3.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Placa Mãe GMI G31 CPU LGA775">Placa Mãe GMI G31 CPU LGA775</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd4.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Fonte GMI 700W REAL">Fonte GMI 700W REAL</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd1.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Gabinete GMI V4">Gabinete GMI V4</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd2.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Estabilizador APC Microsol 115V">Estabilizador APC Microsol 115V</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure>
+                    <div class="small-16 abs frame-white"></div>
+                    <a href="#" title="" class="product-thumb d-iblock small-16 left"><img src="media/pd3.jpg" alt=""></a>
+                    <figcaption class="small-16 left">
+                      <h2 class="small-16 left font-medium font-regular"><a href="#" title="Placa Mãe GMI G31 CPU LGA775">Placa Mãe GMI G31 CPU LGA775</a></h2>
+                      <p class="no-margin small-16 left text-center"><a href="#" title="" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+              </ul>
+            </nav>
+          </section>
+
+          <!-- sobre a empresa -->
+          <section id="corp-skills" class="small-16 columns section-block">
+            <nav class="small-16 columns">
+              <ul class="small-block-grid-3">
+                <li>
+                  <a href="#" class="small-16 left d-table">
+                    <div class="d-table-cell small-16 text-center">
+                      <span class="primary d-block icon-icon_seguranca"></span>
+                      <article class="text-left">
+                        <p class="lh-small no-margin secondary">Faça seu pedido</p>
+                        <h3 class="lh-small no-margin text-up">Com segurança</h3>
+                      </article>
+                    </div>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="small-16 left d-table">
+                    <div class="d-table-cell small-16 text-center">
+                      <span class="primary d-block icon-icon_group"></span>
+                      <article class="text-left">
+                        <p class="lh-small no-margin secondary">Faça parte da equipe</p>
+                        <h3 class="lh-small no-margin text-up">Seja revendedor</h3>
+                      </article>
+                    </div>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="small-16 left d-table">
+                    <div class="d-table-cell small-16 text-center">
+                      <span class="primary d-block icon-icon_certificado"></span>
+                      <article class="text-left">
+                        <p class="lh-small no-margin secondary">Padrão de qualidade</p>
+                        <h3 class="lh-small no-margin text-up">Reconhecido</h3>
+                      </article>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </section>
+        </div><!-- //coluna direita -->
+
+        <!-- ultimas noticias -->
+        <section id="last-blog" class="small-16 columns section-block no-margin">
+          <div class="small-16 columns">
+            <header class="section-header small-16 left">
+              <h4 class="text-up no-margin ghost left">Últimas notícias</h4>
+              <a href="#" class="right font-small white more-news" title="ver mais notícias">ver mais notícias</a>
+            </header>
+
+            <nav id="nav-blog-last" class="small-16 columns">
+              <ul class="small-block-grid-4">
+                <li>
+                  <figure class="small-16 left">
+                    <a href="#" title="" class="d-block divide-10">
+                      <img src="media/news1.jpg" alt="">
+                    </a>
+                    <figcaption class="small-16 left">
+                      <h5 class="divide-10"><a href="#" class="secondary">A GMI Distribuidora firma sua mais nova parceira em 2015</a></h5>
+                      <p><a href="#" title="">> leia mais</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure class="small-16 left">
+                    <a href="#" title="" class="d-block divide-10">
+                      <img src="media/news2.jpg" alt="">
+                    </a>
+                    <figcaption class="small-16 left">
+                      <h5 class="divide-10"><a href="#" class="secondary">A GMI Distribuidora firma sua mais nova parceira em 2015</a></h5>
+                      <p><a href="#" title="">> leia mais</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure class="small-16 left">
+                    <a href="#" title="" class="d-block divide-10">
+                      <img src="media/news3.jpg" alt="">
+                    </a>
+                    <figcaption class="small-16 left">
+                      <h5 class="divide-10"><a href="#" class="secondary">A GMI Distribuidora firma sua mais nova parceira em 2015</a></h5>
+                      <p><a href="#" title="">> leia mais</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+
+                <li>
+                  <figure class="small-16 left">
+                    <a href="#" title="" class="d-block divide-10">
+                      <img src="media/news4.jpg" alt="">
+                    </a>
+                    <figcaption class="small-16 left">
+                      <h5 class="divide-10"><a href="#" class="secondary">A GMI Distribuidora firma sua mais nova parceira em 2015</a></h5>
+                      <p><a href="#" title="">> leia mais</a></p>
+                    </figcaption>
+                  </figure>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </section>
+        
+        <!-- anuncios -->
+        <section id="anouncemments" class="small-16 columns section-block no-margin">
+          <ul class="small-block-grid-8">
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an1.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an2.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an3.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an4.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an5.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an6.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an7.jpg" alt="">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" target="_blank" title="">
+                <img src="media/an5.jpg" alt="">
+              </a>
+            </li>
+          </ul>
+        </section>
+
+      </div><!-- //row -->
+    </section>
+    
+    <!-- footer -->
+    <footer id="footer" class="small-16 left white rel">
+      <div class="row">
+        
+        <section class="small-5 columns">
+          <header class="header-footer divide-20 rel d-table">
+            <h1 class="no-margin left abs">
+              <a href="#" title="" class="white"><span class="icon-icon_gm_pb"></span></a>
+            </h1>
+            <p class="no-margin d-table-cell font-black text-up"><i>Distribuindo qualidade</i></p>
+          </header>
+
+          <address class="divide-20 rel">
+            <p>Rua Virgina Maria de Oliveira</p>
+            <p>Galpão 73 - Água Fria</p>
+            <p>João Pessoa - PB</p>
+            <p>CEP: 58053-006</p>
+            <p class="font-small"><a href="#" target="_blank" title="ver no mapa">ver no mapa</a></p>
+            <span class="icon-icon_local white abs"></span>
+          </address>
+
+          <p class="tel small-16 left rel divide-10">
+            <span class="abs icon-icon_phone"></span><a href="tel:55 (83) 3023-9590">+55 (83) 3023-9590 / 3023-9591</a>
+          </p>
+
+          <p class="tel small-16 left rel no-margin">
+            <span class="abs icon-icon_mail_2"></span><a href="mailto:contato@gmimportacao.com.br">contato@gmimportacao.com.br</a>
+          </p>
+        </section>
+
+        <nav class="custom-nav small-3 columns">
+          <header class="divide-10">
+            <h5 class="white text-up no-margin">Institucional</h5>
+          </header>
+          <ul>
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Sobre a GMI</a></li>
+            <li><a href="#">Suporte</a></li>
+            <li><a href="#">Seja revendedor</a></li>
+            <li><a href="#">Fale conosco</a></li>
+          </ul>
+        </nav>
+
+        <nav class="custom-nav small-3 columns">
+          <header class="divide-10">
+            <h5 class="white text-up no-margin">Dúvidas</h5>
+          </header>
+          <ul>
+            <li><a href="#">Perguntas frequentes</a></li>
+            <li><a href="#">Política de privacidade</a></li>
+            <li><a href="#">Termos de uso</a></li>
+            <li><a href="#">Troca e devolução</a></li>
+            <li><a href="#">Atualizar boleto</a></li>
+          </ul>
+        </nav>
+
+        <section class="footer-info small-4 columns">
+          <hgroup class="divide-30 rel">
+            <h5 class="white text-up no-margin">Compre pelo telefone</h5>
+            <p class="white no-margin font">Televendas: <strong>+55 (83) 3023-9590</strong></p>
+            <span class="abs icon-icon_phone white"></span>
+          </hgroup>
+
+          <h5 class="white text-up rel divide-20 get-ticket">
+            <span class="icon-icon_ticket left"></span><a href="#" title="Solicitar chamado">Solicitar chamado</a>
+          </h5>
+
+          <nav class="footer-social small-16 left">
+            <ul class="inline-list">
+              <li>GMI na internet:</li>
+              <li><h3 class="lh-small no-margin"><a href="#" title="" target="_blank" class="icon-icon_facebook"></a></h3></li>
+              <li><h3 class="lh-small no-margin"><a href="#" title="" target="_blank" class="icon-icon_twitter"></a></h3></li>
+              <li><h3 class="lh-small no-margin"><a href="#" title="" target="_blank" class="icon-icon_insta"></a></h3></li>
+            </ul>
+          </nav>
+        </section>
+
+      </div>
+    </footer>
+
+    <section id="credits" class="small-16 left">
+      <div class="row">
+        <p class="small-16 left text-center d-table">
+          <span class="d-table-cell">* Preços, estoque e condições exclusivos para revendedores GMI devidamente cadastrados, podendo sofrer alterações sem prévia notificação.</span>
+        </p>
+
+        <p class="small-16 left d-table">
+          <span class="d-table-cell small-16">
+            <span class="left">© 2006 - 2015 GMI Comércio e Importação LTDA - Todos os direitos reservados</span>
+            <span class="right">
+              <a href="#" target="_blank" title="Desenvolvido por Plan - Design e Desenvolvimento" class="icon-icon_plan ghost"></a>
+            </span>
+          </span>
+        </p>
+      </div>
+    </section>
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="scripts.js"></script>

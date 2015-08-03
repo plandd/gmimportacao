@@ -1,0 +1,21 @@
+//consulta produtos por fabricantes
+//---------------------------------------
+SELECT *
+FROM  `produtos`
+WHERE  `FABRICANTE` =  'INTELBRAS'
+LIMIT 0 , 30
+
+//linhas do fabricante > 0
+//---------------------------------------
+SELECT  `GRUPO`
+FROM  `produtos`
+WHERE  `FABRICANTE` =  'MULTILASER'
+LIMIT 0 , 30
+
+//Fabricantes por ordem alfabetica
+//---------------------------------------
+SELECT DISTINCT  `FABRICANTE`
+FROM  `produtos`
+ORDER BY  `FABRICANTE` ASC
+LIMIT 0 , 30
+CODIGO,NOMEPRODUTO,GRUPO,FABRICANTE,DESCRICAO_COMPLEMENTAR,REFERENCIA,PRECO

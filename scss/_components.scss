@@ -4,8 +4,14 @@
  * --------------------------------------------------------------------------
  */
 
+#header {
+  background-color: $body-bg;
+  z-index: 999;
+}
+
 //Barra do topo com social
 .nav-top {
+  border-bottom: 1px solid rgba($secondary-color,.2);
   > .row {
     > .d-table {
       height: rem-calc(40);
@@ -17,14 +23,14 @@
       margin-left: 0;
     }
     a {
-      @extend .white;
+      @extend .secondary;
       @extend .font-lite;
       @extend .font-small;
       opacity: .8;
       //border-bottom: 1px solid $white;
       &:hover {
         opacity: 1;
-        border-bottom: 1px solid $white;
+        border-bottom: 1px solid rgba($secondary-color,.5);
       }
     }
   }
@@ -52,7 +58,7 @@
       @extend %full-height;
       @extend .abs;
       top: 0; left: 0;
-      border-left: 1px solid rgba($white,.3);
+      border-left: 1px solid rgba($secondary-color,.2);
     }
 
     &:last-child {
@@ -62,12 +68,11 @@
         @extend %full-height;
         @extend .abs;
         top: 0; right: 0;
-        border-right: 1px solid rgba($white,.3);
+        border-right: 1px solid rgba($secondary-color,.3);
       }
     }
 
     &:hover {
-      @extend .bg-white;
       a {
         @extend .primary;
       }
@@ -75,7 +80,7 @@
 
     a {
       @extend .d-table-cell;
-      @extend .white;
+      @extend .secondary;
     }
   }
 }
@@ -104,6 +109,7 @@
 .search-form {
   @extend %search-height;
   @extend .bg-white;
+  width: rem-calc(438);
   .icon-search {
     @extend .d-iblock;
     font-size: rem-calc(30);
@@ -114,7 +120,7 @@
     @extend %search-height;
     @extend .left;
     @extend .no-margin;
-    width: rem-calc(308);
+    width: rem-calc(310);
     border: none;
     box-shadow: inset 0px 0px 0px transparent;
     &:focus {
@@ -142,6 +148,7 @@
   margin-bottom: 0;
   line-height: 0;
   margin-left: rem-calc(10);
+  z-index: 99999;
 
   > a {
     @extend %search-height;
@@ -179,7 +186,7 @@
 
   @extend .lh-zero;
   padding: rem-calc(0 10);
-  z-index: 999;
+  z-index: 9999;
 
   .icon-chevron-down {
     font-size: rem-calc(16);
@@ -224,7 +231,7 @@
   top: rem-calc(2);
 }
 .items-cart {
-  width: rem-calc(414);
+  width: rem-calc(382);
   right: 0;
   top: 100%;
   @extend .bg-white;
@@ -259,6 +266,7 @@
  * Navegação
  * --------------------------------------------------------------------------
  */
+$menu_height: rem-calc(50);
 
 //Menu principal
 #main-menu {
@@ -268,9 +276,6 @@
     @extend .no-margin;
     > li {
       margin-left: 0;
-      &:first-child {
-        @extend .bg-primary;
-      }
       &:hover {
         @extend .bg-white;
         > a {
@@ -282,19 +287,19 @@
       @extend .white;
       @extend .d-iblock;
       @extend .rel;
-      height: rem-calc(50);
+      height: $menu_height;
       line-height: rem-calc(50);
       font-size: rem-calc(16);
       padding: 0 20px;
 
-      &:before {
+      /*&:before {
         content: "";
         @extend .d-block;
         @extend %full-height;
         @extend .abs;
         top: 0; left: 0;
         border-left: 1px solid rgba($white,.1);
-      }
+      }*/
       .icon-icon_down {
         @extend .rel;
         @extend .secondary;
@@ -304,71 +309,528 @@
   }
 }
 
-//Mega menu
-%mega-height {
-  height: rem-calc(420);
+ul.main-items {
+  padding-left: rem-calc(10);
 }
-.mega-menu {
-  top: 100%;
-  left: 0;
-  @extend %mega-height;
+
+.main-items {
+  height: $menu_height;
 }
-.nav-cat {
-  @extend %full-height;
-  @extend .bg-white;
-  width: rem-calc(240);
-  border-right: 1px solid tint($vapor, 10%);
-  header {
-    height: rem-calc(70);
-    padding: 0 20px;
-    h6 {
-      line-height: rem-calc(70);
+
+.choose-search {
+  @extend .d-table;
+  @extend .abs;
+  @extend .bg-secondary;
+  @extend .primary;
+  padding: rem-calc(0 15);
+  height: rem-calc(70);
+  width: 50%;
+  top: 0;
+  left: 50%;
+  border-radius: 0 0 20px 0;
+  
+  &.active {
+    @extend .bg-primary;
+    @extend .white;
+    > span {
+      @extend .primary;
     }
   }
+  &:hover {
+    @extend .white;
+  }
+  > div {
+    margin-top: rem-calc(8);
+    small, span {
+      @extend .d-iblock;
+      line-height: 0;
+    }
+    span {
+      @extend .font-normal;
+    }
+  }
+  > span {
+    left: 0;
+    bottom: rem-calc(-16);
+    @extend .secondary;
+  }
 }
-.cat-list {
-  > li {
-    @extend .small-14;
+.choose-search:first-child {
+  left: rem-calc(10);
+  border-radius: 0 0 0 20px;
+}
+
+//Menu Produtos/Fabricantes
+.search-menu {
+  padding-top: rem-calc(30);
+  a {
+    @extend .ghost;
+    @extend .font-normal;
+    @extend .d-iblock;
     @extend .left;
-    border-top: 1px solid tint($vapor, 10%);
-    > div {
-      width: rem-calc(860);
-      @extend %full-height;
-      border-left: 1px solid tint($vapor, 10%);
-      left:100%;
-      top: 0;
+    @extend .small-16;
+    padding-left: rem-calc(10);
+    border-bottom: 1px solid tint($ghost, 75%);
+    border-left: 5px solid transparent;
+    height: rem-calc(27);
+    line-height: rem-calc(29);
+
+    &:hover {
+      border-left-color: $primary-color;
       @extend .bg-white;
     }
   }
-  a {
-    @extend .secondary;
-    @extend .d-iblock;
-    @extend .small-14;
-    height: rem-calc(38);
-    line-height: rem-calc(38);
-    padding: 0 20px;
+  > ul {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  > ul > li {
+    @extend .text-up;
+  }
+}
+
+//lista de produtos em destaque
+#list-products {
+  figure {
+    @extend .small-16;
+    @extend .rel;
+    padding: rem-calc(16);
+    height: rem-calc(300);
+
+    > div {
+      @extend .bg-white;
+      @extend %transition;
+      @extend %full-height;
+      @include box-shadow(0 0 20px rgba(0, 0, 0, 0.05));
+      top: 0; left: 0;
+      z-index: 0;
+    }
+    
     &:hover {
-      @extend .bg-primary;
-      @extend .white;
+      > div { @include scale(1.05); }
+    }
+  }
+  figcaption {
+    @extend .rel;
+    z-index: 9;
+    margin-top: rem-calc(10);
+    h2 {
+      line-height: 1.2;
+      margin-bottom: rem-calc(15);
+    }
+    a {
+      @extend .secondary;
+      @extend .d-block;
+      height: rem-calc(35);
+
+      &:hover {
+        @extend .primary;
+      }
+    }
+  }
+  .button {
+    height: rem-calc(30);
+    line-height: rem-calc(30);
+    padding: 0;
+    @extend .small-16;
+    &:hover {
+      background-color: $primary-color !important;
     }
   }
 }
 
-.subcats {
-  @extend .d-block;
-  @extend %full-height;
-  width: rem-calc(550);
-  ul {
-    border-top: 1px solid tint($vapor, 10%);
+.product-thumb {
+  height: rem-calc(180);
+  @extend .text-center;
+  @extend .rel;
+  z-index: 9;
+
+  img {
+    height: 100%;
+    width: auto;
   }
-  li {
-    @extend .small-7;
+  
+}
+
+//Reconhecimentos
+#nav-testimonials {
+  figure {
+    padding: rem-calc(16);
+    padding-top: 0;
+    img {
+      @extend .small-16;
+      @extend .left;
+      height: auto;
+    }
+  }
+}
+
+// links institucionais
+#corp-skills {
+  a {
+    height: rem-calc(120);
+    @extend .bg-white;
+    border-top: 3px solid $primary-color;
+  }
+  article,span {
+    @extend .d-iblock;
+  }
+  span {
+    font-size: rem-calc(40);
+  }
+}
+
+// ultimas noticias
+.more-news {
+  padding: rem-calc(5 10);
+  @extend .d-iblock;
+  @extend .bg-primary;
+  border-radius: 10px 10px 0 0;
+  &:hover {
+    @extend .white;
+  }
+}
+
+#nav-blog-last {
+  .d-block {
+    width: rem-calc(310);
+    height: rem-calc(180);
+    overflow: hidden;
+  }
+  img {
+    @extend .small-16;
     @extend .left;
+    @extend %transition;
+    height: auto;
+    &:hover {
+      @include scale(1.03);
+    }
+  }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * Home slider
+ * --------------------------------------------------------------------------
+ */
+#home-slider {
+  height: rem-calc(420);
+  nav {
+    height: 100%;
+    background-color: tint($ghost,50%);
+    @include box-shadow(0px 6px 29px -9px rgba(0,0,0,0.5));
+    z-index: 9;
+    border-bottom: 1px solid $white;
+  }
+}
+.nav-slider {
+  height: 100%;
+  left: 0;
+  top: 0;
+  font-size: rem-calc(42);
+  @extend .white;
+  opacity: .6;
+  z-index: 999;
+
+  &:hover,&:focus {
+    opacity: 1;
+    @extend .white;
+  }
+  &.next-slider {
+    right: 0;
+    left: inherit;
+  }
+}
+
+.slider-pager {
+  z-index: 999;
+  bottom: rem-calc(10);
+  left: 0;
+
+  span {
+    @extend .d-iblock;
+    margin: rem-calc(0 5);
+    width: rem-calc(12);
+    height: rem-calc(12);
+    border-radius: 100%;
+    @extend .bg-ghost;
+    @extend %transition;
+    cursor: pointer;
+
+    &.cycle-pager-active {
+      @include scale(1.5);
+      border: 2px solid $primary-color;
+      background-color: transparent;
+    }
+  }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * Distrbuidores slider
+ * --------------------------------------------------------------------------
+ */
+#list-partners {
+  figure {
+    @extend .text-center;
+  }
+}
+.nav-partners {
+  a {
+    @extend .d-iblock;
+    @extend .ghost;
+    margin-left: rem-calc(5);
+    line-height: 1.2;
+    font-size: rem-calc(24);
+    &:hover {
+      @extend .primary;
+    }
+  }
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * Formulários
+ * --------------------------------------------------------------------------
+ */
+
+//Login do parceiro na página principal
+.partner-login {
+  padding-right: rem-calc(10);
+  overflow: visible !important;
+  li {
+    @extend .rel;
   }
   a {
-    &:hover {
-      @extend .bg-white;
+    @extend .bg-white;
+    color: $ghost !important;
+  }
+  .icon-icon_perfil {
+    font-size: rem-calc(22);
+    top: rem-calc(3);
+  }
+  &:hover {
+    .partner-form {
+      visibility: visible;
+      opacity: 1;
+    }
+    a {
       color: $primary-color !important;
     }
+  }
+}
+.partner-form {
+  right: 0;
+  bottom: rem-calc(-320);
+  padding: rem-calc(20);
+  width: rem-calc(270);
+  height: rem-calc(320);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  @extend %transition;
+  button {
+      height: rem-calc(45);
+      border: 2px outset $primary-color;
+      padding-top: 0;
+      padding-bottom: 0;
+      &.secondary {
+          border: 2px outset $secondary-color;
+      }
+  }
+}
+
+//newsletter abaixo do slider da home
+#newsletter {
+  @extend .d-table;
+  height: rem-calc(60);
+  background-color: #eaeaea;
+  border-radius: 0 0 20px 20px;
+
+  i {
+    font-size: rem-calc(54);
+    line-height: rem-calc(60);
+  }
+
+  hgroup {
+    margin: rem-calc(12 0 0 10);
+  }
+
+  input[type="email"] {
+    width: 75% !important;
+  }
+
+  input,button {
+    height: rem-calc(35);
+    @extend .no-margin;
+  }
+
+  button {
+    padding: 0;
+  }
+
+  form {
+    margin-top: rem-calc(12);
+  }
+}
+
+$padding_col: rem-calc(85); 
+.col-left {
+  padding-left: $padding_col;
+}
+.col-right {
+  padding-right: $padding_col;
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * Escopo genérico das seções
+ * --------------------------------------------------------------------------
+ */
+
+//Container
+.section-block {
+  margin-top: rem-calc(30);
+}
+
+//Cabeçalhos
+.section-header {
+  border-bottom: 2px solid $primary-color;
+  margin-bottom: rem-calc(20);
+}
+
+/**
+ * --------------------------------------------------------------------------
+ * Rodapé
+ * --------------------------------------------------------------------------
+ */
+%icon-footer-abs {
+  top: 0; left: 0;
+  font-size: rem-calc(26);
+}
+#footer {
+  padding: rem-calc(40 0);
+  @extend .bg-secondary;
+  border-top: 10px solid tint($secondary-color,20%);
+  a {
+    @extend .white;
+    &:focus {
+      @extend .white;
+    }
+    &:hover {
+      @extend .primary;
+    }
+  }
+
+  .tel > a,address {
+    padding-left: rem-calc(35);
+  }
+
+  .tel {
+    span {
+      @extend %icon-footer-abs;
+    }
+    a {
+      line-height: rem-calc(26);
+    }
+  }
+
+  address {
+    p {
+      line-height: 1.2;
+      font-style: normal;
+      @extend .no-margin;
+      @extend .font-normal;
+    }
+
+    span {
+      @extend %icon-footer-abs;
+    }
+
+    a {
+      opacity: .6;
+    }
+  }
+}
+.header-footer {
+  height: rem-calc(30);
+  padding-left: rem-calc(94);
+
+  h1 {
+    font-size: rem-calc(80);
+    line-height: 0;
+    top: rem-calc(-26);
+    left: 0;
+
+  }
+
+  i {
+    line-height: rem-calc(30);
+  }
+
+  p {
+    &:before {
+      content: "";
+      display: block;
+      height: rem-calc(30);
+      border-right: 1px solid $white;
+      float: left;
+      margin-right: rem-calc(20);
+    }
+  }
+}
+
+.footer-info {
+  hgroup {
+    padding-left: rem-calc(50);
+    span {
+      top: 0; left: 0;
+      font-size: rem-calc(50);
+    }
+  }
+}
+
+.get-ticket {
+  span {
+      font-size: rem-calc(26);
+      margin-right: rem-calc(12);
+      margin-left: rem-calc(11);
+  }
+}
+
+.footer-social {
+  li {
+    margin-left: rem-calc(5);
+    &:first-child {
+      line-height: rem-calc(28);
+      margin-left: rem-calc(12);
+    }
+  }
+}
+
+#credits {
+  p {
+    height: rem-calc(50);
+    @extend .no-margin;
+    @extend .font-small;
+    &:first-child {
+      border-bottom: 1px solid tint($ghost, 70%);
+    }
+    &:last-child {
+      border-top: 1px solid $white;
+    }
+  }
+}
+
+.icon-icon_plan {
+  font-size: rem-calc(34);
+}
+
+//menus
+.custom-nav {
+  ul {
+    @extend .no-bullet;
   }
 }
