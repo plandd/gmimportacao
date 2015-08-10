@@ -1,7 +1,7 @@
 <?php
 //CODIGO,NOMEPRODUTO,GRUPO,FABRICANTE,DESCRICAO_COMPLEMENTAR,REFERENCIA,PRECO
 $conn = mysql_connect("localhost","root","123");
-$db = mysql_select_db("teste_gmi",$conn);
+$db = mysql_select_db("gmi_bd",$conn);
 $handle = fopen("produtos.csv", "r");
 $q = mysql_query("SELECT * FROM gmi_produtos");
 $total = mysql_num_rows($q);
