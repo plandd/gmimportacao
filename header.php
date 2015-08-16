@@ -19,7 +19,16 @@
     <?php wp_head(); ?>
   </head>
   <body>
+    <?php global $plandd_option; ?>
+    <div id="ajax-loader">
+      <div class="d-table-cell small-16 text-center">
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/primary_loader.gif" alt="" class="">
+        <h6 class="msg">Aguarde...</h6>
+      </div>
+    </div>
+
     <div id="mo-adv" class="small-16 abs full-height"></div>
+    
     <!-- cabeçalho -->
     <header id="header" class="small-16 left rel">
       <nav class="nav-top small-16 left">
@@ -27,18 +36,33 @@
           <div class="d-table small-16 columns">
             <div class="small-16 d-table-cell">
               <ul class="inline-list no-margin small-16 columns">
-                <li><a href="tel:5583986616331">Televendas: ligue +55 (83) 3030-5454</a></li>
-                <li><a href="#">Atendimento</a></li>
-                <li><a href="#">Meus pedidos</a></li>
-                <li><a href="#">Seja um revendedor GMI</a></li>
+                <?php
+                  if(!empty($plandd_option['inst-tel-sell']))
+                    printf('<li><a href="tel:%s">Televendas: %s</a></li>',$plandd_option['inst-tel-sell'],$plandd_option['inst-tel-sell']);
+
+                  $page = get_page_by_title('Atendimento');
+                  if(isset($page))
+                    printf('<li><a href="%s" title="Atendimento">Atendimento</a></li>',get_page_link($page->ID));
+
+                  $page = get_page_by_title('Seja um revendedor GMI');
+                  if(isset($page))
+                    printf('<li><a href="%s" title="Seja um revendedor GMI">Seja um revendedor GMI</a></li>',get_page_link($page->ID));
+                ?>
               </ul>
             </div>
           </div>
           <!-- redes sociais -->
           <div class="social-top top abs">
-            <h4><a href="#" class="icon-icon_facebook"></a></h4>
-            <h4><a href="#" class="icon-icon_twitter"></a></h4>
-            <h4><a href="#" class="icon-icon_insta"></a></h4>
+            <?php
+              if(!empty($plandd_option['inst-facebook']))
+                printf('<h4><a href="%s" target="_blank" title="Siga-nos no Facebook" class="icon-icon_facebook"></a></h4>',$plandd_option['inst-facebook']);
+
+               if(!empty($plandd_option['inst-twitter']))
+                printf('<h4><a href="%s" target="_blank" title="Siga-nos no Twitter" class="icon-icon_twitter"></a></h4>',$plandd_option['inst-twitter']);
+
+               if(!empty($plandd_option['inst-instagram']))
+                printf('<h4><a href="%s" target="_blank" title="Siga-nos no Instagram" class="icon-icon_insta"></a></h4>',$plandd_option['inst-instagram']);
+            ?>
           </div>
         </div>
       </nav>
@@ -46,33 +70,43 @@
       <div class="brand-section row">
         <figure class="logo small-4 columns d-table">
           <h1 class="no-margin">
-            <a href="#" title="Página principal" class="left d-block"><img src="images/logo.png" alt="GM Importação"></a>
+            <a href="<?php echo home_url(); ?>" title="Página principal" class="left d-block"><img src="<?php echo get_template_directory_uri();?>/images/logo.png" alt="GM Importação"></a>
           </h1>
         </figure>
         <div class="small-10 columns d-table">
           <div class="small-16 d-table-cell">
             <!-- busca -->
-            <form action="" class="search-form small-8 left">
+            <form action="<?php echo home_url(); ?>" class="search-form small-8 left" method="get">
               <label for="s"><span class="icon-icon_busca icon-search ghost"></span></label>
-              <label><input id="s" type="text" placeholder="Busca por marca, fabricante ou produto" title="Busca por marca, fabricante ou produto"></label>
+              <label><input id="s" name="s" type="text" placeholder="Busca por marca, fabricante ou produto" title="Busca por marca, fabricante ou produto"></label>
               <input type="submit" value="Buscar" class="right button secondary text-up">
             </form>
 
+            <?php
+              if(!empty($plandd_option['week-offer']['url'])):
+            ?>
             <!-- oferta da semana -->
             <h1 class="week-offer left rel">
-              <a href="#" title="Oferta da semana" class="button no-margin">
+              <a href="<?php echo $plandd_option['offer-link']; ?>" title="Oferta da semana" class="button no-margin">
                 Oferta da semana
                 <span class="icon-icon_down_3 secondary font-medium"></span>
               </a>
 
               <figure class="week-feature abs">
-                  <a href="#"><img src="http://blog.batecabeca.com.br/wp-content/uploads/2013/03/banner-ofertas.jpg" alt=""></a>
+                  <a href="<?php echo $plandd_option['offer-link']; ?>"><img src="<?php echo $plandd_option['week-offer']['url']; ?>" alt=""></a>
               </figure>
             </h1>
-
+            <?php endif; ?>
+            
+            <?php
+              if ( is_user_logged_in() ):
+            ?>
             <!-- Carrinho de pedidos -->
             <h1 class="shop-car right no-margin rel">
-              <a href="#" title="Seu carrinho de pedidos secondary" class="rel">
+              <?php
+                $page = get_page_by_title('Carrinho' );
+              ?>
+              <a href="<?php echo get_page_link($page->ID); ?>" title="Seu carrinho de pedidos" class="rel">
                 <span class="icon-carshop icon-icon_carrinho  left"></span>
                 <span class="icon-chevron-down icon-icon_down_2 left secondar"></span>
                 <span class="qtd-cart bg-primary abs">0</span>
@@ -90,6 +124,7 @@
                 </div>
               </nav>
             </h1>
+            <?php endif; ?>
           </div>
         </div>
       </div>
@@ -102,8 +137,10 @@
         <div class="small-3 columns rel main-items">
             <a href="#" title="Pesquisar por fabricantes" class="active choose-search rel">
               <div class="small-16 left">
-                <small>Pesquisar por</small>
-                <span><strong>Fabricantes</strong></span>
+                <span>
+                  <small>Pesquisar por</small>
+                  <strong class="white">Fabricantes</strong>
+                </span>
               </div>
               <span class="small-16 abs text-center">
                 <i class="icon-icon_down_3"></i>
@@ -112,8 +149,10 @@
 
             <a href="#" title="Pesquisar por fabricantes" class="choose-search rel">
               <div class="small-16 left">
-                <small>Pesquisar por</small>
-                <span><strong>Grupos</strong></span>
+                <span>
+                  <small class="gohst">Pesquisar por</small>
+                  <strong class="white">Grupos</strong>
+                </span>
               </div>
               <span class="small-16 abs text-center">
                 <i class="icon-icon_down_3"></i>
@@ -122,19 +161,41 @@
         </div>
 
         <ul class="inline-list main-items left">
-          <li><a href="#">Destaques</a></li>
-          <li><a href="#">Novos produtos</a></li>
-          <li><a href="#">Promoção</a></li>
+          <?php
+            $defaults = array(
+              'theme_location'  => 'main',
+              'menu'            => 'Menu principal',
+              'container'       => '',
+              'container_class' => '',
+              'container_id'    => '',
+              'menu_class'      => '',
+              'menu_id'         => '',
+              'echo'            => true,
+              'fallback_cb'     => 'main_menu',
+              'before'          => '',
+              'after'           => '',
+              'link_before'     => '',
+              'link_after'      => '',
+              'items_wrap'      => '%3$s',
+              'depth'           => 0,
+              'walker'          => '',
+            );
+            wp_nav_menu($defaults);
+          ?>
         </ul>
         
+        <?php
+          if ( !is_user_logged_in() ):
+        ?>
         <ul class="inline-list main-items right partner-login">
+          
           <li>
             <a href="#" title="Área do parceiro"><span class="icon-icon_perfil rel"></span> Área do parceiro</a>
             <div class="bg-white partner-form abs">
               <header class="divide-20">
                 <h6 class="ghost no-margin font-lite">Faça seu login e para ter acesso aos seus dados</h6>
               </header>
-              <form class="small-16 left">
+              <form class="small-16 left" id="login-form">
                 <p><input type="text" name="cnpj" placeholder="CNPJ" class="small-16 left"></p>
                 <p><input type="password" name="senha" placeholder="SENHA" class="small-16 left"></p>
                 <p><button type="submit" class="text-up small-16 no-margin font-normal" title="Fazer login">Fazer login</button></p>
@@ -143,5 +204,16 @@
             </div>
           </li>
         </ul>
+        <?php
+          else:
+          $page = get_page_by_title('Minha conta');
+        ?>
+        <ul class="inline-list main-items right user-options">
+          <li><a href="<?php echo get_page_link( $page->ID , false, true ); ?>"><span class="icon-icon_menu left primary"></span> Minha conta</a></li>
+          <li><a href="<?php echo wp_logout_url( home_url() ); ?>" class="left"><span class="icon-icon_sair left primary"></span> Sair</a></li>
+        </ul>
+        <?php
+          endif;
+        ?>
       </div>
     </nav>

@@ -28,7 +28,7 @@
         // TYPICAL -> Change these values as you need/desire
         'opt_name'             => $opt_name,
         // This is where your data is stored in the database and also becomes your global variable name.
-        'display_name'         => 'Anafisio',
+        'display_name'         => 'GMI',
         // Name that appears at the top of your panel
         'display_version'      => THEME_VERSION,
         // Version that appears at the top of your panel
@@ -36,8 +36,8 @@
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
         'allow_sub_menu'       => true,
         // Show the sections below the admin menu item or not
-        'menu_title'           => __( 'Anafisio', 'redux-framework-demo' ),
-        'page_title'           => __( 'Anafisio', 'redux-framework-demo' ),
+        'menu_title'           => __( 'GMI', 'redux-framework-demo' ),
+        'page_title'           => __( 'GMI', 'redux-framework-demo' ),
         // You will need to generate a Google API key to use this feature.
         // Please visit: https://developers.google.com/fonts/docs/developer_api#Auth
         'google_api_key'       => '',
@@ -236,7 +236,7 @@
               'title'    => __( 'Rua/Av.', 'redux-framework-demo' ),
               'subtitle' => __( 'Obrigatório', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
-              'default'  => 'Avenida Interlagos',
+              'default'  => 'Rua Virginia Maria de Oliveira',
           ),
           array(
               'id'       => 'inst-num',
@@ -244,7 +244,7 @@
               'title'    => __( 'Número', 'redux-framework-demo' ),
               'subtitle' => __( '', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
-              'default'  => '2100',
+              'default'  => '73',
           ),
           array(
               'id'       => 'inst-comp',
@@ -252,7 +252,39 @@
               'title'    => __( 'Complemento', 'redux-framework-demo' ),
               'subtitle' => __( '', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
-              'default'  => '3o Andar',
+              'default'  => 'Galpão 73',
+          ),
+          array(
+              'id'       => 'inst-bairro',
+              'type'     => 'text',
+              'title'    => __( 'Bairro', 'redux-framework-demo' ),
+              'subtitle' => __( '', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => 'Água Fria',
+          ),
+          array(
+              'id'       => 'inst-cep',
+              'type'     => 'text',
+              'title'    => __( 'CEP', 'redux-framework-demo' ),
+              'subtitle' => __( '', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => '58053-006',
+          ),
+          array(
+              'id'       => 'inst-cidade',
+              'type'     => 'text',
+              'title'    => __( 'Cidade', 'redux-framework-demo' ),
+              'subtitle' => __( '', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => 'João Pessoa - PB',
+          ),
+          array(
+              'id'       => 'inst-mapa',
+              'type'     => 'text',
+              'title'    => __( 'Link do mapa', 'redux-framework-demo' ),
+              'subtitle' => __( 'Ex.: Google Maps', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => '',
           ),
           array(
               'id'       => 'inst-tel',
@@ -260,7 +292,15 @@
               'title'    => __( 'Telefone', 'redux-framework-demo' ),
               'subtitle' => __( '', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
-              'default'  => '(11) 5631-0602',
+              'default'  => '+55 (83) 3023-9590 / 3023-9591',
+          ),
+          array(
+              'id'       => 'inst-tel-sell',
+              'type'     => 'text',
+              'title'    => __( 'Televendas', 'redux-framework-demo' ),
+              'subtitle' => __( '', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => '(83) 3023-9590',
           ),
           array(
               'id'       => 'inst-email',
@@ -268,11 +308,16 @@
               'title'    => __( 'E-mail primário', 'redux-framework-demo' ),
               'subtitle' => __( 'Obrigatório', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
-              'default'  => 'anafisio@anafisio.com',
+              'default'  => 'contato@gmimportacao.com.br',
+              'validate' => 'email'
           )
         )
     ) );
-
+    
+    /**
+     * REDES SOCIAIS
+     * ----------------------------------------------------------------------
+     */
     Redux::setSection( $opt_name, array(
         'title'     => __( 'Redes sociais', 'redux-framework-demo' ),
         'id'        => 'social',
@@ -283,6 +328,14 @@
               'id'       => 'inst-facebook',
               'type'     => 'text',
               'title'    => __( 'Fanpage', 'redux-framework-demo' ),
+              'subtitle' => __( 'Link', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => '',
+          ),
+          array(
+              'id'       => 'inst-twitter',
+              'type'     => 'text',
+              'title'    => __( 'Twitter', 'redux-framework-demo' ),
               'subtitle' => __( 'Link', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
               'default'  => '',
@@ -299,117 +352,280 @@
     ) );
 
     /**
-     * LOCALIZAÇÃO
-     * -------------------------------------------------------------------------
+     * PAINEL
+     * ----------------------------------------------------------------------
      */
     Redux::setSection( $opt_name, array(
-        'title'     => __( 'Localização', 'redux-framework-demo' ),
-        'id'        => 'gmap',
-        'desc'      => __( 'Localize a empresa no Google Map', 'redux-framework-demo' ),
-        'icon'      => 'el el-map-marker',
+        'title'      => __( 'Painel', 'redux-framework-demo' ),
+        'id'         => 'inst-painel',
+        'desc'       => __( 'Slider destacado na página principal', 'redux-framework-demo' ),
+        'icon'      => 'el el-photo',
         'fields'     => array(
             array(
-                'id'       => 'gmap-lat',
-                'type'     => 'text',
-                'title'    => __( 'Latitude', 'redux-framework-demo' ),
-                'subtitle' => __( 'Obrigatório', 'redux-framework-demo' ),
-                'desc'     => __( 'Latitude inicial para configurar o mapa', 'redux-framework-demo' ),
-                'default'  => '-23.6720075',
+                'id'          => 'list-sliders',
+                'type'        => 'slides',
+                'title'       => __( 'Sliders', 'redux-framework-demo' ),
+                'subtitle'    => __( '', 'redux-framework-demo' ),
+                'desc'        => __( '', 'redux-framework-demo' ),
+                'placeholder' => array(
+                    'title'       => __( 'Título', 'redux-framework-demo' ),
+                    'description' => __( 'Descrição (Acessibilidade)', 'redux-framework-demo' ),
+                    'url' => __( 'Link para o slider', 'redux-framework-demo' ),
+                ),
             ),
+        )
+    ) );
 
+    /**
+     * DISTRIBUIDORES
+     * ----------------------------------------------------------------------
+     */
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'Distribuidores', 'redux-framework-demo' ),
+        'id'         => 'inst-distribuidores',
+        'desc'       => __( 'Listar distribuidores com imagem e descrição', 'redux-framework-demo' ) . '<a href="http://docs.reduxframework.com/core/fields/slides/" target="_blank">http://docs.reduxframework.com/core/fields/slides/</a>',
+        'icon'      => 'el el-group-alt',
+        'fields'     => array(
             array(
-                'id'       => 'gmap-lng',
-                'type'     => 'text',
-                'title'    => __( 'Longitude', 'redux-framework-demo' ),
-                'subtitle' => __( 'Obrigatório', 'redux-framework-demo' ),
-                'desc'     => __( 'Longitude inicial para configurar o mapa', 'redux-framework-demo' ),
-                'default'  => '-46.677789',
+                'id'          => 'list-partners',
+                'type'        => 'slides',
+                'title'       => __( 'Listar distribuidores', 'redux-framework-demo' ),
+                'subtitle'    => __( '', 'redux-framework-demo' ),
+                'desc'        => __( '', 'redux-framework-demo' ),
+                'url'         => false,
+                'placeholder' => array(
+                    'title'       => __( 'Título', 'redux-framework-demo' ),
+                    'description' => __( 'Descrição (Acessibilidade)', 'redux-framework-demo' ),
+                    'url'         => __( 'Página do distribuidor', 'redux-framework-demo' ),
+                ),
             ),
-            array(
-                'id'       => 'gmap-placeicon',
-                'type'     => 'media',
-                'url'      => true,
-                'title'    => __( 'Marcador para as localizações', 'redux-framework-demo' ),
-                'compiler' => 'true',
-                'desc'     => __( 'Ícone que irá marcar os locais cadastrados', 'redux-framework-demo' ),
-                'subtitle' => __( 'Envie icones pequenos, semelhanes ao do Google Maps', 'redux-framework-demo' ),
-                'default'  => get_template_directory() . '/images/local.png'
-            )
         )
     ) );
     
     /**
-     * Números
+     * RECONHECIMENTOS
+     * ----------------------------------------------------------------------
      */
     Redux::setSection( $opt_name, array(
-        'title'     => __( 'Números', 'redux-framework-demo' ),
-        'id'        => 'numbers',
-        'desc'      => __( 'Links das redes sociais da empresa para todo o site', 'redux-framework-demo' ),
-        'icon'      => 'el el-graph',
-        'fields'    => array(
-          array(
-              'id'       => 'numbers-intro',
-              'type'     => 'text',
-              'title'    => __( 'Introdução', 'redux-framework-demo' ),
-              'subtitle' => __( '', 'redux-framework-demo' ),
-              'desc'     => __( 'Chamada acima dos números', 'redux-framework-demo' ),
-              'default'  => 'Mais de 1.500 pessoas satisfeitas com a saúde',
-          ),
-          array(
-              'id'       => 'numbers-sortable',
-              'type'     => 'sortable',
-              'title'    => __( 'Definir contadores', 'redux-framework-demo' ),
-              'subtitle' => __( 'Contam de 0 ao número escolhido', 'redux-framework-demo' ),
-              'desc'     => __( 'Separe o número da descrição por vígulas (29, Clientes)' ),
-              'label'    => true,
-              'options'  => array(
-                  'Coluna A' => '3968, Atendimentos',
-                  'Coluna B' => '204, Andam novamente',
-                  'Coluna C' => '608, Recuperaram a força',
-              ),
-              'default'  => array(
-                  'Coluna A' => '3968, Atendimentos',
-                  'Coluna B' => '204, Andam novamente',
-                  'Coluna C' => '608, Recuperaram a força',
-              )
-          ),
-          array(
-              'id'       => 'number-desc',
-              'type'     => 'textarea',
-              'title'    => __( 'Descrição para os tratamentos', 'redux-framework-demo' ),
-              'subtitle' => __( 'Logo abaixo dos contadores', 'redux-framework-demo' ),
-              'desc'     => __( '', 'redux-framework-demo' ),
-              'default'  => 'Nossa felicidade é levar saúde para você e toda a sua família. Faça um de nossos tratamentos e sinta sua vida mudar para melhor.',
-          )
+        'title'      => __( 'Reconhecimentos', 'redux-framework-demo' ),
+        'id'         => 'inst-reconhecimentos',
+        'desc'       => __( 'Listar reconhecimentos com imagem e descrição', 'redux-framework-demo' ) . '<a href="http://docs.reduxframework.com/core/fields/slides/" target="_blank">http://docs.reduxframework.com/core/fields/slides/</a>',
+        'icon'      => 'el el-star',
+        'fields'     => array(
+            array(
+                'id'          => 'list-winners',
+                'type'        => 'slides',
+                'title'       => __( 'Listar reconhecimentos', 'redux-framework-demo' ),
+                'subtitle'    => __( '', 'redux-framework-demo' ),
+                'desc'        => __( '', 'redux-framework-demo' ),
+                'url'         => false,
+                'placeholder' => array(
+                    'title'       => __( 'Título', 'redux-framework-demo' ),
+                    'description' => __( 'Descrição', 'redux-framework-demo' ),
+                ),
+            ),
         )
     ) );
 
     /**
-     * Estrutura
+     * ANUNCIOS
+     * ----------------------------------------------------------------------
      */
     Redux::setSection( $opt_name, array(
-        'title'      => __( 'Estrutura', 'redux-framework-demo' ),
-        'id'         => 'estrutura',
-        'desc'       => 'Acrescente as imagens e descrição da estrutura',
-        'icon'      => 'el el-picture',
+        'title'      => __( 'Anúncios', 'redux-framework-demo' ),
+        'id'         => 'inst-anuncios',
+        'desc'       => __( 'Listar anuncios com imagem e descrição', 'redux-framework-demo' ) . '<a href="http://docs.reduxframework.com/core/fields/slides/" target="_blank">http://docs.reduxframework.com/core/fields/slides/</a>',
+        'icon'      => 'el el-bullhorn',
+        'fields'     => array(
+            array(
+                'id'       => 'week-offer',
+                'type'     => 'media',
+                'title'    => __( 'Oferta da semana', 'redux-framework-demo' ),
+                'desc'     => __( '', 'redux-framework-demo' ),
+                'subtitle' => __( '', 'redux-framework-demo' ),
+            ),
+            array(
+              'id'       => 'offer-link',
+              'type'     => 'text',
+              'title'    => __( 'Link para a oferda da semana', 'redux-framework-demo' ),
+              'subtitle' => __( '', 'redux-framework-demo' ),
+              'desc'     => __( '', 'redux-framework-demo' ),
+              'default'  => '',
+            ),  
+            array(
+                'id'          => 'list-ads',
+                'type'        => 'slides',
+                'title'       => __( 'Listar anúncios', 'redux-framework-demo' ),
+                'subtitle'    => __( '(Rodapé)', 'redux-framework-demo' ),
+                'desc'        => __( '', 'redux-framework-demo' ),
+                'url'         => false,
+                'placeholder' => array(
+                    'title'       => __( 'Nome do anunciante', 'redux-framework-demo' ),
+                    'description' => __( 'Descrição (Acessibilidade)', 'redux-framework-demo' ),
+                    'url' => __( 'Link do anunciante', 'redux-framework-demo' ),
+                ),
+            ),
+        )
+    ) );
+
+    /**
+     * IMPORTAR PRODUTOS
+     * ----------------------------------------------------------------------
+     */
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'Importar produtos', 'redux-framework-demo' ),
+        'id'         => 'import-prod',
+        'desc'       => __( 'Importe produtos da base do sistema interno da empresa', 'redux-framework-demo' ),
+        'icon'      => 'el el-shopping-cart-sign',
+        'fields'     => array(
+            array(
+              'id' => 'info_critical_prod',
+              'type' => 'info',
+              'style' => 'critical',
+              'icon' => 'el-icon-info-sign',
+              'title' => __('Atenção', 'redux-framework-demo'),
+              'desc' => __('O arquivo importado deve ser, obrigatoriamente, no formato <strong>CVS</strong>. A ordem tabular dos dados deve segur a sequencia de colunas abaixo:<br><strong>CODIGO,NOMEPRODUTO,GRUPO,FABRICANTE,DESCRICAO_COMPLEMENTAR,REFERENCIA,PRECO</strong><br><br><i>As regras devem ser seguidas para manter a integridade dos dados no lado cliente.</i>', 'redux-framework-demo')
+            ),
+            array(
+                'id'   => 'opt-divide-p',
+                'type' => 'divide'
+            ),
+            array(
+                'id'       => 'csv-produtos',
+                'type'     => 'media',
+                'preview'  => false,
+                'full_width' => true,
+                'mode'       => false,
+                'title'    => __( 'Upload de arquivo', 'redux-framework-demo' ),
+                'desc'     => __( 'Obrigatoriamente CSV', 'redux-framework-demo' ),
+                'subtitle' => __( '', 'redux-framework-demo' )
+            ),
+            array(
+                'id'       => 'opt-custom-callback-prod',
+                'type'     => 'callback',
+                'title'    => __( 'Atualizar produtos', 'redux-framework-demo' ),
+                'subtitle' => __( 'Prossiga com cuidado', 'redux-framework-demo' ),
+                'desc'     => __( '', 'redux-framework-demo' ),
+                'callback' => 'redux_my_custom_field_prod'
+            ),
+        )
+    ) );
+
+    /**
+     * IMPORTAR CLIENTES
+     * ----------------------------------------------------------------------
+     */
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'Importar clientes', 'redux-framework-demo' ),
+        'id'         => 'import-cli',
+        'desc'       => __( 'Importe clientes da base do sistema interno da empresa', 'redux-framework-demo' ),
+        'icon'      => 'el el-address-book',
+        'fields'     => array(
+            array(
+              'id' => 'info_critical_cli',
+              'type' => 'info',
+              'style' => 'critical',
+              'icon' => 'el-icon-info-sign',
+              'title' => __('Atenção', 'redux-framework-demo'),
+              'desc' => __('O arquivo importado deve ser, obrigatoriamente, no formato <strong>CVS</strong>. A ordem tabular dos dados deve segur a sequencia de colunas abaixo:<br><strong>Razao_Social,CNPJ,Email,Telefone,Vendedor,UltimaCompra,Limite</strong><br><br><i>As regras devem ser seguidas para manter a integridade dos dados no lado cliente.</i>', 'redux-framework-demo')
+            ),
+            array(
+                'id'   => 'opt-divide',
+                'type' => 'divide'
+            ),
+            array(
+                'id'       => 'csv-clientes',
+                'type'     => 'media',
+                'preview'  => false,
+                'full_width' => true,
+                'mode'       => false,
+                'title'    => __( 'Upload de arquivo', 'redux-framework-demo' ),
+                'desc'     => __( 'Obrigatoriamente CSV', 'redux-framework-demo' ),
+                'subtitle' => __( '', 'redux-framework-demo' )
+            ),
+            array(
+                'id'       => 'opt-custom-callback',
+                'type'     => 'callback',
+                'title'    => __( 'Atualizar clientes', 'redux-framework-demo' ),
+                'subtitle' => __( 'Prossiga com cuidado', 'redux-framework-demo' ),
+                'desc'     => __( '', 'redux-framework-demo' ),
+                'callback' => 'redux_my_custom_field'
+            ),
+        )
+    ) );
+    
+    /**
+     * IMPORTAR CLIENTES
+     * ----------------------------------------------------------------------
+     */
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'Departamentos', 'redux-framework-demo' ),
+        'id'         => 'basic-Multi Text',
+        'desc'       => 'Defina os departamentos e o email de cada um',
+        'icon' => 'el el-briefcase',
+        'fields'     => array(
+            array(
+                'id'    => 'info_warning',
+                'type'  => 'info',
+                'title' => __('Formato de entrada', 'redux-framework-demo'),
+                'style' => 'warning',
+                'desc'  => __('Para entrar o nome do departamento e o email utilize o seguinte formato nos campos de multi-texto:<br><strong>Nome do departamento : email@departamento.com</strong>', 'redux-framework-demo')
+            ),
+            array(
+                'id'       => 'opt-multitext',
+                'type'     => 'multi_text',
+                'title'    => __( 'Lista de departamentos', 'redux-framework-demo' ),
+                'subtitle' => __( '', 'redux-framework-demo' ),
+                'desc'     => __( '', 'redux-framework-demo' )
+            ),
+
+        )
+    ) );
+
+    /**
+     * FAQ
+     * ----------------------------------------------------------------------
+     */
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'FAQ', 'redux-framework-demo' ),
+        'id'         => 'corp-faq',
+        'desc'       => 'Perguntas e respostas para clientes',
+        'icon' => 'el el-question-sign',
         'fields'     => array(
           array(
-               'id'       => 'est-galeria',
+              'id'          => 'list-faq',
               'type'        => 'slides',
-              'title'    => __( 'Galeria', 'redux-framework-demo' ),
-              'subtitle' => __( 'Fotos da estrutura', 'redux-framework-demo' ),
-              'desc'        => '',
+              'title'       => __( 'Perguntas e respostas', 'redux-framework-demo' ),
+              'subtitle'    => __( '', 'redux-framework-demo' ),
+              'desc'        => __( '', 'redux-framework-demo' ),
+              'url'         => false,
               'placeholder' => array(
-                  'title'       => __( 'Título', 'redux-framework-demo' ),
-                  'description' => __( 'Deixar em branco', 'redux-framework-demo' ),
-                  'url'         => __( 'Deixar em branco', 'redux-framework-demo' ),
-                  'width' => '242',
-                  'height' => '220'
+                  'title'       => __( 'Pergunta', 'redux-framework-demo' ),
+                  'description' => __( 'Resposta', 'redux-framework-demo' ),
+                  'url' => __( 'Link do anunciante', 'redux-framework-demo' ),
               ),
-          )
+          ),
         )
     ) );
 
     /*
      * <--- END SECTIONS
      */
+
+    if ( ! function_exists( 'redux_my_custom_field' ) ) {
+        function redux_my_custom_field( $field, $value ) {
+           // print_r( $field );
+            echo '<input type="button" id="gmi-import-cli" class="button button-primary" value="Importar clientes"><span class="spinner"></span>';
+            echo '<p class="hide"><i>Aguarde... Esse processo pode durar alguns minutos. Por favor, não feche esta janela.</i></p>';
+           // print_r( $value );
+        }
+    }
+
+    if ( ! function_exists( 'redux_my_custom_field_prod' ) ) {
+        function redux_my_custom_field_prod( $field, $value ) {
+           // print_r( $field );
+            echo '<input type="button" id="gmi-import-prod" class="button button-primary" value="Importar produtos"><span class="spinner"></span>';
+            echo '<p class="hide"><i>Aguarde... Esse processo pode durar alguns minutos. Por favor, não feche esta janela.</i></p>';
+           // print_r( $value );
+        }
+    }

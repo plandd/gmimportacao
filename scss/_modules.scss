@@ -16,7 +16,9 @@
 		border: 2px outset $primary-color;
 	}
 }
-
+body {
+	position: relative;
+}
 
 /**
  * ------------------------------------------------------------------
@@ -245,6 +247,9 @@ a {
 input {
 	height: rem-calc(40);
 }
+option {
+	background-color: #fff;
+}
 
 /**
  * ------------------------------------------------------------------
@@ -335,6 +340,16 @@ input {
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 }
+.bg-gradient {
+	background: rgba(255,255,255,1);
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
+}
 
 /**
  * ------------------------------------------------------------------
@@ -389,4 +404,22 @@ input {
 }
 .pd-left-20 {
 	padding-left: rem-calc(20);
+}
+.pd-left-30 {
+	padding-left: rem-calc(30);
+}
+.pd-left-40 {
+	padding-left: rem-calc(40);
+}
+.nine-eight {
+	width: 96% !important;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Cabeçalhos
+ * ------------------------------------------------------------------
+ */
+.primary-header {
+	border-bottom: 1px solid $ghost;
 }

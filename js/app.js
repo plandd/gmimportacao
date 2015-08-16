@@ -16,23 +16,23 @@ $.fn.getDataThumb = function(options) {
 };
 $('figure').getDataThumb(); // data-thumb para esses elementos
 
+$('a','#corp-skills').on('click',function(e) { e.preventDefault(); });
+
 /**
  * Navegação
  * ---------------------------------------------------------------------
  */
-
 //Escolher entre o menu de produtos ou grupos
 $('a','div.main-items').on('click',function(e) {
 	e.preventDefault();
 	var i = $(this).index();
-	console.log(i);
+	//console.log(i);
 	$(this).toggleClass('active')
 	.siblings('a').removeClass('active');
 
-	$('ul','.search-menu').eq(i).addClass('active')
+	$('.list-menu','.search-menu').eq(i).addClass('active')
 	.siblings('ul').removeClass('active');
 });
-
 
 /**
  * Sliders
@@ -72,5 +72,114 @@ $('a','div.main-items').on('click',function(e) {
         rewindNav: false,
         rewindSpeed: 300,
         autoPlay : 5000
+    });
+})();
+
+/**
+ * Usuários
+ * ---------------------------------------------------------------------
+ */
+(function() {
+    //ajaxSetup
+    $.ajaxSetup({
+        url: getData.ajaxDir,
+        type: 'GET',
+        dataType: 'html',
+        beforeSend: function() {
+            $('#ajax-loader').addClass('show');
+        },
+        complete: function() {
+            $('#ajax-loader').removeClass('show');
+        }
+    });
+
+    //Logar
+    $('#login-form, .login-form-alt').on('submit',function(e) {
+        e.preventDefault();
+        var user = $(this).serialize();
+        $.ajax({
+            data: {
+                action: 'plandd_login_user',
+                user_data: user
+            },
+            success: function(data) {
+                if(data == 'error')
+                    alert('Usuário ou senha inválido. Tente novamente');
+                else
+                    location.reload();
+            },
+            error: function() {
+                alert("Dados inválidos. Tente novamente dentro de alguns instantes.");
+            }
+        });
+    });
+
+    //logaout
+    $('.user-logout').on('click',function(e) {
+        e.preventDefault();
+        $.ajax({
+            data: {
+                action: 'plandd_logout_user',
+                user_data: user
+            },
+            success: function(data) {
+                location.reload();
+            },
+            error: function() {
+                alert("Dados inválidos. Tente novamente dentro de alguns instantes.");
+            }
+        });
+    });
+
+    //Mudar senha
+    $('#update-pass').on('submit',function(e) {
+        e.preventDefault();
+        var pass = $('input[name="password"]',this).val(),
+            user_id = $('input[name="id_usuario"]',this).val();
+
+        $.ajax({
+            data: {
+                action: 'update_user_pass',
+                pass: pass,
+                user_id: user_id
+            },
+            success: function(data) {
+                alert('Sua senha foi alterada com sucesso');
+            },
+            error: function(e) {
+                alert(e.statusText);
+            }
+        });
+    });
+
+    //Enviar mensagem para departamentos
+    $('input.disabled').each(function(index, el) {
+        $(this).focusin(function(event) {
+           $(this).blur();
+        });
+    });
+
+    $('#support-form').on('submit',function(e) {
+        e.preventDefault();
+        var dataForm = $(this).serialize();
+
+        $.get(getData.ajaxDir, { action: 'gmi_req_support', data_form: dataForm })
+        .done(function(data) {
+            if(data == 'success')
+                alert('Seu e-mail foi enviado com sucesso');
+            else
+                alert('Ocorreu algum erro no envio do email. Tente novamente');
+        });
+    });
+})();
+
+/**
+ * Perguntas frequentes
+ * ---------------------------------------------------------------------
+ */
+(function() {
+    $('li','.faq-list').click(function() {
+        $(this).toggleClass('active')
+        .siblings('li').removeClass('active');
     });
 })();

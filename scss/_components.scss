@@ -1,3 +1,20 @@
+#ajax-loader {
+  position: fixed;
+  @extend .small-16;
+  @extend .d-table;
+  @extend %transition;
+  top: 0; left: 0;
+  z-index: 9999;
+  height: 100%;
+  background-color: rgba($white,.6);
+  visibility: hidden;
+  opacity: 0;
+  &.show {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 /**
  * --------------------------------------------------------------------------
  * Cabeçalho
@@ -120,7 +137,7 @@
     @extend %search-height;
     @extend .left;
     @extend .no-margin;
-    width: rem-calc(310);
+    width: rem-calc(300);
     border: none;
     box-shadow: inset 0px 0px 0px transparent;
     &:focus {
@@ -268,6 +285,25 @@
  */
 $menu_height: rem-calc(50);
 
+//opções do usuário logado
+.user-options {
+  padding-right: rem-calc(10);
+
+  li {
+    display: block;
+    padding: rem-calc(0 10);
+  }
+  span {
+    line-height: rem-calc(50);
+    @extend .primary;
+    font-size: rem-calc(30);
+    margin-right: rem-calc(5);
+  }
+  a {
+    padding: 0 !important;
+  }
+}
+
 //Menu principal
 #main-menu {
   @extend .bg-secondary;
@@ -340,10 +376,10 @@ ul.main-items {
     @extend .white;
   }
   > div {
-    margin-top: rem-calc(8);
+    margin-top: rem-calc(16);
     small, span {
       @extend .d-iblock;
-      line-height: 0;
+      line-height: 1.2;
     }
     span {
       @extend .font-normal;
@@ -391,6 +427,52 @@ ul.main-items {
   }
 }
 
+//submenus fabricante -> grupos
+.list-menu {
+  > li {
+    @extend .rel;
+    @extend .small-16;
+    @extend .left;
+    > ul {
+      visibility: hidden;
+      opacity: 0;
+      @extend %transition;
+      @extend .abs;
+      left: 85%;
+      top: 0;
+      z-index: 9999;
+      background-color: $white;
+      width: rem-calc(200);
+      padding: rem-calc(20);
+      border-top: 2px solid $primary-color;
+      @include box-shadow( 0px 0px 13px -1px rgba(0,0,0,0.44) );
+
+      li {
+        border: none !important;
+        @extend .small-16;
+        @extend .left;
+      }
+      a {
+        border: none !important;
+        padding: 0;
+        font-size: rem-calc(12);
+        &:hover {
+          @extend .primary;
+        }
+      }
+    }
+    &:hover {
+       > ul {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+  .icon-icon_right_3 {
+    line-height: rem-calc(27);
+  }
+}
+
 //lista de produtos em destaque
 #list-products {
   figure {
@@ -424,6 +506,7 @@ ul.main-items {
       @extend .secondary;
       @extend .d-block;
       height: rem-calc(35);
+      font-size: rem-calc(14);
 
       &:hover {
         @extend .primary;
@@ -473,6 +556,9 @@ ul.main-items {
     height: rem-calc(120);
     @extend .bg-white;
     border-top: 3px solid $primary-color;
+    &:hover {
+      @extend .primary;
+    }
   }
   article,span {
     @extend .d-iblock;
@@ -523,6 +609,10 @@ ul.main-items {
     @include box-shadow(0px 6px 29px -9px rgba(0,0,0,0.5));
     z-index: 9;
     border-bottom: 1px solid $white;
+  }
+  figure > a {
+    top: 0; left: 0;
+    @extend %full-height;
   }
 }
 .nav-slider {
@@ -684,6 +774,13 @@ $padding_col: rem-calc(85);
   padding-right: $padding_col;
 }
 
+//breadcrumb
+.breadcrumb {
+  padding: rem-calc(10);
+  border-bottom: 2px solid $ghost;
+  @extend .bg-white;
+}
+
 /**
  * --------------------------------------------------------------------------
  * Escopo genérico das seções
@@ -700,6 +797,93 @@ $padding_col: rem-calc(85);
   border-bottom: 2px solid $primary-color;
   margin-bottom: rem-calc(20);
 }
+
+/**
+ * --------------------------------------------------------------------------
+ * Componentes de páginas internas
+ * --------------------------------------------------------------------------
+ */
+.page-header {
+  padding-top: rem-calc(20);
+  h4 {
+    border-bottom: 2px solid $ghost;
+    @extend .small-16;
+    @extend .left;
+    @extend .no-margin;
+  }
+}
+
+//Minha conta
+.panel-advice {
+  padding: rem-calc(20);
+  border-radius: 6px;
+  background: rgba(255,255,255,1);
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
+  @include box-shadow( 0px 0px 5px 0px rgba(0,0,0,0.2) );
+}
+
+.tabs {
+  a {
+    @extend .text-up;
+  }
+  li {
+    border-top: 2px solid transparent;
+    &.active {
+      border-top-color: $ghost;
+    }
+  }
+}
+
+.tabs-content {
+  input[disabled="disabled"] {
+    background-color: $white;
+  }
+}
+
+.tab-title {
+  a {
+    outline: none !important;
+  }
+}
+
+.faq-list {
+  li {
+    span {
+      @extend .d-block;
+      background-color: tint($ghost,80%);
+      padding: rem-calc(5 10);
+      cursor: pointer;
+    }
+    > div {
+      display: none;
+    }
+    &.active {
+      > div {
+        display: block;
+      }
+      .icon-icon_up_2 {
+        display: inline-block;
+      }
+      .icon-icon_down_2 {
+        display: none;
+      }
+    } 
+  }
+  i {
+    line-height: 22px;
+    padding-right: rem-calc(8);
+  }
+  .icon-icon_up_2 {
+    display: none;
+  }  
+}
+
 
 /**
  * --------------------------------------------------------------------------

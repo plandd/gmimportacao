@@ -1,55 +1,7 @@
-       <!-- anuncios -->
-        <section id="anouncemments" class="small-16 columns section-block no-margin">
-          <ul class="small-block-grid-8">
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an1.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an2.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an3.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an4.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an5.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an6.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an7.jpg" alt="">
-              </a>
-            </li>
-
-            <li>
-              <a href="#" target="_blank" title="">
-                <img src="media/an5.jpg" alt="">
-              </a>
-            </li>
-          </ul>
-        </section>
+     <?php
+        // Ultimas noticias
+        require_once (dirname(__FILE__) . '/includes/sections/anuncios.php');
+      ?>
 
       </div><!-- //row -->
     </section>
@@ -61,27 +13,39 @@
         <section class="small-5 columns">
           <header class="header-footer divide-20 rel d-table">
             <h1 class="no-margin left abs">
-              <a href="#" title="" class="white"><span class="icon-icon_gm_pb"></span></a>
+              <a href="<?php echo home_url(); ?>" title="Página principal" class="white"><span class="icon-icon_gm_pb"></span></a>
             </h1>
             <p class="no-margin d-table-cell font-black text-up"><i>Distribuindo qualidade</i></p>
           </header>
 
           <address class="divide-20 rel">
-            <p>Rua Virgina Maria de Oliveira</p>
-            <p>Galpão 73 - Água Fria</p>
-            <p>João Pessoa - PB</p>
-            <p>CEP: 58053-006</p>
-            <p class="font-small"><a href="#" target="_blank" title="ver no mapa">ver no mapa</a></p>
+            <?php
+              global $plandd_option;
+              //Localização
+              if(!empty($plandd_option['inst-rua']))
+                printf('<p>%s</p>',$plandd_option['inst-rua']);
+              
+              if(!empty($plandd_option['inst-comp']) && !empty($plandd_option['inst-bairro']))
+                printf('<p>%s - %s</p>',$plandd_option['inst-comp'],$plandd_option['inst-bairro']);
+              
+              if(!empty($plandd_option['inst-cidade']))
+                printf('<p>%s</p>',$plandd_option['inst-cidade']);
+              
+              if(!empty($plandd_option['inst-cep']))
+                printf('<p>CEP: %s</p>',$plandd_option['inst-cep']);
+              
+              if(!empty($plandd_option['inst-mapa']))
+                printf('<p class="font-small"><a href="%s" target="_blank" title="ver no mapa">ver no mapa</a></p>',$plandd_option['inst-mapa']);
+            ?>
             <span class="icon-icon_local white abs"></span>
           </address>
-
-          <p class="tel small-16 left rel divide-10">
-            <span class="abs icon-icon_phone"></span><a href="tel:55 (83) 3023-9590">+55 (83) 3023-9590 / 3023-9591</a>
-          </p>
-
-          <p class="tel small-16 left rel no-margin">
-            <span class="abs icon-icon_mail_2"></span><a href="mailto:contato@gmimportacao.com.br">contato@gmimportacao.com.br</a>
-          </p>
+          <?php
+            if(!empty($plandd_option['inst-tel']))
+                printf('<p class="tel small-16 left rel divide-10"><span class="abs icon-icon_phone"></span><a href="#">%s</a></p>',$plandd_option['inst-tel']);
+            
+            if(!empty($plandd_option['inst-email']))
+                printf('<p class="tel small-16 left rel no-margin"><span class="abs icon-icon_mail_2"></span><a href="mailto:%s">%s</a></p>',$plandd_option['inst-email'],$plandd_option['inst-email']);
+          ?>
         </section>
 
         <nav class="custom-nav small-3 columns">
@@ -89,11 +53,27 @@
             <h5 class="white text-up no-margin">Institucional</h5>
           </header>
           <ul>
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Sobre a GMI</a></li>
-            <li><a href="#">Suporte</a></li>
-            <li><a href="#">Seja revendedor</a></li>
-            <li><a href="#">Fale conosco</a></li>
+            <?php
+              $defaults = array(
+                'theme_location'  => 'corporate',
+                'menu'            => 'Menu institucional',
+                'container'       => '',
+                'container_class' => '',
+                'container_id'    => '',
+                'menu_class'      => '',
+                'menu_id'         => '',
+                'echo'            => true,
+                'fallback_cb'     => 'main_menu',
+                'before'          => '',
+                'after'           => '',
+                'link_before'     => '',
+                'link_after'      => '',
+                'items_wrap'      => '%3$s',
+                'depth'           => 0,
+                'walker'          => '',
+              );
+              wp_nav_menu($defaults);
+            ?>
           </ul>
         </nav>
 
@@ -102,18 +82,34 @@
             <h5 class="white text-up no-margin">Dúvidas</h5>
           </header>
           <ul>
-            <li><a href="#">Perguntas frequentes</a></li>
-            <li><a href="#">Política de privacidade</a></li>
-            <li><a href="#">Termos de uso</a></li>
-            <li><a href="#">Troca e devolução</a></li>
-            <li><a href="#">Atualizar boleto</a></li>
+            <?php
+              $defaults = array(
+                'theme_location'  => 'questions',
+                'menu'            => 'Menu dúvidas',
+                'container'       => '',
+                'container_class' => '',
+                'container_id'    => '',
+                'menu_class'      => '',
+                'menu_id'         => '',
+                'echo'            => true,
+                'fallback_cb'     => 'main_menu',
+                'before'          => '',
+                'after'           => '',
+                'link_before'     => '',
+                'link_after'      => '',
+                'items_wrap'      => '%3$s',
+                'depth'           => 0,
+                'walker'          => '',
+              );
+              wp_nav_menu($defaults);
+            ?>
           </ul>
         </nav>
 
         <section class="footer-info small-4 columns">
           <hgroup class="divide-30 rel">
             <h5 class="white text-up no-margin">Compre pelo telefone</h5>
-            <p class="white no-margin font">Televendas: <strong>+55 (83) 3023-9590</strong></p>
+            <p class="white no-margin font">Televendas: <strong><?php echo $plandd_option['inst-tel-sell']; ?></strong></p>
             <span class="abs icon-icon_phone white"></span>
           </hgroup>
 
@@ -124,9 +120,16 @@
           <nav class="footer-social small-16 left">
             <ul class="inline-list">
               <li>GMI na internet:</li>
-              <li><h3 class="lh-small no-margin"><a href="#" title="" target="_blank" class="icon-icon_facebook"></a></h3></li>
-              <li><h3 class="lh-small no-margin"><a href="#" title="" target="_blank" class="icon-icon_twitter"></a></h3></li>
-              <li><h3 class="lh-small no-margin"><a href="#" title="" target="_blank" class="icon-icon_insta"></a></h3></li>
+              <?php
+              if(!empty($plandd_option['inst-facebook']))
+                printf('<li><h3 class="lh-small no-margin"><a href="%s" target="_blank" title="Siga-nos no Facebook" class="icon-icon_facebook"></a></h3>',$plandd_option['inst-facebook']);
+
+               if(!empty($plandd_option['inst-twitter']))
+                printf('<li><h3 class="lh-small no-margin"><a href="%s" target="_blank" title="Siga-nos no Twitter" class="icon-icon_twitter"></a></h3>',$plandd_option['inst-twitter']);
+
+               if(!empty($plandd_option['inst-instagram']))
+                printf('<li><h3 class="lh-small no-margin"><a href="%s" target="_blank" title="Siga-nos no Instagram" class="icon-icon_insta"></a></h3>',$plandd_option['inst-instagram']);
+              ?>
             </ul>
           </nav>
         </section>
@@ -142,7 +145,7 @@
 
         <p class="small-16 left d-table">
           <span class="d-table-cell small-16">
-            <span class="left" style="line-height:50px;">© 2006 - 2015 GMI Comércio e Importação LTDA - Todos os direitos reservados</span>
+            <span class="left" style="line-height:50px;">© 2006 - <?php echo date('Y'); ?> GMI Comércio e Importação LTDA - Todos os direitos reservados</span>
             <span class="right">
               <a href="#" target="_blank" title="Desenvolvido por Plan - Design e Desenvolvimento" class="icon-icon_plan ghost"></a>
             </span>

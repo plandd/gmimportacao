@@ -9,10 +9,41 @@
  */
 
 //Versão do tema (RELEASES)
-define('THEME_VERSION', '1.0');
+define('THEME_VERSION', '1.1');
 
 //Icone do tema
-define('THEME_ICON', get_stylesheet_directory_uri() . '/images/icon.png');
+define('THEME_ICON', get_stylesheet_directory_uri() . '/favicon.png');
+
+/**
+* Métodos úteis para snippets Wordpress
+* @package Wordpress
+*/
+class PlanDDUtils
+{
+	/**
+	 * Use para registrar páginas no inicio da
+	 * instalaçao do tema
+	 * @param $title título da página
+	 * @param $desc resumo da página
+	 * @param $type tipo da postagem
+	 */
+	public function registerInitPage($title, $desc, $parent = 0, $template = '') {
+		$page = get_page_by_title($title);
+		if(!isset($page)) {
+			$defaults = array(
+			  'post_type'             => 'page',
+			  'post_title'    		  => $title,
+			  //'post_content'  		  => '',
+			  'post_status'   		  => 'publish',
+			  'post_author'   		  => 1,
+			  'post_excerpt'          => __($desc,'modabiz'),
+			  'post_parent' 		  => $parent,
+			  'page_template' 		  => $template
+			);
+			wp_insert_post( $defaults );
+		}
+	}
+}
 
 /**
 * Configure funções para campos personalizados da aplicação
@@ -104,8 +135,8 @@ function plandd_setup() {
 	 * Registrar formatos de miniaturas para corte automatico
 	 */
 	add_theme_support('post-thumbnails');
-    
     set_post_thumbnail_size( 242, 220, true );
+
     if (function_exists('add_image_size')) {
         add_image_size('produtos.lista', 200, 190, true);
         add_image_size('slider.home', 1085, 9999, false);
@@ -152,8 +183,117 @@ function plandd_setup() {
 	add_filter('excerpt_length', 'new_excerpt_length');
 	// remove paragrafo em resumos
     remove_filter('the_excerpt', 'wpautop');
+
+    //Páginas obrigatórias
+    $utils = new PlanDDUtils();
+    
+    $page = get_page_by_title('Minha conta');
+    if(!isset($page)) {
+    	$utils->registerInitPage('Minha conta', '',0,'template.minha_conta.php');
+    	$utils->registerInitPage('Carrinho', '');
+    }
+
+    $page = get_page_by_title('Atendimento');
+    if(!isset($page)) {
+    	$utils->registerInitPage('Atendimento', '');
+    	$utils->registerInitPage('Dúvidas frequentes', '');
+    	$utils->registerInitPage('Política de privacidade', '');
+    	$utils->registerInitPage('Termos de uso', '');
+    	$utils->registerInitPage('Troca e devolução', '');
+    	$utils->registerInitPage('Atualizar boleto', '');
+    	$utils->registerInitPage('Fale conosco', '');
+    	$utils->registerInitPage('Sobre a GMI', '');
+    	$utils->registerInitPage('Suporte', '');
+    	$utils->registerInitPage('Seja um revendedor GMI', '');
+    }
+
+    /**
+     * BREADCRUMB
+     */
+    include_once( get_stylesheet_directory() . '/includes/components/breadcrumb.php' );
+
+    /**
+	 * Opções gerais para a aplicação e seus
+	 * componentes
+	 * @link https://github.com/reduxframework/redux-framework
+	 *
+	 * @since GMI 1.0
+	 */
+	require_once (dirname(__FILE__) . '/includes/redux/redux-framework.php');
+	require_once (dirname(__FILE__) . '/includes/redux/sample/barebones-config.php');
 }
-add_action('init','plandd_setup');
+add_action('after_setup_theme','plandd_setup');
+
+/**
+ * Compenentes gerados pelo Redux
+ */
+
+//Destaques da home
+function getSlidersHomes() {
+	global $plandd_option;
+  	var_dump($plandd_option['list-sliders']);
+}
+
+//Menu fabricantes
+function show_brands_menu() {
+		$fabricantes = get_terms( 'fabricantes', array(
+          'orderby'    => 'name',
+          'hide_empty' => true,
+        ) );
+
+        foreach ($fabricantes as $marca) {
+
+          $args = array(
+            'posts_per_page' => -1,
+            'post_type'      => 'produtos',
+            'tax_query' => array(
+              array(
+                'taxonomy' => 'fabricantes',
+                'field' => 'slug',
+                'terms' => $marca->slug
+              )
+            )
+          );
+          
+          $posts_array = get_posts( $args );
+          $terms = array();
+          $groups = array();
+          $groups_menu = array();
+          $i = 0;
+          
+          foreach ($posts_array as $_post) {
+            $terms[] = get_the_terms( $_post->ID, 'grupos' );
+          }
+          
+          for($i = 0; $i < count($terms); $i++) {
+            $_terms = $terms[$i];
+            
+            foreach ($_terms as $t) {
+                $groups[] = $t->name;
+            }
+          }
+
+          foreach ($groups as $group) {
+            if(!in_array($group, $groups_menu))
+              $groups_menu[] = $group;
+          }
+
+
+            if(NULL != $groups_menu) {
+            	echo "<li><a href=\"". get_term_link( $marca, 'fabricantes' ) ."\">{$marca->name} <span class=\"icon-icon_right_3 right\"></span></a><ul>";
+	        	foreach ($groups_menu as $item) {
+	        		$t = get_term_by('name',$item,'grupos');
+	        		$link = get_term_link( $t->term_id, 'grupos' );
+	        		echo "<li><a href=\"{$link}?fabricante={$marca->name}\">". $t->name ."</a></li>";
+	        	}
+	        	echo "</ul></li>";
+        	} else {
+        		echo "<li><a href=\"". get_term_link($marca,'fabricantes') ."\" title=\"{$marca->name}\">{$marca->name}</a></li>";
+        	}
+        }
+
+        
+}
 
 /**
  * Incorpore scripts essenciais para toda a
@@ -205,9 +345,25 @@ function add_menu_icons_styles(){
 #menu-posts-produtos div.wp-menu-image:before {
   content: "\f174";
 }
+input[id^="list-winners-url"],
+input[id^="list-faq-url"],
+#plandd_option-list-faq .redux_slides_add_remove {
+	display: none;
+}
 </style>
+
+<script>
+  //<![CDATA[
+  var getData = {
+    'urlDir':'<?php bloginfo('template_directory');?>/',
+    'ajaxDir':'<?php echo stripslashes(get_admin_url()).'admin-ajax.php';?>'
+  }
+  //]]>
+</script>
  
 <?php
+
+wp_enqueue_script('scripts-admin', get_stylesheet_directory_uri() . '/scripts-admin.js', array(), THEME_VERSION, true);
 }
 add_action( 'admin_head', 'add_menu_icons_styles' );
 
@@ -217,7 +373,51 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
  * ---------------------------------------------------------------
  */
 
+/**
+ * Acesso ao painel apenas para admin
+ */
+function prevent_admin_access() {
+    if (strpos(strtolower($_SERVER['REQUEST_URI']), '/wp-admin') !== false && !current_user_can('administrator')) {
+        wp_redirect(get_option('siteurl'));
+    }
+}
+add_action('init', 'prevent_admin_access', 0);
+
+/**
+ * Oculta barra do wordpress para não admin
+ */
+function remove_admin_bar() {
+	if (!current_user_can('administrator') && !is_admin()) {
+	  show_admin_bar(false);
+	}
+}
+add_action('after_setup_theme', 'remove_admin_bar');
+
+//logar usuário
+//------------------------------------------
+add_action('wp_ajax_nopriv_plandd_login_user', 'plandd_login_user');
+add_action('wp_ajax_plandd_login_user', 'plandd_login_user');
+
+function plandd_login_user( $user ) {
+    $user_data = $_GET['user_data'];
+	$params = array();
+	parse_str($user_data, $params);
+
+    if ( !is_user_logged_in() ) {
+        $user = get_userdatabylogin( $params['cnpj'] );
+        $user_id = $user->ID;
+        if ( $user && wp_check_password( $params['senha'], $user->data->user_pass, $user->ID) ) {
+        	wp_set_current_user( $user_id, $params['cnpj'] );
+	        wp_set_auth_cookie( $user_id );
+	        do_action( 'wp_login', $params['cnpj'] );
+        } else {
+        	wp_redirect('http://google.com');
+        }
+    }     
+}
+
 //Campos adicionais de dados
+//------------------------------------------
 add_action( 'show_user_profile', 'planDD_extra_user_profile_fields' );
 add_action( 'edit_user_profile', 'planDD_extra_user_profile_fields' );
 add_action( 'personal_options_update', 'planDD_save_extra_user_profile_fields' );
@@ -278,6 +478,12 @@ function planDD_extra_user_profile_fields( $user )
 }
 
 /**
+ * ----------------------------------------------------------------------------------
+ * Atualização de dados via importaçao de CSV
+ * ----------------------------------------------------------------------------------
+ */
+
+/**
 * Mantém os dados do cliente de acordo com as linhas
 * do csv importado pelo usuário
 */
@@ -288,7 +494,7 @@ class GMI_Clientes
 	static  $codes_file = array();
 	
 	function __construct($table) {
-		$this->mysqli = new mysqli("localhost","root","123");
+		$this->mysqli = new mysqli("localhost","gmimport_gmi","gmi20727");
 		$this->mysqli->select_db($table);
 	}
 
@@ -334,18 +540,34 @@ class GMI_Clientes
 
 			    if(wp_create_user( $pass, $pass , $email )) {
 					@$user = get_user_by( 'login', $pass );
+					
 					if(isset($user)) {
-						@$userdata = array(
-						  'ID' => $user->ID,
-						  'user_login'  =>  $pass,
-						  'user_pass'   =>  $pass,
-						  'display_name' => $first_name,
-						  'nickname' => strtolower($first_name),
-						  'user_email' => $email,
-						  'user_nicename' => $full_name,
-						  'first_name' => $first_name,
-						  'last_name' => $last_name
-						);
+						
+						if ( $user && wp_check_password( $pass, $user->data->user_pass, $user->ID) ) {
+							@$userdata = array(
+							  'ID' => $user->ID,
+							  'user_login'  =>  $pass,
+							  'user_pass'   =>  $pass,
+							  'display_name' => $first_name,
+							  'nickname' => strtolower($first_name),
+							  'user_email' => $email,
+							  'user_nicename' => $full_name,
+							  'first_name' => $first_name,
+							  'last_name' => $last_name
+							);
+						} else {
+							@$userdata = array(
+							  'ID' => $user->ID,
+							  'user_login'  =>  $pass,
+							  'display_name' => $first_name,
+							  'nickname' => strtolower($first_name),
+							  'user_email' => $email,
+							  'user_nicename' => $full_name,
+							  'first_name' => $first_name,
+							  'last_name' => $last_name
+							);
+						}
+
 						wp_update_user( $userdata );
 
 						@update_user_meta( $user->ID , 'planDD_cnpj', $cnpj );
@@ -392,23 +614,70 @@ class GMI_Clientes
 	}
 }
 
+//Atualiza o banco de usuários
+add_action('wp_ajax_nopriv_update_users_by_csv', 'update_users_by_csv');
+add_action('wp_ajax_update_users_by_csv', 'update_users_by_csv');
+
+function update_users_by_csv() {
+	$file = $_GET['param'];
+	$update = new GMI_Clientes('gmimport_gmi');
+	$update->update_users_by_file($file);
+	exit();
+}
+
+//Mudar senha de usuário logado
+add_action('wp_ajax_nopriv_update_user_pass', 'update_user_pass');
+add_action('wp_ajax_update_user_pass', 'update_user_pass');
+
+function update_user_pass() {
+	$pass = $_GET['pass'];
+	$user_id = $_GET['user_id'];
+
+	if(wp_set_password( $pass, $user_id )) {
+		echo "success";
+		exit();
+	}
+
+	exit();
+}
+
 /**
- * Show 'insert posts' button on backend
+ * Enviar email para departamentos
  */
-add_action( "admin_notices", function() {
-    echo "<div class='updated'>";
-    echo "<p>";
-    echo "To insert the posts into the database, click the button to the right.";
-    echo "<a class='button button-primary' style='margin:0.25em 1em' href='{$_SERVER["REQUEST_URI"]}&insert_sitepoint_posts'>Insert Posts</a>";
-    echo "</p>";
-    echo "</div>";
-});
- 
+add_action('wp_ajax_nopriv_gmi_req_support', 'gmi_req_support');
+add_action('wp_ajax_gmi_req_support', 'gmi_req_support');
+
+function gmi_req_support() {
+	$data = $_GET['data_form'];
+	$params = array();
+	parse_str($data, $params);
+
+	$msg = $params['mensagem'] . "\n";
+	$msg .= "Cliente: {$params['nome']} \n";
+	$msg .= "Email do cliente: {$params['email']} \n";
+	$msg .= "Telefone do cliente: {$params['telefone']} \n";
+
+	if(null != $params) {
+		if(wp_mail( $params['departamento'], '[CLIENTE GMI] - Mensagem do cliente logado', $msg )) {
+			echo "success";
+			exit();
+		}
+	}
+
+	exit();
+}
+
 /**
- * Create and insert posts from CSV files
+ * Atualização de produtos via ajax
+ * deleta / atualiza / insere com base nas linhas 
+ * do arquivo csv
  */
+add_action('wp_ajax_nopriv_GMI_Produtos', 'GMI_Produtos');
+add_action('wp_ajax_GMI_Produtos', 'GMI_Produtos');
+
 function GMI_Produtos() {
     global $wpdb;
+    
  
     // Change these to whatever you set
     $planDD = array(
@@ -417,66 +686,45 @@ function GMI_Produtos() {
     );
  
     // Get the data from all those CSVs!
-    $posts = function() {
-        $data = array();
+    /*$posts = function() {
+        $row = array();
         $errors = array();
- 
-        // Get array of CSV files
-        $files = glob( __DIR__ . "/produtos.csv" );
- 
-        foreach ( $files as $file ) {
- 
-            // Attempt to change permissions if not readable
-            if ( ! is_readable( $file ) ) {
-                chmod( $file, 0744 );
-            }
- 
-            // Check if file is writable, then open it in 'read only' mode
-            if ( is_readable( $file ) && $_file = fopen( $file, "r" ) ) {
- 
-                // To sum this part up, all it really does is go row by
-                //  row, column by column, saving all the data
-                $post = array();
- 
-                // Get first row in CSV, which is of course the headers
-                $header = fgetcsv( $_file );
+        $file = $_GET['param'];
 
-                while ( $row = fgetcsv( $_file ) ) {
-                    $data[] = $row;
-                }
- 
-                fclose( $_file );
- 
-            } else {
-                $errors[] = "O arquivo não pode ser lido";
-            }
+        if ( is_readable( $file ) && $_file = fopen( $file, "r" ) ) {
+        	while(($data = fgetcsv($_file, 1000, ",")) !== false) {
+        		if($data[0] != 'CODIGO') $row[] = $data;
+        	}
+        	fclose($_file);
         }
- 
-        if ( ! empty( $errors ) ) {
-        }
-        return $data;
+        return $row;
     };
  
-    // Simple check to see if the current post exists within the
-    //  database. This isn't very efficient, but it works.
     $post_exists = function( $title ) use ( $wpdb, $planDD ) {
- 
         // Get an array of all posts within our custom post type
         $posts = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
- 
+ 		
         // Check if the passed title exists in array
         return in_array( $title, $posts );
     };
+
+    $rows = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
+
+    for($i = 0; $i < count($rows); $i++) {
+    	if(!in_array($rows[$i], $posts())) {
+    		$exclude = get_page_by_title( $rows[$i], 'OBJECT', 'produtos' );
+    		wp_delete_post( $exclude->ID, true );
+    	}
+    }
  
     foreach ( $posts() as $post ) {
-        
 
         if(!term_exists( $post[2], 'grupos', 0 )) {
 			wp_insert_term( $post[2], 'grupos', $args = array( 'slug' => strtolower($post[2]) ) );
 		}
 
 		if(!term_exists( $post[3], 'fabricantes', 0 )) {
-			wp_insert_term( $post[3], 'fabricantes', $args = array( 'slug' => strtolower($post[2]) ) );
+			wp_insert_term( $post[3], 'fabricantes', $args = array( 'slug' => strtolower($post[3]) ) );
 		}
 
 		$grupo = get_term_by( 'name', $post[2], 'grupos' );
@@ -493,87 +741,107 @@ function GMI_Produtos() {
 	            "post_status" => "publish",
 	            "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
 	        ));
+	        update_field('produto_preco', $post[6], $post_exist->ID);
+	        update_field('produto_ref', $post[5], $post_exist->ID);
+	        update_field('produto_descricao', $post[4], $post_exist->ID);
+
             continue;
         }
  
         // Insert the post into the postbase
-        $post["id"] = wp_insert_post( array(
+        $_post["id"] = wp_insert_post( array(
             "post_title" => $post[1],
             "post_content" => $post[4],
             "post_type" => 'produtos',
             "post_status" => "publish",
             "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
         ));
+        update_field('produto_preco', $post[6], $_post["id"]);
+        update_field('produto_ref', $post[5], $_post["id"]);
+        update_field('produto_descricao', $post[4], $_post["id"]);
          
     }
+
+    echo "success";*/
+    if ( ! is_readable( $_GET['param'] ) ) {
+        chmod( $_GET['param'] , 0744 );
+    }
+
+    $file = fopen($_GET['param'], "r");
+    $arr = array();
+    $titles_csv = array();
+
+    $post_exists = function( $title ) use ( $wpdb, $planDD ) {
+        // Get an array of all posts within our custom post type
+        $posts = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
+ 		
+        // Check if the passed title exists in array
+        return in_array( $title, $posts );
+    };
+
+	while(($data = fgetcsv($file, 1000, ",")) !== false) {
+		if($data[0] != 'CODIGO') {
+			$arr[] = $data;
+			$titles_csv[] = $data[1];
+		}
+	}
+
+	fclose($file);
+
+	$rows = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
+
+	for($i = 0; $i < count($rows); $i++) {
+    	if(!in_array($rows[$i], $titles_csv)) {
+    		$exclude = get_page_by_title( $rows[$i], 'OBJECT', 'produtos' );
+    		wp_delete_post( $exclude->ID, true );
+    		echo $exclude->post_title . " deletado";
+    	}
+    }
+
+	foreach ( $arr as $postdata ) {
+		if(!term_exists( $postdata[2], 'grupos', 0 )) {
+			wp_insert_term( $postdata[2], 'grupos', $args = array( 'slug' => strtolower($postdata[2]) ) );
+		}
+		if(!term_exists( $postdata[3], 'fabricantes', 0 )) {
+			wp_insert_term( $postdata[3], 'fabricantes', $args = array( 'slug' => strtolower($postdata[3]) ) );
+		}
+
+		$grupo = get_term_by( 'name', $postdata[2], 'grupos' );
+        $fabricante = get_term_by( 'name', $postdata[3], 'fabricantes' );
+
+        if ( $post_exists( $postdata[1] ) ) {
+        	// Upadate the post into the postbase
+        	$post_exist = get_page_by_title( $postdata[1], 'OBJECT', 'produtos' );
+	        wp_update_post( array(
+	        	"ID" => $post_exist->ID,
+	            "post_title" => $postdata[1],
+	            "post_content" => $postdata[4],
+	            "post_type" => 'produtos',
+	            "post_status" => "publish",
+	            "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
+	        ));
+	        update_field('produto_preco', $postdata[6], $post_exist->ID);
+	        update_field('produto_ref', $postdata[5], $post_exist->ID);
+	        update_field('produto_descricao', $postdata[4], $post_exist->ID);
+
+            continue;
+        }
+
+        $_post["id"] = wp_insert_post( array(
+            "post_title" => $postdata[1],
+            "post_content" => $postdata[4],
+            "post_type" => 'produtos',
+            "post_status" => "publish",
+            "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
+        ));
+        update_field('produto_preco', $postdata[6], $_post["id"]);
+        update_field('produto_ref', $postdata[5], $_post["id"]);
+        update_field('produto_descricao', $postdata[4], $_post["id"]);
+
+	}
+
+    exit();
  
 }
-
-function invoke_function() {
-	add_action('init','GMI_Produtos');
-}
-invoke_function();
-
-/*function programmatically_create_post() {
-
-  $file = dirname(__FILE__) . "/produtos.csv";
-  $file = fopen($file, "r");
-  $codes = array();
-  $mysqli = new mysqli("localhost","root","123");
-  $mysqli->select_db('wpgmi');
-
-  if(@$result = $mysqli->query("SELECT * FROM wp_posts")):
-    for($i = 0; $i < $result->num_rows; $i++) {
-      $row = $result->fetch_row();
-      if($row[0] != NULL)
-        $codes[] = $row[0];
-    }
-  endif;
-
-  //var_dump($codes);
-
-  while(($data = fgetcsv($file, 1000, ",")) !== false) {
-  	if($data[0] != 'CODIGO'):
-      if(!term_exists( $data[2], 'grupos', 0 )) {
-        wp_insert_term( $data[2], 'grupos', $args = array( 'slug' => strtolower($data[2]) ) );
-      }
-
-      if(!term_exists( $data[3], 'fabricantes', 0 )) {
-        wp_insert_term( $data[3], 'fabricantes', $args = array( 'slug' => strtolower($data[2]) ) );
-      }
-
-      $grupo = get_term_by( 'name', $data[2], 'grupos' );
-      $fabricante = get_term_by( 'name', $data[3], 'fabricantes' );
-      $post_id = $data[0];
-      $title = $data[1];
-      $excerpt = $data[4];
-      $reference = $data[5];
-      $price = $data[6];
-
-      $args = array(
-        'ID'            => (int) $post_id,
-        'post_title'    => $title,
-        'post_status'   => 'publish',
-        'post_author'   => 1,
-        'post_excerpt'  => $excerpt,
-        'post_type'     => 'produtos',
-        'tax_input'     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
-      );
-
-      //var_dump($grupo);
-
-      if(null == get_page_by_title( $title )) {
-      	wp_insert_post( $args );
-      } else {
-        echo "Ja existe<br>";
-      }
-    endif;
-  }
-
-  $mysqli->close();
-
-}
-add_action( 'init', 'programmatically_create_post' );*/
-
 
 ?>
