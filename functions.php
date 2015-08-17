@@ -9,7 +9,7 @@
  */
 
 //Versão do tema (RELEASES)
-define('THEME_VERSION', '1.1');
+define('THEME_VERSION', '1.2');
 
 //Icone do tema
 define('THEME_ICON', get_stylesheet_directory_uri() . '/favicon.png');
@@ -69,7 +69,7 @@ function plandd_acf_dir( $dir ) {
  */
 include_once( get_stylesheet_directory() . '/includes/acf/acf.php' );
 include_once( get_stylesheet_directory() . '/includes/acf-repeater/acf-repeater.php' );
-//define( 'ACF_LITE' , true );
+define( 'ACF_LITE' , true );
 //include_once( get_stylesheet_directory() . '/includes/acf/preconfig.php' );
 
 //PRODUTOS
@@ -240,6 +240,7 @@ function show_brands_menu() {
           'orderby'    => 'name',
           'hide_empty' => true,
         ) );
+        $ob = get_queried_object();
 
         foreach ($fabricantes as $marca) {
 
@@ -267,10 +268,11 @@ function show_brands_menu() {
           
           for($i = 0; $i < count($terms); $i++) {
             $_terms = $terms[$i];
-            
-            foreach ($_terms as $t) {
-                $groups[] = $t->name;
-            }
+            if(is_array($_terms)) {
+            	foreach ($_terms as $t) {
+	                $groups[] = $t->name;
+	            }
+            }    
           }
 
           foreach ($groups as $group) {
@@ -278,12 +280,14 @@ function show_brands_menu() {
               $groups_menu[] = $group;
           }
 
-
+          	//var_dump($ob);
             if(NULL != $groups_menu) {
-            	echo "<li><a href=\"". get_term_link( $marca, 'fabricantes' ) ."\">{$marca->name} <span class=\"icon-icon_right_3 right\"></span></a><ul>";
+            	$active = (null != $ob && $marca->name == $ob->name || isset($_GET['fabricante']) && $_GET['fabricante'] == $marca->name) ? 'class="current-term"' : null;
+            	echo "<li ". $active ."><a href=\"". get_term_link( $marca, 'fabricantes' ) ."\">{$marca->name} <span class=\"icon-icon_right_3 right\"></span></a><ul>";
 	        	foreach ($groups_menu as $item) {
 	        		$t = get_term_by('name',$item,'grupos');
 	        		$link = get_term_link( $t->term_id, 'grupos' );
+	        		
 	        		echo "<li><a href=\"{$link}?fabricante={$marca->name}\">". $t->name ."</a></li>";
 	        	}
 	        	echo "</ul></li>";
@@ -376,12 +380,14 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
 /**
  * Acesso ao painel apenas para admin
  */
-function prevent_admin_access() {
-    if (strpos(strtolower($_SERVER['REQUEST_URI']), '/wp-admin') !== false && !current_user_can('administrator')) {
-        wp_redirect(get_option('siteurl'));
-    }
+add_action( 'init', 'blockusers_init' );
+
+function blockusers_init() {
+	if(is_admin() && ! current_user_can( 'administrator' ) && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )) {
+		wp_redirect( home_url() );
+		exit;
+	}
 }
-add_action('init', 'prevent_admin_access', 0);
 
 /**
  * Oculta barra do wordpress para não admin
@@ -523,7 +529,7 @@ class GMI_Clientes
 		$file = fopen($csv_file, "r");
 		$arr = $this->get_userlogins();
 
-		while(($data = fgetcsv($file, 1000, ",")) !== false) {
+		while(($data = fgetcsv($file, 0, ";")) !== false) {
 			if(@$data[1] != 'CNPJ'):
 
 				@$cnpj = $data[1];
@@ -652,15 +658,97 @@ function gmi_req_support() {
 	$params = array();
 	parse_str($data, $params);
 
-	$msg = $params['mensagem'] . "\n";
-	$msg .= "Cliente: {$params['nome']} \n";
+	$msg = "Cliente: {$params['nome']} \n";
 	$msg .= "Email do cliente: {$params['email']} \n";
 	$msg .= "Telefone do cliente: {$params['telefone']} \n";
+	$msg .= "Mensagem:\n";
+	$msg .= $params['mensagem'] . "\n";
 
 	if(null != $params) {
 		if(wp_mail( $params['departamento'], '[CLIENTE GMI] - Mensagem do cliente logado', $msg )) {
 			echo "success";
 			exit();
+		}
+	}
+
+	exit();
+}
+
+/**
+ * Requisitar mais produtos para a listagen
+ */
+add_action('wp_ajax_nopriv_get_more_posts', 'get_more_posts');
+add_action('wp_ajax_get_more_posts', 'get_more_posts');
+
+function get_more_posts() {
+	$term = get_term_by('id',$_GET['term'],$_GET['taxonomy'] );
+	$total = $_GET['total'] - 1;
+	$brand = $_GET['brand'];
+
+	if($term && $total) {
+		if(null != $brand) {
+			$args = array( 
+			    'posts_per_page' => 15,
+			    'offset' => $total,
+			    'post_type' => 'produtos',
+			    'orderby' => 'date',
+			    'tax_query' => array(
+			      array(
+			        'taxonomy' => $_GET['taxonomy'],
+			        'field' => 'slug',
+			        'terms' => $term->slug
+			      ),
+			      array(
+			        'taxonomy' => 'fabricantes',
+			        'field' => 'slug',
+			        'terms' => $brand
+			      )
+			    )
+			);
+		}
+		else {
+			$args = array( 
+			    'posts_per_page' => 15,
+			    'offset' => $total,
+			    'post_type' => 'produtos',
+			    'orderby' => 'date',
+			    'tax_query' => array(
+			      array(
+			        'taxonomy' => $_GET['taxonomy'],
+			        'field' => 'slug',
+			        'terms' => $term->slug
+			      )
+			    )
+			);
+		}
+		$posts = get_posts( $args );
+		$total = count($posts);
+		if($total > 0) {
+			ob_start();
+			foreach ($posts as $post): setup_postdata( $post );
+                global $post;
+                if($post->ID):
+                $thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'produtos.lista');
+                $th = (!empty($thumb[0])) ? $thumb[0] : get_stylesheet_directory_uri() . '/images/imagem_padrao.jpg';
+            ?>
+			<li>
+              <figure>
+                <div class="small-16 abs frame-white"></div>
+                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="product-thumb d-iblock small-16 left"><img src="<?php echo $th; ?>" alt=""></a>
+                <figcaption class="small-16 left">
+                  <h2 class="small-16 left font-medium font-regular"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>Gabinete GMI V4"><?php the_title(); ?></a></h2>
+                  <p class="no-margin small-16 left text-center"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+                </figcaption>
+              </figure>
+            </li>
+            <?php
+            endif;
+            endforeach;
+            $result = ob_get_contents();
+            ob_clean();
+            echo $result;
+		} else {
+			print('false');
 		}
 	}
 
@@ -677,92 +765,13 @@ add_action('wp_ajax_GMI_Produtos', 'GMI_Produtos');
 
 function GMI_Produtos() {
     global $wpdb;
-    
  
     // Change these to whatever you set
     $planDD = array(
         "custom-field" => "planDD_post_attachment",
         "custom-post-type" => "planDD_posts"
     );
- 
-    // Get the data from all those CSVs!
-    /*$posts = function() {
-        $row = array();
-        $errors = array();
-        $file = $_GET['param'];
 
-        if ( is_readable( $file ) && $_file = fopen( $file, "r" ) ) {
-        	while(($data = fgetcsv($_file, 1000, ",")) !== false) {
-        		if($data[0] != 'CODIGO') $row[] = $data;
-        	}
-        	fclose($_file);
-        }
-        return $row;
-    };
- 
-    $post_exists = function( $title ) use ( $wpdb, $planDD ) {
-        // Get an array of all posts within our custom post type
-        $posts = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
- 		
-        // Check if the passed title exists in array
-        return in_array( $title, $posts );
-    };
-
-    $rows = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
-
-    for($i = 0; $i < count($rows); $i++) {
-    	if(!in_array($rows[$i], $posts())) {
-    		$exclude = get_page_by_title( $rows[$i], 'OBJECT', 'produtos' );
-    		wp_delete_post( $exclude->ID, true );
-    	}
-    }
- 
-    foreach ( $posts() as $post ) {
-
-        if(!term_exists( $post[2], 'grupos', 0 )) {
-			wp_insert_term( $post[2], 'grupos', $args = array( 'slug' => strtolower($post[2]) ) );
-		}
-
-		if(!term_exists( $post[3], 'fabricantes', 0 )) {
-			wp_insert_term( $post[3], 'fabricantes', $args = array( 'slug' => strtolower($post[3]) ) );
-		}
-
-		$grupo = get_term_by( 'name', $post[2], 'grupos' );
-        $fabricante = get_term_by( 'name', $post[3], 'fabricantes' );
-
-        if ( $post_exists( $post[1] ) ) {
-        	// Upadate the post into the postbase
-        	$post_exist = get_page_by_title( $post[1], 'OBJECT', 'produtos' );
-	        wp_update_post( array(
-	        	"ID" => $post_exist->ID,
-	            "post_title" => $post[1],
-	            "post_content" => $post[4],
-	            "post_type" => 'produtos',
-	            "post_status" => "publish",
-	            "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
-	        ));
-	        update_field('produto_preco', $post[6], $post_exist->ID);
-	        update_field('produto_ref', $post[5], $post_exist->ID);
-	        update_field('produto_descricao', $post[4], $post_exist->ID);
-
-            continue;
-        }
- 
-        // Insert the post into the postbase
-        $_post["id"] = wp_insert_post( array(
-            "post_title" => $post[1],
-            "post_content" => $post[4],
-            "post_type" => 'produtos',
-            "post_status" => "publish",
-            "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
-        ));
-        update_field('produto_preco', $post[6], $_post["id"]);
-        update_field('produto_ref', $post[5], $_post["id"]);
-        update_field('produto_descricao', $post[4], $_post["id"]);
-         
-    }
-
-    echo "success";*/
     if ( ! is_readable( $_GET['param'] ) ) {
         chmod( $_GET['param'] , 0744 );
     }
@@ -779,7 +788,7 @@ function GMI_Produtos() {
         return in_array( $title, $posts );
     };
 
-	while(($data = fgetcsv($file, 1000, ",")) !== false) {
+	while(($data = fgetcsv($file, 0, ";")) !== false) {
 		if($data[0] != 'CODIGO') {
 			$arr[] = $data;
 			$titles_csv[] = $data[1];
@@ -842,6 +851,199 @@ function GMI_Produtos() {
 
     exit();
  
+}
+
+/**
+ * Carrinho de compras
+ */
+class PlanDD_Cart {
+	private $post_id;
+	private $user_id;
+	private $items;
+
+	public function __construct($post_id,$user_id) {
+		global $current_user;
+		
+		$this->post_id = $post_id; // id do produto
+		$this->user_id = $user_id; // id do usuario
+		$this->items = get_user_meta( $this->user_id, 'user_cart', true );
+	}
+
+	private function show_current_item_cart() {
+		if(isset($this->items[$this->post_id]))
+			return $this->items[$this->post_id];
+		else
+			return '0';
+	}
+
+	public function get_total_items_cart() {
+		$total_cart = 0;
+		if($this->items) {
+			foreach ($this->items as $key => $value) {
+				$total_cart++;
+			}
+		}
+		print($total_cart);
+	}
+
+	public function show_username() {
+		$user = get_user_by( 'id' , $this->user_id );
+		if($user)
+			print($user->user_nicename);
+	}
+
+	public function show_controls_qtd() {
+		ob_start();
+		?>
+		<div class="change_cart_quantity small-16 left">
+			<span class="rem_item">-</span>
+			<span class="total_item"><input type="text" value="<?php echo $this->show_current_item_cart(); ?>"></span>
+			<span class="add_item">+</span>
+			
+			<a href="#" class="button left text-up round font-small submit_item" title="Adicionar" data-user="<?php echo $this->user_id; ?>" data-item="<?php echo $this->post_id; ?>">Adicionar <span class="icon-icon_incar font-medium"></span></a>
+		</div>
+		<?php
+		$html = ob_get_contents();
+		ob_clean();
+		print($html);
+	}
+
+	public function list_items_cart() {
+		if($this->items && count($this->items) > 0) {
+			ob_start();
+			?>
+			<nav class="items-cart with-items abs">
+            <ul class="no-bullet no-margin small-16 left">
+			<?php
+			foreach ($this->items as $key => $value) {
+				$item = get_post( $key );
+				$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($item->ID), 'medium');
+                $th = (!empty($thumb[0])) ? $thumb[0] : get_stylesheet_directory_uri() . '/images/imagem_padrao.jpg';
+                if($value > 0):
+				?>
+				<li class="small-16 left">
+					<figure class="small-3 columns">
+						<a href="<?php echo get_permalink($item->ID); ?>" title="<?php echo get_the_title( $item->ID ); ?>">
+							<img src="<?php echo $th; ?>" alt="" class="small-16 left">
+						</a>
+					</figure>
+					<div class="small-10 columns">
+						<p>
+							<a href="<?php echo get_permalink($item->ID); ?>" title="<?php echo get_the_title( $item->ID ); ?>" class="ghost"><?php echo get_the_title( $item->ID ); ?></a>
+						</p>
+					</div>
+					<div class="small-3 columns text-center">
+						<h3>
+							<a href="#" data-user="<?php echo $this->user_id; ?>" data-item="<?php echo $item->ID; ?>" title="Excluir <?php echo get_the_title( $item->ID ); ?>" class="remove_item icon-icon_fechar"></a>
+						</h3>
+					</div>
+					<div class="info-check" data-item="<?php echo $item->ID; ?>" data-qtd="<?php echo $value; ?>"></div>
+				</li>
+				<?php
+				endif;
+			}
+			?>
+			</ul>
+			<a href="#" class="button shape thin font-regular small-16 left text-up" title="Finalizar pedido">Finalizar pedido</a>
+            </nav>
+
+			<?php
+
+			$output = ob_get_contents();
+			ob_clean();
+			return $output;
+		} else {
+			ob_start();
+			?>
+              <nav class="items-cart abs">
+                <div class="small-16 left d-table no-items">
+                  <span class="icon-carshop icon-icon_carrinho abs"></span>
+                  <div class="d-table-cell small-16">
+                    <hgroup class="no-margin right small-11 rel">
+                      <h4 class="font-regular primary no-margin">Seu carrinho está vazio</h4>
+                      <h6 class="font-regular no-margin">Adicione produtos para fazer seu pedido</h6>
+                    </hgroup>
+                  </div>
+                </div>
+              </nav>
+            <?php
+            $output = ob_get_contents();
+			ob_clean();
+			print($output);
+		}
+	}
+}
+
+//Ajax
+//------------------------------------------------------------------
+//Atualizar carrinho
+add_action('wp_ajax_nopriv_update_items_cart', 'update_items_cart');
+add_action('wp_ajax_update_items_cart', 'update_items_cart');
+
+function update_items_cart() {
+	$user_id = $_GET['user_id'];
+	$item_id = (int) $_GET['item_id'];
+	$total_item = (int) $_GET['total_item'];
+	$user = get_user_by( 'id' , $user_id );
+	
+	if($user) {
+		$user_cart = get_user_meta( $user_id, 'user_cart', true );
+		$total_cart = 0;
+
+		if($total_item > 0) {
+			$user_cart[$item_id] = $total_item;
+			update_user_meta( $user_id, 'user_cart', $user_cart );
+
+			foreach ($user_cart as $key => $value) {
+				$total_cart += $value;
+			}
+		} else {
+			unset($user_cart[$item_id]);
+			update_user_meta( $user_id, 'user_cart', $user_cart );
+
+			foreach ($user_cart as $key => $value) {
+				$total_cart += $value;
+			}
+		}
+
+		$cart = new PlanDD_Cart($item_id,$user_id);
+		$json = array("total" => $total_cart, "list" => $cart->list_items_cart());
+		print(json_encode($json));
+	}
+
+	exit();
+}
+
+//Atualizar carrinho
+add_action('wp_ajax_nopriv_delete_item_cart', 'delete_item_cart');
+add_action('wp_ajax_delete_item_cart', 'delete_item_cart');
+
+function delete_item_cart() {
+	$user_id = $_GET['user_id'];
+	$item_id = $_GET['item_id'];
+	$user = get_user_by( 'id' , $user_id );
+	$total_cart = 0;
+
+	if($user) {
+		$total_cart = 0;
+		$user_cart = get_user_meta( $user_id, 'user_cart', true );
+		unset($user_cart[$item_id]);
+		update_user_meta( $user_id, 'user_cart', $user_cart );
+		$cart = new PlanDD_Cart($item_id,$user_id);
+		
+		echo count($user_cart);
+	}
+
+	exit();
+}
+
+//Enviar dados do carrinho para o email do atendimento
+//e esvaliá-lo
+add_action('wp_ajax_nopriv_send_cart_items', 'send_cart_items');
+add_action('wp_ajax_send_cart_items', 'send_cart_items');
+
+function send_cart_items() {
+
 }
 
 ?>

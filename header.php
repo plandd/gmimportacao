@@ -100,29 +100,19 @@
             
             <?php
               if ( is_user_logged_in() ):
+                global $current_user;
+                $page = get_page_by_title('Minha conta');
+                $cart = new PlanDD_Cart($post->ID,$current_user->ID);
             ?>
-            <!-- Carrinho de pedidos -->
             <h1 class="shop-car right no-margin rel">
-              <?php
-                $page = get_page_by_title('Carrinho' );
-              ?>
               <a href="<?php echo get_page_link($page->ID); ?>" title="Seu carrinho de pedidos" class="rel">
                 <span class="icon-carshop icon-icon_carrinho  left"></span>
                 <span class="icon-chevron-down icon-icon_down_2 left secondar"></span>
-                <span class="qtd-cart bg-primary abs">0</span>
+                <span class="qtd-cart bg-primary abs"><?php $cart->get_total_items_cart(); ?></span>
               </a>
-
-              <nav class="items-cart abs">
-                <div class="small-16 left d-table no-items">
-                  <span class="icon-carshop icon-icon_carrinho abs"></span>
-                  <div class="d-table-cell small-16">
-                    <hgroup class="no-margin right small-11 rel">
-                      <h4 class="font-regular primary no-margin">Seu carrinho está vazio</h4>
-                      <h6 class="font-regular no-margin">Adicione produtos para fazer seu pedido</h6>
-                    </hgroup>
-                  </div>
-                </div>
-              </nav>
+              <div id="item-list-user">
+                <?php echo $cart->list_items_cart(); ?>
+              </div>
             </h1>
             <?php endif; ?>
           </div>

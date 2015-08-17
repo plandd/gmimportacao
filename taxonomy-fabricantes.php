@@ -1,7 +1,7 @@
 <?php 
 $obj = get_queried_object();
 $args = array( 
-  'posts_per_page' => 15,
+  'posts_per_page' => -1,
   'post_type' => 'produtos',
   'orderby' => 'date',
   'tax_query' => array(
@@ -14,6 +14,20 @@ $args = array(
 );
 $posts = get_posts( $args );
 $total = count($posts);
+
+$args = array( 
+  'posts_per_page' => 15,
+  'post_type' => 'produtos',
+  'orderby' => 'date',
+  'tax_query' => array(
+    array(
+      'taxonomy' => $obj->taxonomy,
+      'field' => 'slug',
+      'terms' => $obj->slug
+    )
+  )
+);
+$posts = get_posts( $args );
 
 //var_dump($obj);
 get_header();
@@ -66,6 +80,9 @@ get_header();
                 <?php endforeach; ?>
               </ul>
             </nav>
+            <p class="small-16 columns text-center">
+              <a href="#" title="Carregar mais produtos" class="button-ghost round req-posts" data-term="<?php echo $obj->term_id; ?>" data-total="15" data-tax="<?php echo $obj->taxonomy; ?>" <?php if(isset($term->slug)) echo 'data-brand="'. $term->slug .'"'; ?> >Carregar mais produtos</a>
+            </p>
           </section>
           
         </div><!-- //coluna direita -->

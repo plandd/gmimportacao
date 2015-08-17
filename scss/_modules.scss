@@ -423,3 +423,20 @@ option {
 .primary-header {
 	border-bottom: 1px solid $ghost;
 }
+
+/**
+ * ------------------------------------------------------------------
+ * Botões
+ * ------------------------------------------------------------------
+ */
+.button-ghost {
+	@include button( $bg: tint($ghost, 60%) );
+	@extend .ghost;
+	border-radius: rem-calc(50);
+}
+
+.button, button {
+	&.thin {
+		padding: rem-calc(10 20);
+	}
+}

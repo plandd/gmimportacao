@@ -6,10 +6,11 @@
 function the_breadcrumb() {
      
     // Settings
-    $separator  = '<small>&bullet;</small>';
+    $separator  = '>';
     $id         = 'breadcrumb';
     $class      = 'breadcrumbs';
     $home_title = get_bloginfo('name');
+    $obj = get_queried_object();
      
     // Get the query & post information
     global $post,$wp_query;
@@ -22,11 +23,10 @@ function the_breadcrumb() {
     if ( !is_front_page() ) {
          
         // Home page
-        echo '<span class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></span>';
+        echo '<span class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">Página principal</a></span>';
         echo '<i class="separator separator-home"> ' . $separator . ' </i>';
          
         if ( is_singular() ) {
-             $obj = get_queried_object();
              echo '<span><a href="'. get_post_type_archive_link( $obj->post_type ) .'">'. ucwords($obj->post_type) .'</a></span>';
              echo '<i class="separator"> ' . $separator . ' </i>';
              echo '<span>'. $obj->post_title .'</span>';
@@ -138,6 +138,17 @@ function the_breadcrumb() {
             // Search results page
             echo '<span class="item-current item-current-' . get_search_query() . '"><span class="bread-current bread-current-' . get_search_query() . '" title="Search results for: ' . get_search_query() . '">Search results for: ' . get_search_query() . '</span></span>';
          
+        } elseif (  taxonomy_exists('grupos') || taxonomy_exists('fabricantes') ) {
+            //var_dump($obj);
+            $tax = get_taxonomy( $obj->taxonomy );
+            //var_dump($tax);
+
+            echo '<span>Produtos</span>';
+            echo '<i class="separator"> ' . $separator . ' </i>';
+            echo '<span>'. ucwords($tax->name) .'</span>';
+            echo '<i class="separator"> ' . $separator . ' </i>';
+            echo '<span>'. ucwords($obj->name) .'</span>';
+
         } elseif ( is_404() ) {
              
             // 404 page

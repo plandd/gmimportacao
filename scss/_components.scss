@@ -258,6 +258,9 @@
   border-bottom: 4px solid $primary-color;
   visibility: hidden;
   opacity: 0;
+  &.with-items {
+    padding-bottom: 0;
+  }
 }
 .no-items {
   @extend .rel;
@@ -424,7 +427,13 @@ ul.main-items {
   }
   > ul > li {
     @extend .text-up;
+    &.current-term {
+      > a {
+        @extend .primary;
+      }
+    }
   }
+
 }
 
 //submenus fabricante -> grupos
@@ -882,6 +891,54 @@ $padding_col: rem-calc(85);
   .icon-icon_up_2 {
     display: none;
   }  
+}
+
+//página do produto
+.post-header {
+  border-bottom: 1px solid tint($ghost,50%);
+  padding-bottom: rem-calc(5);
+}
+
+//Carrinho
+.change_cart_quantity {
+  > span {
+    @extend .d-iblock;
+    @extend .left;
+    @extend .text-center;
+    @extend .ghost;
+    @extend %transition;
+    line-height: rem-calc(35);
+    width: rem-calc(35);
+    height: rem-calc(35);
+    border: 1px solid tint($ghost,70%);
+    cursor: pointer;
+
+    &.total_item, input {
+      width: rem-calc(50);
+      border-left: none;
+      border-right: none;
+      cursor: text;
+    }
+
+    input {
+      border: none;
+      height: rem-calc(32);
+      background-color: transparent;
+      @extend .text-center;
+    }
+
+    &:not(.total_item) {
+      &:hover {
+        background-color: tint($ghost,90%);
+      }
+    }
+  }
+  
+  .button {
+    padding: rem-calc(10 20);
+    margin-left: rem-calc(20);
+  }
+
 }
 
 

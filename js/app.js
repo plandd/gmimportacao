@@ -165,10 +165,7 @@ $('a','div.main-items').on('click',function(e) {
 
         $.get(getData.ajaxDir, { action: 'gmi_req_support', data_form: dataForm })
         .done(function(data) {
-            if(data == 'success')
-                alert('Seu e-mail foi enviado com sucesso');
-            else
-                alert('Ocorreu algum erro no envio do email. Tente novamente');
+            alert('Seu e-mail foi enviado com sucesso');
         });
     });
 })();
@@ -181,5 +178,29 @@ $('a','div.main-items').on('click',function(e) {
     $('li','.faq-list').click(function() {
         $(this).toggleClass('active')
         .siblings('li').removeClass('active');
+    });
+})();
+
+(function(){
+    $('.req-posts').on('click',function(e) {
+        e.preventDefault();
+        var term_id = $(this).data('term'),
+            total_posts = parseInt($(this).data('total')),
+            tax = $(this).data('tax'),
+            brand_slug = ($(this).data('brand')) ? $(this).data('brand') : null,
+            $this = $(this);
+
+        $.get(getData.ajaxDir, { action: 'get_more_posts', term: term_id, total: total_posts, taxonomy: tax, brand: brand_slug })
+        .done(function(data) {     
+            if(data != "false") {
+                total_posts += 15;
+                $this.data('total',total_posts);
+                $('ul','#list-products').append(data);
+            } else {
+                $this.fadeOut('fast', function() {
+                    $this.remove();
+                });
+            }
+        });
     });
 })();
