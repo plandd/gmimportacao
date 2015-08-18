@@ -19,6 +19,7 @@
     <?php wp_head(); ?>
   </head>
   <body>
+  <div id="teste" class="small-16 columns"></div>
     <?php global $plandd_option; ?>
     <div id="ajax-loader">
       <div class="d-table-cell small-16 text-center">

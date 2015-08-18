@@ -49,4 +49,33 @@
             location.reload();
         });
 	});
+
+	//enviar carrinho para o atendimento, fechar pedido
+	$('.send-cart').on('click',function(e) {
+		e.preventDefault();
+		var items = new Object();
+		if($('.with-items').length) {
+			$('li','.with-items').each(function(index, el) {
+				var itemId = $('.info-check',this).data('item'),
+					itemTotal = $('.info-check',this).data('qtd');
+				items[itemId] = itemTotal;
+			});
+			$.ajax({
+				data: {
+					action: 'send_cart_items',
+					items_cart: items
+				},
+				success: function(data) {
+					if(data == 'success') {
+						alert('email enviado com sucesso');
+						location.reload();
+					}
+					else {
+						alert('Ocorreu algum erro. Tente novamente');
+					}
+				}
+			});
+		}
+	});
+
 })();
