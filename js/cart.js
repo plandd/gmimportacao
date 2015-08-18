@@ -66,9 +66,9 @@
 					items_cart: items
 				},
 				success: function(data) {
-					if(data == 'success') {
+					if(data != 'false') {
 						alert('email enviado com sucesso');
-						location.reload();
+						window.location.href = data;
 					}
 					else {
 						alert('Ocorreu algum erro. Tente novamente');

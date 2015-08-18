@@ -190,7 +190,8 @@
                 <p><input type="text" name="cnpj" placeholder="CNPJ" class="small-16 left"></p>
                 <p><input type="password" name="senha" placeholder="SENHA" class="small-16 left"></p>
                 <p><button type="submit" class="text-up small-16 no-margin font-normal" title="Fazer login">Fazer login</button></p>
-                <p><button class="text-up small-16 request-account secondary no-margin font-normal" title="Solicitar cadastro">Solicitar cadastro</button></p>
+                <?php $page = get_page_by_title('Solicitar cadastro'); ?>
+                <p><a href="<?php echo get_page_link($page->ID); ?>" style="color:white!important;" class="button thin shape text-up small-16 request-account secondary no-margin font-normal" title="Solicitar cadastro">Solicitar cadastro</a></p>
               </form>
             </div>
           </li>

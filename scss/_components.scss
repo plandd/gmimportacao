@@ -702,7 +702,7 @@ ul.main-items {
   li {
     @extend .rel;
   }
-  a {
+  a:not(.secondary) {
     @extend .bg-white;
     color: $ghost !important;
   }
@@ -718,6 +718,9 @@ ul.main-items {
     a {
       color: $primary-color !important;
     }
+  }
+  .request-account {
+    color: $white !important;
   }
 }
 .partner-form {

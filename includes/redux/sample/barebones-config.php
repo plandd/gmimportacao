@@ -555,7 +555,7 @@
     ) );
     
     /**
-     * IMPORTAR CLIENTES
+     * DEPARTAMENTOS
      * ----------------------------------------------------------------------
      */
     Redux::setSection( $opt_name, array(
@@ -579,6 +579,59 @@
                 'desc'     => __( '', 'redux-framework-demo' )
             ),
 
+        )
+    ) );
+
+    /**
+     * CONTATOS
+     * ----------------------------------------------------------------------
+     */
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'E-mails', 'redux-framework-demo' ),
+        'id'         => 'inst-emails-from-users',
+        'desc'       => 'Atribua e-mails para operações realizadas por usuários',
+        'icon' => 'el el-envelope',
+        'fields'     => array(
+            array(
+                'id'       => 'section-start',
+                'type'     => 'section',
+                'title'    => __( 'Checkout Carrinho', 'redux-framework-demo' ),
+                'subtitle' => __( 'E-mails que receberão o checkout do carrinho de compra do cliente.', 'redux-framework-demo' ),
+                'indent'   => true, // Indent all options below until the next 'section' option is set.
+            ),
+            array(
+                'id'       => 'opt-multitext-checkout',
+                'type'     => 'multi_text',
+                'title'    => __( 'Adicionar e-mails', 'redux-framework-demo' ),
+                'subtitle' => __( '', 'redux-framework-demo' ),
+                'desc'     => __( '', 'redux-framework-demo' ),
+                'validate' => 'email'
+            ),
+            array(
+                'id'     => 'section-end',
+                'type'   => 'section',
+                'indent' => false, // Indent all options below until the next 'section' option is set.
+            ),
+            array(
+                'id'       => 'section-start-2',
+                'type'     => 'section',
+                'title'    => __( 'Solicitação de cadastro', 'redux-framework-demo' ),
+                'subtitle' => __( 'E-mails de requisição de futuros clientes', 'redux-framework-demo' ),
+                'indent'   => true, // Indent all options below until the next 'section' option is set.
+            ),
+            array(
+                'id'       => 'opt-multitext-sign-in',
+                'type'     => 'multi_text',
+                'title'    => __( 'Adicionar e-mails', 'redux-framework-demo' ),
+                'subtitle' => __( '', 'redux-framework-demo' ),
+                'desc'     => __( '', 'redux-framework-demo' ),
+                'validate' => 'email'
+            ),
+            array(
+                'id'     => 'section-end-2',
+                'type'   => 'section',
+                'indent' => false, // Indent all options below until the next 'section' option is set.
+            ),
         )
     ) );
 

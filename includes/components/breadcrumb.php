@@ -27,7 +27,7 @@ function the_breadcrumb() {
         echo '<i class="separator separator-home"> ' . $separator . ' </i>';
          
         if ( is_singular() ) {
-             echo '<span><a href="'. get_post_type_archive_link( $obj->post_type ) .'">'. ucwords($obj->post_type) .'</a></span>';
+             echo '<span>'. ucwords($obj->post_type) .'</span>';
              echo '<i class="separator"> ' . $separator . ' </i>';
              echo '<span>'. $obj->post_title .'</span>';
             

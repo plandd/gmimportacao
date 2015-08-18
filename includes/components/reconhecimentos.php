@@ -1,6 +1,6 @@
 <?php
   global $plandd_option;
-  include_once get_stylesheet_directory_uri() . "/includes/components/reconhecimentos.php";
+  //include_once get_stylesheet_directory_uri() . "/includes/components/reconhecimentos.php";
   if(isset($plandd_option['list-winners'])):
 ?>
 <section id="testimonials" class="small-16 columns section-block">

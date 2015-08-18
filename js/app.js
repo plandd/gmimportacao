@@ -145,6 +145,7 @@ $('a','div.main-items').on('click',function(e) {
             },
             success: function(data) {
                 alert('Sua senha foi alterada com sucesso');
+                location.reload();
             },
             error: function(e) {
                 alert(e.statusText);
@@ -166,6 +167,7 @@ $('a','div.main-items').on('click',function(e) {
         $.get(getData.ajaxDir, { action: 'gmi_req_support', data_form: dataForm })
         .done(function(data) {
             alert('Seu e-mail foi enviado com sucesso');
+            window.location.href = data;
         });
     });
 })();
@@ -181,6 +183,10 @@ $('a','div.main-items').on('click',function(e) {
     });
 })();
 
+/**
+ * Botão mais produtos
+ * ---------------------------------------------------------------------
+ */
 (function(){
     $('.req-posts').on('click',function(e) {
         e.preventDefault();
@@ -200,6 +206,25 @@ $('a','div.main-items').on('click',function(e) {
                 $this.fadeOut('fast', function() {
                     $this.remove();
                 });
+            }
+        });
+    });
+})();
+
+/**
+ * Solicitar cadastro
+ * ---------------------------------------------------------------------
+ */
+(function() {
+    $('.request-gmi-account').on('submit',function(e) {
+        e.preventDefault();
+        var data_form = $(this).serialize();
+        $.get(getData.ajaxDir, { action: 'request_gmi_account', data_form: data_form })
+        .done(function(data) {     
+            if(data != "false") {
+                window.location.href = data;
+            } else {
+                alert('Ocorreu algum erro. Tente novamente ou entre em contato com o nosso suporte.');
             }
         });
     });

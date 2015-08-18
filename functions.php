@@ -69,7 +69,7 @@ function plandd_acf_dir( $dir ) {
  */
 include_once( get_stylesheet_directory() . '/includes/acf/acf.php' );
 include_once( get_stylesheet_directory() . '/includes/acf-repeater/acf-repeater.php' );
-define( 'ACF_LITE' , true );
+//define( 'ACF_LITE' , true );
 //include_once( get_stylesheet_directory() . '/includes/acf/preconfig.php' );
 
 //PRODUTOS
@@ -190,6 +190,7 @@ function plandd_setup() {
     $page = get_page_by_title('Minha conta');
     if(!isset($page)) {
     	$utils->registerInitPage('Minha conta', '',0,'template.minha_conta.php');
+    	$utils->registerInitPage('Solicitar cadastro', '',0,'template.solicitar_cadastro.php');
     	$utils->registerInitPage('Carrinho', '');
     }
 
@@ -666,7 +667,7 @@ function gmi_req_support() {
 
 	if(null != $params) {
 		if(wp_mail( $params['departamento'], '[CLIENTE GMI] - Mensagem do cliente logado', $msg )) {
-			echo "success";
+			echo 'http://' . $_SERVER['HTTP_HOST'] . '/confirmacao-de-email/';
 			exit();
 		}
 	}
@@ -1111,13 +1112,14 @@ function send_cart_items() {
 		$output = ob_get_contents();
 		ob_clean();
 		//print($output);
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		$headers = "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+		$to = ($plandd_option['opt-multitext-checkout']) ? $plandd_option['opt-multitext-checkout'] : $plandd_option['inst-email'];
 		
-		if(wp_mail( 'joaotdn@gmail.com', '[PEDIDO] - Um cliente deseja realizar uma compra a partir do site', $output, $headers )) {
-			print('success');
+		if(wp_mail( $to, '[PEDIDO] - Um cliente deseja realizar uma compra a partir do site', $output, $headers )) {
+			//print('success');
 		} else {
-			print('error');
+			print('false');
 		}
 
 		ob_start();
@@ -1169,6 +1171,7 @@ function send_cart_items() {
 
 		if(wp_mail( $current_user->user_email, '[GMI Distribuidora] - Seu pedido foi realizado', $msg, $headers )) {
 			delete_user_meta( $current_user->ID, 'user_cart' );
+			print('http://' . $_SERVER['HTTP_HOST'] . '/confirmacao-de-email/');
 		}
 
 	endif;
@@ -1176,4 +1179,99 @@ function send_cart_items() {
 	exit();
 }
 
+//Enviar solicitação de cadastro
+add_action('wp_ajax_nopriv_request_gmi_account', 'request_gmi_account');
+add_action('wp_ajax_request_gmi_account', 'request_gmi_account');
+
+function request_gmi_account() {
+	$data_form = $_GET['data_form'];
+	$params = array();
+	parse_str($data_form, $params);
+	
+	$valNome = false;
+	$valEmail = false;
+	$valCnpj = false;
+	$valTelefone = false;
+
+	if(array_key_exists('nome', $params) && !empty($params['nome'])) {
+		$nome = filter_var($params['nome'],FILTER_SANITIZE_STRING);
+		if(!$nome || strlen($nome) > 300) {
+			print('error'); //nome inválido
+			exit();
+		} else {
+			$valNome = true;
+		}
+	} else {
+		print('error'); // o nome é obrigatório
+		exit();
+	}
+
+	if(array_key_exists('email', $params) && !empty($params['email'])) {
+		$email = filter_var($params['email'],FILTER_VALIDATE_EMAIL);
+		if($email) {
+			$valEmail = true;
+		}
+	}
+
+	if(array_key_exists('cnpj', $params) && !empty($params['cnpj'])) {
+		$cnpj = filter_var($params['cnpj'],FILTER_SANITIZE_STRING);
+		if(!$cnpj || strlen($cnpj) > 17) {
+			print('error');
+			exit();
+		} else {
+			$valCnpj = true;
+		}
+	} else {
+		print('error');
+		exit();
+	}
+
+	if(array_key_exists('telefone', $params) && !empty($params['telefone'])) {
+		$telefone = filter_var($params['telefone'],FILTER_SANITIZE_STRING);
+		if($telefone && strlen($telefone) <= 30) {
+			$valTelefone = true;
+		}
+	}
+
+	if($valNome && $valEmail && $valCnpj && $valTelefone) {
+		global $plandd_option;
+		$to = ($plandd_option['opt-multitext-sign-in']) ? $plandd_option['opt-multitext-sign-in'] : $plandd_option['inst-email'];
+		ob_start();
+		?>
+		<html>
+		</head>
+		<body>
+		<div class="gmi_email_template" style="width: 100%;float: left;background: #fff;background: -moz-linear-gradient(top,#fff 0,#f6f6f6 47%,#ededed 100%);background: -webkit-gradient(left top,left bottom,color-stop(0%,#fff),color-stop(47%,#f6f6f6),color-stop(100%,#ededed));background: -webkit-linear-gradient(top,#fff 0,#f6f6f6 47%,#ededed 100%);background: -o-linear-gradient(top,#fff 0,#f6f6f6 47%,#ededed 100%);background: -ms-linear-gradient(top,#fff 0,#f6f6f6 47%,#ededed 100%);background: linear-gradient(to bottom,#fff 0,#f6f6f6 47%,#ededed 100%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed', GradientType=0);-moz-box-shadow: 0 0 5px 0 rgba(0,0,0,.2);-webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,.2);box-shadow: 0 0 5px 0 rgba(0,0,0,.2);padding: 30px;border-radius: 10px;">
+			<img src="http://67.23.244.7/~gmimportadmin/wp-content/themes/gmimportacao/images/logo.png" alt=""><br><br>
+
+			<header style="width: 100%;float: left;padding-bottom: 5px;border-bottom: 1px solid #ccc;margin-bottom: 20px;">
+				<br><p>O seguinte cliente solicitou cadastro como usuário a partir do site:</p><br>
+				<p><strong>Nome: </strong><?php echo $params['nome']; ?></p>
+				<p><strong>Email: </strong><?php echo $params['email']; ?></p>
+				<p><strong>CNPJ: </strong><?php echo $params['cnpj']; ?></p>
+				<p><strong>Telefone: </strong><?php echo $params['telefone']; ?></p>
+			</header>
+		</div>
+		</body>
+		</html>
+		<?php
+		$msg = ob_get_contents();
+		ob_clean();
+		$headers = "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+		if(wp_mail( $to, '[CADASTRO SOLICITADO] - Alguem solicitou cadastro como cliente a partir do site', $msg, $headers)) {
+
+			$msg = "Sua solicitação de cadastro como cliente na GMI Distribuidora foi enviada para nossa central de atendimento. Por favor, aguarde nosso contato para mais informações.\nAgradecemos sua preferência.";
+			
+			wp_mail( $params['email'], '[GMI Distribuidora] - Solicitação de cadastro realizada', $msg, $headers);
+
+			print('http://' . $_SERVER['HTTP_HOST'] . '/confirmacao-de-email/');
+		} else {
+			print('false');
+		}
+	}
+
+	exit();
+}
 ?>
