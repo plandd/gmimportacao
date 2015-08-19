@@ -41,11 +41,11 @@
                   if(!empty($plandd_option['inst-tel-sell']))
                     printf('<li><a href="tel:%s">Televendas: %s</a></li>',$plandd_option['inst-tel-sell'],$plandd_option['inst-tel-sell']);
 
-                  $page = get_page_by_title('Atendimento');
+                  $page = get_page_by_title('Fale conosco');
                   if(isset($page))
                     printf('<li><a href="%s" title="Atendimento">Atendimento</a></li>',get_page_link($page->ID));
 
-                  $page = get_page_by_title('Seja um revendedor GMI');
+                  $page = get_page_by_title('Solicitar cadastro');
                   if(isset($page))
                     printf('<li><a href="%s" title="Seja um revendedor GMI">Seja um revendedor GMI</a></li>',get_page_link($page->ID));
                 ?>
@@ -102,7 +102,7 @@
             <?php
               if ( is_user_logged_in() ):
                 global $current_user;
-                $page = get_page_by_title('Minha conta');
+                $page = get_page_by_title('Meu pedido');
                 $cart = new PlanDD_Cart($post->ID,$current_user->ID);
             ?>
             <h1 class="shop-car right no-margin rel">
@@ -126,7 +126,7 @@
       <div class="row rel">
         
         <div class="small-3 columns rel main-items">
-            <a href="#" title="Pesquisar por fabricantes" class="active choose-search rel">
+            <a href="#" title="Pesquisar por fabricantes" class="choose-search rel">
               <div class="small-16 left">
                 <span>
                   <small>Pesquisar por</small>

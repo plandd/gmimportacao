@@ -1,4 +1,8 @@
 <?php 
+/**
+  * Template Name: Confirmação
+  * @package WordPress
+  */
 get_header(); 
 ?>
   <section id="single-content" class="small-16 left">
@@ -14,7 +18,7 @@ get_header();
         </header>
         
         <div class="small-16 columns">
-          <div class="divide-30 the-page-content">
+          <div class="divide-30">
           <?php 
             if ( have_posts() ) : while ( have_posts() ) : the_post();
               the_content();
@@ -23,5 +27,15 @@ get_header();
           </div>
         </div>
       </div>
+
+      <script>
+        jQuery(document).ready(function($) {
+          function reload() {
+            window.location.href = '<?php echo home_url(); ?>';
+          };
+
+          setTimeout(reload,3000);
+        });
+      </script>
 
 <?php get_footer(); ?>

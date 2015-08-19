@@ -28,7 +28,8 @@
 
 //Barra do topo com social
 .nav-top {
-  border-bottom: 1px solid rgba($secondary-color,.2);
+  //border-bottom: 1px solid rgba($secondary-color,.2);
+  background-color: tint($ghost,80%);
   > .row {
     > .d-table {
       height: rem-calc(40);
@@ -69,7 +70,7 @@
     width: rem-calc(40);
     height: rem-calc(40);
 
-    &:before {
+    /*&:before {
       content: "";
       @extend .d-block;
       @extend %full-height;
@@ -87,7 +88,7 @@
         top: 0; right: 0;
         border-right: 1px solid rgba($secondary-color,.3);
       }
-    }
+    }*/
 
     &:hover {
       a {
@@ -951,6 +952,71 @@ $padding_col: rem-calc(85);
     }
   }
 
+}
+
+//Checkout
+#cart-for-checkout {
+  padding-top: rem-calc(20);
+  padding-bottom: rem-calc(20);
+
+  header {
+    border-bottom: 1px solid tint($ghost,80%);
+    padding-bottom: rem-calc(5);
+    p {
+      @extend .no-margin;
+    }
+  }
+}
+.td-cart-list {
+  height: rem-calc(105);
+  @extend .d-table;
+}
+.pay-form {
+  span {
+    line-height: rem-calc(40);
+    margin-left: rem-calc(8);
+  }
+  li:not(:first-child) {
+    margin-left: rem-calc(70);
+  }
+  li:first-child {
+    margin-left: rem-calc(10);
+  }
+}
+
+//pagina padrao
+.alignleft {
+  @extend .left;
+  margin-right: 10px;
+}
+.alignright {
+  @extend .right;
+  margin-left: 10px;
+}
+.aligncenter {
+  @extend .small-16;
+  @extend .left;
+  img {
+    @extend .small-16;
+    @extend .left;
+  }
+  margin-bottom: rem-calc(20);
+}
+.the-page-content {
+  @extend .ghost;
+  h1,h2,h3,h4,h5,h6 {
+    @extend .text-up;
+    @extend .ghost;
+    font-size: rem-calc(20);
+  }
+}
+.list-channels {
+  h1 {
+    font-size: rem-calc(50);
+  }
+}
+.channel-data {
+  height: rem-calc(67);
 }
 
 

@@ -2,7 +2,7 @@
   <nav class="search-menu small-16 columns">
 
     <!-- Fabricantes -->
-    <ul class="no-bullet list-menu active">
+    <ul class="no-bullet list-menu">
       <?php
         show_brands_menu();
       ?>
@@ -15,10 +15,14 @@
           'orderby'    => 'name',
           'hide_empty' => true,
         ) );
+        $obj = get_queried_object();
+
         foreach ($grupos as $grupo) {
           $link = get_term_link($grupo);
           $name = $grupo->name;
-          printf('<li><a href="%s" title="%s">%s</a></li>',$link,$name,$name);
+          $active = ($obj && $name == $obj->name) ? 'class="current-term"' : '';
+
+          printf('<li %s><a href="%s" title="%s">%s</a></li>',$active,$link,$name,$name);
         }
       ?>
     </ul>

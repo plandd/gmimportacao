@@ -1,58 +1,29 @@
 <?php 
+/**
+  * Template Name: Destaques
+  * @package WordPress
+  */
 $obj = get_queried_object();
-
-$term = null;
-if(isset($_GET['fabricante'])) {
-  $term = get_term_by( 'name', $_GET['fabricante'], 'fabricantes' );
-}
 
 $args = array( 
   'posts_per_page' => -1,
   'post_type' => 'produtos',
+  'taxonomy' => 'grupos',
   'orderby' => 'date',
-  'tax_query' => array(
-    array(
-      'taxonomy' => $obj->taxonomy,
-      'field' => 'slug',
-      'terms' => $obj->slug
-    )
-  )
+  'meta_key'    => 'campanha_destaque',
+  'meta_value'  => true
 );
 $posts = get_posts( $args );
 $total = count($posts);
 
-if(null != $term) {
-  $args = array( 
-    'posts_per_page' => 15,
-    'post_type' => 'produtos',
-    'orderby' => 'date',
-    'tax_query' => array(
-      array(
-        'taxonomy' => $obj->taxonomy,
-        'field' => 'slug',
-        'terms' => $obj->slug
-      ),
-      array(
-        'taxonomy' => 'fabricantes',
-        'field' => 'slug',
-        'terms' => $term->slug
-      )
-    )
-  );
-} else {
-  $args = array( 
-    'posts_per_page' => 15,
-    'post_type' => 'produtos',
-    'orderby' => 'date',
-    'tax_query' => array(
-      array(
-        'taxonomy' => $obj->taxonomy,
-        'field' => 'slug',
-        'terms' => $obj->slug
-      )
-    )
-  );
-}
+$args = array( 
+  'posts_per_page' => 15,
+  'post_type' => 'produtos',
+  'taxonomy' => 'grupos',
+  'orderby' => 'date',
+  'meta_key'    => 'campanha_destaque',
+  'meta_value'  => true
+);
 $posts = get_posts( $args );
 
 get_header();
@@ -107,7 +78,7 @@ get_header();
             <div class="divide-30"></div>
 
             <p class="small-16 columns text-center">
-              <a href="#" title="Carregar mais produtos" class="button-ghost round req-posts" data-term="<?php echo $obj->term_id; ?>" data-total="15" data-tax="<?php echo $obj->taxonomy; ?>" <?php if(isset($term->slug)) echo 'data-brand="'. $term->slug .'"'; ?> >Carregar mais produtos</a>
+              <a href="#" title="Carregar mais produtos" class="button-ghost round req-posts-meta" data-total="15" data-meta="campanha_destaque">Carregar mais produtos</a>
             </p>
           </section>
           

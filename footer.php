@@ -114,7 +114,8 @@
           </hgroup>
 
           <h5 class="white text-up rel divide-20 get-ticket">
-            <span class="icon-icon_ticket left"></span><a href="#" title="Solicitar chamado">Solicitar chamado</a>
+            <?php $page = ( is_user_logged_in() ) ? get_page_by_title('Minha conta') : get_page_by_title('Solicitar cadastro'); ?>
+            <span class="icon-icon_ticket left"></span><a href="<?php echo get_page_link($page->ID); ?>" title="Solicitar chamado">Solicitar chamado</a>
           </h5>
 
           <nav class="footer-social small-16 left">

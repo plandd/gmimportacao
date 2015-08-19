@@ -22,10 +22,25 @@ $('a','#corp-skills').on('click',function(e) { e.preventDefault(); });
  * Navegação
  * ---------------------------------------------------------------------
  */
+$(window).on('load',function() {
+    var jS = $.jStorage.get('active_menu');
+    if(!jS) {
+        $('a','div.main-items').eq(0).addClass('active');
+        $('.list-menu').eq(0).addClass('active');
+    } else {
+        $('a','div.main-items').eq(jS).addClass('active')
+        .siblings('a').removeClass('active');
+
+        $('.list-menu').eq(jS).addClass('active')
+        .siblings('ul').removeClass('active');
+    }
+});
 //Escolher entre o menu de produtos ou grupos
 $('a','div.main-items').on('click',function(e) {
 	e.preventDefault();
 	var i = $(this).index();
+    $.jStorage.set("active_menu",i);
+    //alert($.jStorage.get('active_menu'));
 	//console.log(i);
 	$(this).toggleClass('active')
 	.siblings('a').removeClass('active');
@@ -63,7 +78,7 @@ $('a','div.main-items').on('click',function(e) {
     });
 
 
-    var testimonials = $("#nav-testimonials");
+    var testimonials = $("#nav-testimonials, #nav-testimonials-side");
     testimonials.owlCarousel({
         responsiveBaseWidth: $("#nav-testimonials"),
         responsive: false,
@@ -197,6 +212,27 @@ $('a','div.main-items').on('click',function(e) {
             $this = $(this);
 
         $.get(getData.ajaxDir, { action: 'get_more_posts', term: term_id, total: total_posts, taxonomy: tax, brand: brand_slug })
+        .done(function(data) {     
+            if(data != "false") {
+                total_posts += 15;
+                $this.data('total',total_posts);
+                $('ul','#list-products').append(data);
+            } else {
+                $this.fadeOut('fast', function() {
+                    $this.remove();
+                });
+            }
+        });
+    });
+
+
+    $('.req-posts-meta').on('click',function(e) {
+        e.preventDefault();
+        var metaValue = $(this).data('meta'),
+            total_posts = parseInt($(this).data('total')),
+            $this = $(this);
+
+        $.get(getData.ajaxDir, { action: 'get_more_posts_meta', meta_value: metaValue, total: total_posts })
         .done(function(data) {     
             if(data != "false") {
                 total_posts += 15;

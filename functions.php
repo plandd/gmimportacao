@@ -191,21 +191,22 @@ function plandd_setup() {
     if(!isset($page)) {
     	$utils->registerInitPage('Minha conta', '',0,'template.minha_conta.php');
     	$utils->registerInitPage('Solicitar cadastro', '',0,'template.solicitar_cadastro.php');
-    	$utils->registerInitPage('Carrinho', '');
+    	$utils->registerInitPage('Meu pedido', '',0,'template.meu_pedido.php');
     }
 
     $page = get_page_by_title('Atendimento');
     if(!isset($page)) {
     	$utils->registerInitPage('Atendimento', '');
-    	$utils->registerInitPage('Dúvidas frequentes', '');
     	$utils->registerInitPage('Política de privacidade', '');
     	$utils->registerInitPage('Termos de uso', '');
     	$utils->registerInitPage('Troca e devolução', '');
     	$utils->registerInitPage('Atualizar boleto', '');
-    	$utils->registerInitPage('Fale conosco', '');
-    	$utils->registerInitPage('Sobre a GMI', '');
+    	$utils->registerInitPage('Fale conosco', '',0,'template.contato.php');
+    	$utils->registerInitPage('Sobre a GMI', '',0,'template.sobre.php');
     	$utils->registerInitPage('Suporte', '');
     	$utils->registerInitPage('Seja um revendedor GMI', '');
+    	$utils->registerInitPage('Confirmação de email', '',0,'template.confirmacao.php');
+    	$utils->registerInitPage('Perguntas frequentes', '',0,'template.faq.php');
     }
 
     /**
@@ -666,8 +667,8 @@ function gmi_req_support() {
 	$msg .= $params['mensagem'] . "\n";
 
 	if(null != $params) {
-		if(wp_mail( $params['departamento'], '[CLIENTE GMI] - Mensagem do cliente logado', $msg )) {
-			echo 'http://' . $_SERVER['HTTP_HOST'] . '/confirmacao-de-email/';
+		if(wp_mail( $params['departamento'], '[CLIENTE GMI] - Mensagem do cliente', $msg )) {
+			echo home_url('/confirmacao-de-email');
 			exit();
 		}
 	}
@@ -728,7 +729,7 @@ function get_more_posts() {
 			ob_start();
 			foreach ($posts as $post): setup_postdata( $post );
                 global $post;
-                if($post->ID):
+                if(@$post->ID):
                 $thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'produtos.lista');
                 $th = (!empty($thumb[0])) ? $thumb[0] : get_stylesheet_directory_uri() . '/images/imagem_padrao.jpg';
             ?>
@@ -751,6 +752,56 @@ function get_more_posts() {
 		} else {
 			print('false');
 		}
+	}
+
+	exit();
+}
+
+add_action('wp_ajax_nopriv_get_more_posts_meta', 'get_more_posts_meta');
+add_action('wp_ajax_get_more_posts_meta', 'get_more_posts_meta');
+
+function get_more_posts_meta() {
+	$meta_value = $_GET['meta_value'];
+	$total = $_GET['total'] - 1;
+
+	$args = array( 
+	  'posts_per_page' => 15,
+	  'offset' => $total,
+	  'post_type' => 'produtos',
+	  'taxonomy' => 'grupos',
+	  'orderby' => 'date',
+	  'meta_key'    => $meta_value,
+	  'meta_value'  => true
+	);
+	$posts = get_posts( $args );
+
+	$total = count($posts);
+	if($total > 0) {
+		ob_start();
+		foreach ($posts as $post): setup_postdata( $post );
+            global $post;
+            if(@$post->ID):
+            $thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'produtos.lista');
+            $th = (!empty($thumb[0])) ? $thumb[0] : get_stylesheet_directory_uri() . '/images/imagem_padrao.jpg';
+        ?>
+		<li>
+          <figure>
+            <div class="small-16 abs frame-white"></div>
+            <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="product-thumb d-iblock small-16 left"><img src="<?php echo $th; ?>" alt=""></a>
+            <figcaption class="small-16 left">
+              <h2 class="small-16 left font-medium font-regular"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>Gabinete GMI V4"><?php the_title(); ?></a></h2>
+              <p class="no-margin small-16 left text-center"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="button secondary round font-small text-up no-margin">Detalhes</a></p>
+            </figcaption>
+          </figure>
+        </li>
+        <?php
+        endif;
+        endforeach;
+        $result = ob_get_contents();
+        ob_clean();
+        echo $result;
+	} else {
+		print('false');
 	}
 
 	exit();
@@ -825,7 +876,6 @@ function GMI_Produtos() {
 	        wp_update_post( array(
 	        	"ID" => $post_exist->ID,
 	            "post_title" => $postdata[1],
-	            "post_content" => $postdata[4],
 	            "post_type" => 'produtos',
 	            "post_status" => "publish",
 	            "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
@@ -911,6 +961,7 @@ class PlanDD_Cart {
 
 	public function list_items_cart() {
 		if($this->items && count($this->items) > 0) {
+			$checkout = get_page_by_title('Meu pedido');
 			ob_start();
 			?>
 			<nav class="items-cart with-items abs">
@@ -945,7 +996,7 @@ class PlanDD_Cart {
 			}
 			?>
 			</ul>
-			<a href="#" class="button shape thin font-regular small-16 left text-up send-cart" title="Finalizar pedido">Finalizar pedido</a>
+			<a href="<?php echo get_page_link($checkout->ID); ?>" class="button shape thin font-regular small-16 left text-up" title="Finalizar pedido">Finalizar pedido</a>
             </nav>
 
 			<?php
@@ -1015,7 +1066,26 @@ function update_items_cart() {
 	exit();
 }
 
-//Atualizar carrinho
+// Atualizar carrinho ao sair do pedido para adicionar mais produtos
+add_action('wp_ajax_nopriv_update_item_and_exit', 'update_item_and_exit');
+add_action('wp_ajax_update_item_and_exit', 'update_item_and_exit');
+
+function update_item_and_exit() {
+	$items = $_GET['items'];
+	$user_id = $_GET['user'];
+	$user = get_user_by( 'id' , $user_id );
+
+	if($user) {
+		if(count($items) > 0) {
+			update_user_meta( $user_id, 'user_cart', $items );
+		}
+	}
+	print(home_url());
+
+	exit();
+}
+
+//deletar item do carrinho
 add_action('wp_ajax_nopriv_delete_item_cart', 'delete_item_cart');
 add_action('wp_ajax_delete_item_cart', 'delete_item_cart');
 
@@ -1045,6 +1115,7 @@ add_action('wp_ajax_send_cart_items', 'send_cart_items');
 
 function send_cart_items() {
 	$items = $_GET['items_cart'];
+	$pay_form = $_GET['pay_form'];
 
 	if ( is_user_logged_in() ):
 
@@ -1072,6 +1143,7 @@ function send_cart_items() {
 				<p><strong>Telefone: </strong><?php echo get_user_meta($current_user->ID, 'planDD_telefone', true); ?></p>
 				<p><strong>E-mail: </strong><?php echo $current_user->user_email; ?></p>
 				<p><strong>Vendedor: </strong><?php echo get_user_meta($current_user->ID, 'planDD_vendedor', true); ?></p>
+				<p><strong>Forma de pagamento: </strong><?php echo $pay_form; ?></p>
 			</article>
 
 			<header style="width: 100%;float: left;padding-bottom: 5px;border-bottom: 1px solid #ccc;margin-bottom: 20px;">
@@ -1171,7 +1243,7 @@ function send_cart_items() {
 
 		if(wp_mail( $current_user->user_email, '[GMI Distribuidora] - Seu pedido foi realizado', $msg, $headers )) {
 			delete_user_meta( $current_user->ID, 'user_cart' );
-			print('http://' . $_SERVER['HTTP_HOST'] . '/confirmacao-de-email/');
+			print(home_url('/confirmacao-de-email'));
 		}
 
 	endif;
@@ -1266,7 +1338,7 @@ function request_gmi_account() {
 			
 			wp_mail( $params['email'], '[GMI Distribuidora] - Solicitação de cadastro realizada', $msg, $headers);
 
-			print('http://' . $_SERVER['HTTP_HOST'] . '/confirmacao-de-email/');
+			print(home_url('/confirmacao-de-email'));
 		} else {
 			print('false');
 		}
