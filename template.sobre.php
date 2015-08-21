@@ -39,7 +39,7 @@ get_header();
           <h4 class="text-up ghost">Reconhecimentos</h4>
         </header>
 
-        <nav id="nav-testimonials-side" class="small-16 left">
+        <nav id="nav-testimonials-side" class="small-16 columns d-iblock text-center">
           <?php
             $winners = $plandd_option['list-winners'];
             shuffle($winners);

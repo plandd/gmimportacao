@@ -31,7 +31,7 @@
     <div id="mo-adv" class="small-16 abs full-height"></div>
     
     <!-- cabeçalho -->
-    <header id="header" class="small-16 left rel">
+    <header id="header" class="small-16 left rel" style="background-image: url(http://www.gmimportacao.com.br/images/bg-1.jpg);">
       <nav class="nav-top small-16 left">
         <div class="row rel">
           <div class="d-table small-16 columns">

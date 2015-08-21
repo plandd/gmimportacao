@@ -252,6 +252,7 @@
   width: rem-calc(382);
   right: 0;
   top: 100%;
+  z-index: 9999;
   @extend .bg-white;
   @extend %transition;
   overflow-x: hidden;
@@ -316,7 +317,7 @@ $menu_height: rem-calc(50);
     @extend .no-margin;
     > li {
       margin-left: 0;
-      &:hover {
+      &:hover,&.current-menu-item {
         @extend .bg-white;
         > a {
           @extend .primary;
@@ -489,7 +490,7 @@ ul.main-items {
     @extend .small-16;
     @extend .rel;
     padding: rem-calc(16);
-    height: rem-calc(300);
+    height: rem-calc(320);
 
     > div {
       @extend .bg-white;
@@ -511,6 +512,7 @@ ul.main-items {
     h2 {
       line-height: 1.2;
       margin-bottom: rem-calc(15);
+      height: rem-calc(50);
     }
     a {
       @extend .secondary;
@@ -547,6 +549,13 @@ ul.main-items {
   
 }
 
+.promo-icon {
+  font-size: rem-calc(30);
+  right: rem-calc(10);
+  top: rem-calc(10);
+  z-index: 99;
+}
+
 //Reconhecimentos
 #nav-testimonials {
   figure {
@@ -565,7 +574,7 @@ ul.main-items {
   a {
     height: rem-calc(120);
     @extend .bg-white;
-    border-top: 3px solid $primary-color;
+    border-top: 3px solid $ghost;
     &:hover {
       @extend .primary;
     }
@@ -582,7 +591,7 @@ ul.main-items {
 .more-news {
   padding: rem-calc(5 10);
   @extend .d-iblock;
-  @extend .bg-primary;
+  @extend .bg-ghost;
   border-radius: 10px 10px 0 0;
   &:hover {
     @extend .white;
@@ -603,6 +612,9 @@ ul.main-items {
     &:hover {
       @include scale(1.03);
     }
+  }
+  li {
+    padding-bottom: 0;
   }
 }
 
@@ -632,7 +644,7 @@ ul.main-items {
   font-size: rem-calc(42);
   @extend .white;
   opacity: .6;
-  z-index: 999;
+  z-index: 9;
 
   &:hover,&:focus {
     opacity: 1;
@@ -807,8 +819,11 @@ $padding_col: rem-calc(85);
 
 //Cabeçalhos
 .section-header {
-  border-bottom: 2px solid $primary-color;
+  border-bottom: 2px solid $ghost;
   margin-bottom: rem-calc(20);
+  &.red {
+    border-bottom-color: $primary-color;
+  }
 }
 
 /**
@@ -1025,6 +1040,7 @@ $padding_col: rem-calc(85);
  * Rodapé
  * --------------------------------------------------------------------------
  */
+
 %icon-footer-abs {
   top: 0; left: 0;
   font-size: rem-calc(26);
@@ -1151,5 +1167,16 @@ $padding_col: rem-calc(85);
 .custom-nav {
   ul {
     @extend .no-bullet;
+  }
+}
+
+//parceiros
+#anouncemments {
+  img {
+    @extend %transition;
+    @include filter(grayscale(100%));
+    &:hover {
+      @include filter(grayscale(0%));
+    }
   }
 }

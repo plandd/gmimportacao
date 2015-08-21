@@ -9,7 +9,7 @@
  */
 
 //Versão do tema (RELEASES)
-define('THEME_VERSION', '1.2');
+define('THEME_VERSION', '1.4');
 
 //Icone do tema
 define('THEME_ICON', get_stylesheet_directory_uri() . '/favicon.png');
@@ -69,7 +69,7 @@ function plandd_acf_dir( $dir ) {
  */
 include_once( get_stylesheet_directory() . '/includes/acf/acf.php' );
 include_once( get_stylesheet_directory() . '/includes/acf-repeater/acf-repeater.php' );
-//define( 'ACF_LITE' , true );
+define( 'ACF_LITE' , true );
 //include_once( get_stylesheet_directory() . '/includes/acf/preconfig.php' );
 
 //PRODUTOS
@@ -531,7 +531,7 @@ class GMI_Clientes
 		$file = fopen($csv_file, "r");
 		$arr = $this->get_userlogins();
 
-		while(($data = fgetcsv($file, 0, ";")) !== false) {
+		while(($data = fgetcsv($file, 2000, ";")) !== false) {
 			if(@$data[1] != 'CNPJ'):
 
 				@$cnpj = $data[1];
@@ -860,15 +860,16 @@ function GMI_Produtos() {
     }
 
 	foreach ( $arr as $postdata ) {
-		if(!term_exists( $postdata[2], 'grupos', 0 )) {
-			wp_insert_term( $postdata[2], 'grupos', $args = array( 'slug' => strtolower($postdata[2]) ) );
+
+		if(!term_exists( htmlentities($postdata[2]), 'grupos', 0 )) {
+			wp_insert_term( htmlentities($postdata[2]), 'grupos', $args = array( 'slug' => strtolower(htmlentities($postdata[2])) ) );
 		}
-		if(!term_exists( $postdata[3], 'fabricantes', 0 )) {
-			wp_insert_term( $postdata[3], 'fabricantes', $args = array( 'slug' => strtolower($postdata[3]) ) );
+		if(!term_exists( htmlentities($postdata[3]), 'fabricantes', 0 )) {
+			wp_insert_term( htmlentities($postdata[3]), 'fabricantes', $args = array( 'slug' => strtolower(htmlentities($postdata[3])) ) );
 		}
 
-		$grupo = get_term_by( 'name', $postdata[2], 'grupos' );
-        $fabricante = get_term_by( 'name', $postdata[3], 'fabricantes' );
+		$grupo = get_term_by( 'name', htmlentities($postdata[2]), 'grupos' );
+        $fabricante = get_term_by( 'name', htmlentities($postdata[3]), 'fabricantes' );
 
         if ( $post_exists( $postdata[1] ) ) {
         	// Upadate the post into the postbase
@@ -882,26 +883,40 @@ function GMI_Produtos() {
 	        ));
 	        update_field('produto_preco', $postdata[6], $post_exist->ID);
 	        update_field('produto_ref', $postdata[5], $post_exist->ID);
-	        update_field('produto_descricao', $postdata[4], $post_exist->ID);
+	        update_field('produto_codigo', $postdata[0], $post_exist->ID);
+	        //update_field('produto_descricao', $postdata[4], $post_exist->ID);
 
             continue;
         }
 
         $_post["id"] = wp_insert_post( array(
             "post_title" => $postdata[1],
-            "post_content" => $postdata[4],
+            //"post_content" => $postdata[4],
             "post_type" => 'produtos',
             "post_status" => "publish",
             "tax_input"     => array( 'grupos' => $grupo->term_id, 'fabricantes' => $fabricante->term_id )
         ));
         update_field('produto_preco', $postdata[6], $_post["id"]);
         update_field('produto_ref', $postdata[5], $_post["id"]);
-        update_field('produto_descricao', $postdata[4], $_post["id"]);
+        update_field('produto_codigo', $postdata[0], $_post["id"]);
+        //update_field('produto_descricao', $postdata[4], $_post["id"]);
 
 	}
 
     exit();
  
+}
+
+//Nao enviar emails ao mudar a senha
+if ( !function_exists( 'wp_password_change_notification' ) ) {
+    function wp_password_change_notification() {}
+}
+
+//Produtos em promoção
+function product_promo($post_id) {
+	$promo = get_field('campanha_promocao',$post_id);
+	if($promo)
+		print('<span class="icon-icon_promo_02 abs primary promo-icon"></span>');
 }
 
 /**

@@ -3,7 +3,7 @@
   if(isset($plandd_option['list-partners'])):
 ?>
 <section id="partners-slider" class="small-16 columns section-block">
-  <header class="section-header small-16 left">
+  <header class="section-header small-16 left no-margin">
     <h4 class="text-up no-margin ghost left">Distribuidor oficial</h4>
     <nav class="right nav-partners">
       <a href="#" class="d-block prev-partner icon-icon_left_4" title="Anterior"></a>
@@ -11,7 +11,7 @@
     </nav>
   </header>
 
-  <nav id="list-partners" class="small-12 left">
+  <nav id="list-partners" class="small-12 left white-panel">
     <?php
       $partners = $plandd_option['list-partners'];
       shuffle($partners);
@@ -23,7 +23,8 @@
     <figure class="item">
       <a href="<?php echo $win['url']; ?>"><img src="<?php echo $th[0]; ?>" alt=""></a>
     </figure>
+    <?php $i++; endforeach; ?>
   </nav>
-  <?php $i++; endforeach; ?>
+  
 </section>
 <?php endif; ?>

@@ -1,7 +1,12 @@
+<?php
+$args = array( 'posts_per_page' => 4, 'orderby' => 'date' );
+$posts = get_posts( $args );
+if($posts):
+?>
 <!-- ultimas noticias -->
 <section id="last-blog" class="small-16 columns section-block no-margin">
   <div class="small-16 columns">
-    <header class="section-header small-16 left">
+    <header class="section-header small-16 left no-margin">
       <h4 class="text-up no-margin ghost left">Últimas notícias</h4>
       <?php
         $cat = get_cat_ID('Notícias');
@@ -9,11 +14,9 @@
       <a href="<?php echo esc_url( get_category_link($cat) ); ?>" class="right font-small white more-news" title="ver mais notícias">ver mais notícias</a>
     </header>
 
-    <nav id="nav-blog-last" class="small-16 columns">
-      <ul class="small-block-grid-4">
+    <nav id="nav-blog-last" class="small-16 columns white-panel">
+      <ul class="small-block-grid-4 no-margin">
         <?php
-          $args = array( 'posts_per_page' => 4, 'orderby' => 'date' );
-          $posts = get_posts( $args );
           foreach ($posts as $post): setup_postdata( $post );
             global $post;
             $thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'noticias.recentes');
@@ -26,7 +29,7 @@
             </a>
             <figcaption class="small-16 left">
               <h5 class="divide-10"><a href="<?php the_permalink(); ?>" class="secondary" title="<?php the_title(); ?>"><?php the_title(); ?></a></h5>
-              <p><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">> leia mais</a></p>
+              <p class="no-margin"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">> leia mais</a></p>
             </figcaption>
           </figure>
         </li>
@@ -34,4 +37,6 @@
       </ul>
     </nav>
   </div>
+  <div class="divide-20"></div>
 </section>
+<?php endif; ?>

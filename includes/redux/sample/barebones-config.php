@@ -451,18 +451,27 @@
               'subtitle' => __( '', 'redux-framework-demo' ),
               'desc'     => __( '', 'redux-framework-demo' ),
               'default'  => '',
-            ),  
+            ),
+        )
+    ) );
+
+    Redux::setSection( $opt_name, array(
+        'title'      => __( 'Parceiros', 'redux-framework-demo' ),
+        'id'         => 'inst-parceiros',
+        'desc'       => __( 'Listar parceiros com imagem e descrição', 'redux-framework-demo' ) . '<a href="http://docs.reduxframework.com/core/fields/slides/" target="_blank">http://docs.reduxframework.com/core/fields/slides/</a>',
+        'icon'      => 'el el-link',
+        'fields'     => array(
             array(
                 'id'          => 'list-ads',
                 'type'        => 'slides',
-                'title'       => __( 'Listar anúncios', 'redux-framework-demo' ),
+                'title'       => __( 'Listar parceiros', 'redux-framework-demo' ),
                 'subtitle'    => __( '(Rodapé)', 'redux-framework-demo' ),
                 'desc'        => __( '', 'redux-framework-demo' ),
                 'url'         => false,
                 'placeholder' => array(
-                    'title'       => __( 'Nome do anunciante', 'redux-framework-demo' ),
+                    'title'       => __( 'Nome do anuncianteparceiro', 'redux-framework-demo' ),
                     'description' => __( 'Descrição (Acessibilidade)', 'redux-framework-demo' ),
-                    'url' => __( 'Link do anunciante', 'redux-framework-demo' ),
+                    'url' => __( 'Link do parceiro', 'redux-framework-demo' ),
                 ),
             ),
         )

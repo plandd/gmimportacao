@@ -38,11 +38,15 @@ get_header();
                 <header class="divide-20 post-header">
                   <h5 class="font-regular no-margin"><?php the_title(); ?></h5>
                 </header>
-                <p><strong>Código do produto: </strong><?php echo $post->ID; ?></p>
                 <?php
                   $custom_fields = get_post_custom($post->ID);
+                  
+                  if(null != $custom_fields['produto_codigo'][0])
+                    printf('<p><strong>Código: </strong>%s</p>',$custom_fields['produto_codigo'][0]);
+
                   if(null != $custom_fields['produto_ref'][0])
                     printf('<p><strong>Referência do produto: </strong>%s</p>',$custom_fields['produto_ref'][0]);
+
                   echo "<p><strong>Fabricante</strong>: {$terms[0]->name}</p>";
 
                   if(null != $custom_fields['produto_descricao'][0])

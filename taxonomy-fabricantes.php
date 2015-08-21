@@ -69,6 +69,7 @@ get_header();
                 ?>
                 <li>
                   <figure>
+                    <?php product_promo($post->ID); ?>
                     <div class="small-16 abs frame-white"></div>
                     <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="product-thumb d-iblock small-16 left"><img src="<?php echo $th; ?>" alt=""></a>
                     <figcaption class="small-16 left">

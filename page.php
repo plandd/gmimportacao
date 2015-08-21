@@ -19,6 +19,8 @@ get_header();
             if ( have_posts() ) : while ( have_posts() ) : the_post();
               the_content();
             endwhile; endif;
+            //$file = file_get_contents('http://67.23.244.7/~gmimportadmin/wp-content/uploads/2015/08/CONSULTA-PRODUTO-SITE-2.csv');
+            //var_dump(htmlentities($file));
           ?>
           </div>
         </div>

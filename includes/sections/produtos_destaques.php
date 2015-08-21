@@ -1,6 +1,6 @@
 <section id="popular-products" class="small-16 columns section-block">
   <header class="section-header small-16 left">
-    <h4 class="text-up no-margin ghost left">Produtos em destaque</h4>
+    <h4 class="text-up no-margin ghost left">Confira nossos produtos</h4>
   </header>
   
   <nav id="list-products" class="small-16 columns">
@@ -15,6 +15,7 @@
       ?>
       <li>
         <figure>
+          <?php product_promo($post->ID); ?>
           <div class="small-16 abs frame-white"></div>
           <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="product-thumb d-iblock small-16 left"><img src="<?php echo $th; ?>" alt=""></a>
           <figcaption class="small-16 left">

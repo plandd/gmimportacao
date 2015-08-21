@@ -148,7 +148,7 @@
           <span class="d-table-cell small-16">
             <span class="left" style="line-height:50px;">© 2006 - <?php echo date('Y'); ?> GMI Comércio e Importação LTDA - Todos os direitos reservados</span>
             <span class="right">
-              <a href="#" target="_blank" title="Desenvolvido por Plan - Design e Desenvolvimento" class="icon-icon_plan ghost"></a>
+              <a href="http://plandd.cc" target="_blank" title="Desenvolvido por Plan - Design e Desenvolvimento" class="icon-icon_plan ghost"></a>
             </span>
           </span>
         </p>

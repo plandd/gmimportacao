@@ -6,8 +6,12 @@
 <section id="anouncemments" class="small-16 columns section-block no-margin">
   <ul class="small-block-grid-8">
     <?php
+    	shuffle($plandd_option['list-ads']);
+    	$i = 0;
 		foreach ($plandd_option['list-ads'] as $slide):
-		$th = wp_get_attachment_image_src( $slide['attachment_id'] , 'anuncios.rodape' );
+			$i++;
+			if(9 == $i) break;
+		    $th = wp_get_attachment_image_src( $slide['attachment_id'] , 'anuncios.rodape' );
 	?>
     <li>
 		<a href="<?php echo $slide['url']; ?>" target="_blank" title="<?php $slide['description']; ?>">
