@@ -265,3 +265,12 @@ $('a','div.main-items').on('click',function(e) {
         });
     });
 })();
+
+/**
+ * Retornar ao topo
+ * ---------------------------------------------------------------------
+ */
+$('.return-to-top').on('click',function(e) {
+    e.preventDefault();
+    $('html, body').animate({scrollTop : 0},800);
+})

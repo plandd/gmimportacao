@@ -130,7 +130,7 @@ get_header();
                   </p>
 
                   <div id="rma" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                    <form id="form1" name="form1" method="post" action="enviaForm.php">
+                    <form id="form1" name="form1" method="post" action="<?php echo home_url('/rma'); ?>/enviaForm.php">
   
                      <table width="1000" border="0" cellpadding="1" cellspacing="1">
                       <tbody><tr>
@@ -138,19 +138,19 @@ get_header();
                       </tr>
                       <tr>
                         <td colspan="2" align="right"><strong>Razão Social</strong></td>
-                        <td colspan="4"><input type="text" name="nomeCliente" id="nomeCliente" size="50"></td>
+                        <td colspan="4"><input type="text" name="nomeCliente" id="nomeCliente" size="50" value="<?php echo $current_user->first_name . ' ' . $current_user->last_name; ?>"></td>
                       </tr>
                       <tr>
                         <td colspan="2" align="right"><strong>CNPJ</strong></td>
-                        <td colspan="4"><input type="text" name="cnpj" id="cnpj" size="20" maxlength="18" class=""></td>
+                        <td colspan="4"><input type="text" value="<?php echo $cnpj; ?>" name="cnpj" id="cnpj" size="20" maxlength="18" class=""></td>
                       </tr>
                       <tr>
                         <td colspan="2" align="right"><strong>Telefone para contato</strong></td>
-                        <td colspan="4"><input type="text" name="telefone" id="telefone" size="20" maxlength="14"></td>
+                        <td colspan="4"><input type="text" value="<?php echo $telefone; ?>" name="telefone" id="telefone" size="20" maxlength="14"></td>
                       </tr>
                       <tr>
                         <td colspan="2" align="right"><strong>Email</strong></td>
-                        <td colspan="3"><input type="text" name="email" id="email" size="50"></td>
+                        <td colspan="3"><input type="text" name="email" value="<?php echo $current_user->user_email; ?>" id="email" size="50"></td>
                         <td align="right"><strong>Data</strong></td>
                         <td><input type="text" id="data" name="data" size="8" readonly="readonly"></td>
                       </tr>

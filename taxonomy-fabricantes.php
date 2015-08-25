@@ -3,7 +3,7 @@ $obj = get_queried_object();
 $args = array( 
   'posts_per_page' => -1,
   'post_type' => 'produtos',
-  'orderby' => 'date',
+  'status' => 'publish',
   'tax_query' => array(
     array(
       'taxonomy' => $obj->taxonomy,
@@ -14,20 +14,6 @@ $args = array(
 );
 $posts = get_posts( $args );
 $total = count($posts);
-
-$args = array( 
-  'posts_per_page' => 15,
-  'post_type' => 'produtos',
-  'orderby' => 'date',
-  'tax_query' => array(
-    array(
-      'taxonomy' => $obj->taxonomy,
-      'field' => 'slug',
-      'terms' => $obj->slug
-    )
-  )
-);
-$posts = get_posts( $args );
 
 //var_dump($obj);
 get_header();
@@ -44,11 +30,6 @@ get_header();
         <!-- coluna direita -->
         <div class="small-13 left">
 
-          <?php
-            // Distribuidores oficiais
-            require_once (dirname(__FILE__) . '/includes/sections/distribuidores.php');
-          ?>
-
           <div class="divide-30"></div>
 
           <section id="content" class="small-16 columns">
@@ -62,7 +43,9 @@ get_header();
             <nav id="list-products" class="small-16 columns">
               <ul class="small-block-grid-5">
                 <?php
+                  $i = 0;
                   foreach ($posts as $post): setup_postdata( $post );
+                    $i++; if(16 == $i) break;
                     global $post;
                     $thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'produtos.lista');
                     $th = (!empty($thumb[0])) ? $thumb[0] : get_stylesheet_directory_uri() . '/images/imagem_padrao.jpg';

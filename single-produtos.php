@@ -2,6 +2,9 @@
 $obj = get_queried_object();
 global $post;
 $terms = wp_get_post_terms( $post->ID, 'fabricantes');
+
+$post_exist = get_page_by_title( $post->ID, 'OBJECT', 'produtos' );
+var_dump($post_exist);
 get_header();
 ?>
 

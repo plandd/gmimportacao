@@ -32,11 +32,6 @@ get_header();
         <!-- coluna direita -->
         <div class="small-13 left">
 
-          <?php
-            // Distribuidores oficiais
-            require_once (dirname(__FILE__) . '/includes/sections/distribuidores.php');
-          ?>
-
           <div class="divide-30"></div>
 
           <section id="content" class="small-16 columns">

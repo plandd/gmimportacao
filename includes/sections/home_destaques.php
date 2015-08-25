@@ -53,10 +53,7 @@
       </div>
 
       <div class="small-8 left col-right">
-        <form class="form-newsletter small-16 left">
-          <input type="email" name="email" class="small-12 left" placeholder="Digite seu melhor email" required title="Seu e-mail">
-          <button type="submit" class="small-4 left button secondary shape text-up">Assinar</button>
-        </form>
+        <?php echo do_shortcode('[mc4wp_form]'); ?>
       </div>
     </div>
   </div>

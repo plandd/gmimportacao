@@ -8,6 +8,7 @@
     
     <!-- footer -->
     <footer id="footer" class="small-16 left white rel">
+      <a href="#" title="Voltar ao topo" class="return-to-top text-center"><span class="icon-icon_up_2"></span></a>
       <div class="row">
         
         <section class="small-5 columns">

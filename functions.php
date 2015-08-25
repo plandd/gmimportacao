@@ -130,6 +130,16 @@ function produtos_init() {
 }
 add_action('init', 'produtos_init');
 
+//Regiões
+function regions_init() {
+    $labels = array('name' => 'Regiões', 'singular_name' => 'Região', 'add_new' => 'Adicionar Nova', 'add_new_item' => 'Adicionar nova Região', 'edit_item' => 'Editar Região', 'new_item' => 'Nova Região', 'all_items' => 'Todas as Regiões', 'view_item' => 'Ver Região', 'search_items' => 'Buscar Regiões', 'not_found' => 'N&atilde;o encontrada', 'not_found_in_trash' => 'N&atilde;o encontrada', 'parent_item_colon' => '', 'menu_name' => 'Regiões');
+    
+    $args = array('labels' => $labels, 'public' => true, 'exclude_from_search' => false, 'publicly_queryable' => true, 'show_ui' => true, 'show_in_menu' => true, 'query_var' => true, 'rewrite' => array('slug' => 'regioes'), 'capability_type' => 'post', 'has_archive' => true, 'hierarchical' => true, 'menu_position' => 4, 'supports' => array('title'));
+    
+    register_post_type('regioes', $args);
+}
+add_action('init', 'regions_init');
+
 function plandd_setup() {
 	/**
 	 * Registrar formatos de miniaturas para corte automatico
@@ -225,6 +235,19 @@ function plandd_setup() {
 	require_once (dirname(__FILE__) . '/includes/redux/sample/barebones-config.php');
 }
 add_action('after_setup_theme','plandd_setup');
+
+/** Mudar email e nome de email padrões */
+add_filter('wp_mail_from_name', 'new_mail_from_name');
+function new_mail_from_name($old) {
+ return 'GMI Distribuidora';
+}
+add_filter('wp_mail_from', 'new_mail_from');
+function new_mail_from($old) {
+ return 'contato@gmimportacao.com.br';
+}
+if ( !function_exists('wp_new_user_notification') ) :
+function wp_new_user_notification( $user_id, $notify = '' ) { }
+endif;
 
 /**
  * Compenentes gerados pelo Redux
@@ -351,6 +374,9 @@ function add_menu_icons_styles(){
 #menu-posts-produtos div.wp-menu-image:before {
   content: "\f174";
 }
+#menu-posts-regioes div.wp-menu-image:before {
+  content: "\f230";
+}
 input[id^="list-winners-url"],
 input[id^="list-faq-url"],
 #plandd_option-list-faq .redux_slides_add_remove {
@@ -439,6 +465,7 @@ function planDD_save_extra_user_profile_fields( $user_id )
 	 update_user_meta( $user_id, 'planDD_vendedor', $_POST['planDD_vendedor'] );
 	 update_user_meta( $user_id, 'planDD_compra', $_POST['planDD_compra'] );
 	 update_user_meta( $user_id, 'planDD_limite', $_POST['planDD_limite'] );
+	 update_user_meta( $user_id, 'planDD_regiao', $_POST['planDD_regiao'] );
  }
 #Developed By planDD , http://planDD.com
 function planDD_extra_user_profile_fields( $user )
@@ -479,6 +506,13 @@ function planDD_extra_user_profile_fields( $user )
 	  <th><label for="planDD_cnpj">Limite</label></th>
 	 <td>
 	 <input type="text" id="planDD_limite" name="planDD_limite" size="20" value="<?php echo esc_attr( get_the_author_meta( 'planDD_limite', $user->ID )); ?>">
+	 </td>
+	 </tr>
+
+	 <tr>
+	  <th><label for="planDD_regial">Região</label></th>
+	 <td>
+	 <input type="text" id="planDD_regiao" name="planDD_regiao" size="20" value="<?php echo esc_attr( get_the_author_meta( 'planDD_regiao', $user->ID )); ?>">
 	 </td>
 	 </tr>
  </table>
@@ -545,17 +579,17 @@ class GMI_Clientes
 			    @$vendedor = $data[4];
 			    @$compra = $data[5];
 			    @$limite = $data[6];
+			    @$regiao = $data[7];
 
 			    if(wp_create_user( $pass, $pass , $email )) {
 					@$user = get_user_by( 'login', $pass );
 					
 					if(isset($user)) {
 						
-						if ( $user && wp_check_password( $pass, $user->data->user_pass, $user->ID) ) {
+						if ( wp_check_password( $pass, $user->data->user_pass, $user->ID) ) {
 							@$userdata = array(
 							  'ID' => $user->ID,
 							  'user_login'  =>  $pass,
-							  'user_pass'   =>  $pass,
 							  'display_name' => $first_name,
 							  'nickname' => strtolower($first_name),
 							  'user_email' => $email,
@@ -572,7 +606,8 @@ class GMI_Clientes
 							  'user_email' => $email,
 							  'user_nicename' => $full_name,
 							  'first_name' => $first_name,
-							  'last_name' => $last_name
+							  'last_name' => $last_name,
+							  'user_pass'   =>  $pass,
 							);
 						}
 
@@ -583,7 +618,20 @@ class GMI_Clientes
 						@update_user_meta( $user->ID , 'planDD_vendedor', $vendedor );
 						@update_user_meta( $user->ID , 'planDD_compra', $compra );
 						@update_user_meta( $user->ID , 'planDD_limite', $limite );
+						@update_user_meta( $user->ID , 'planDD_regiao', $regiao );
 
+						if( NULL == get_page_by_title( $regiao, 'OBJECT', 'regioes') && isset($regiao) && !empty($regiao) ) {
+							$defaults = array(
+							  'post_type'             => 'regioes',
+							  'post_title'    		  => $regiao,
+							  'post_status'   		  => 'publish',
+							  'post_author'   		  => 1,
+							  'post_excerpt'          => '',
+							  'post_parent' 		  => 0
+							);
+							wp_insert_post( $defaults );
+						}
+						
 						self::$codes_file[] = $pass;
 					}
 			    }
@@ -835,7 +883,7 @@ function GMI_Produtos() {
     $post_exists = function( $title ) use ( $wpdb, $planDD ) {
         // Get an array of all posts within our custom post type
         $posts = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = 'produtos'" );
- 		
+
         // Check if the passed title exists in array
         return in_array( $title, $posts );
     };
@@ -963,7 +1011,7 @@ class PlanDD_Cart {
 		?>
 		<div class="change_cart_quantity small-16 left">
 			<span class="rem_item">-</span>
-			<span class="total_item"><input type="text" value="<?php echo $this->show_current_item_cart(); ?>"></span>
+			<span class="total_item"><input type="text" value="<?php echo ($this->show_current_item_cart() > 0) ? $this->show_current_item_cart() : 1; ?>"></span>
 			<span class="add_item">+</span>
 			
 			<a href="#" class="button left text-up round font-small submit_item" title="Adicionar" data-user="<?php echo $this->user_id; ?>" data-item="<?php echo $this->post_id; ?>">Adicionar <span class="icon-icon_incar font-medium"></span></a>

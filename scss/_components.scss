@@ -791,6 +791,13 @@ ul.main-items {
   }
 }
 
+.mc4wp-alert {
+  //display: none !important;
+  font-size: rem-calc(12);
+  color: green;
+  line-height: rem-calc(60);
+}
+
 $padding_col: rem-calc(85); 
 .col-left {
   padding-left: $padding_col;
@@ -1167,6 +1174,30 @@ $padding_col: rem-calc(85);
 .custom-nav {
   ul {
     @extend .no-bullet;
+  }
+  li {
+    line-height: 2;
+  }
+}
+
+//voltar ao topo
+.return-to-top {
+  @extend .d-block;
+  @extend .abs;
+  @extend .bg-primary;
+  @extend .white;
+  width: rem-calc(50);
+  height: rem-calc(50);
+  border-radius: 100%;
+  right: rem-calc(20);
+  top: rem-calc(-25);
+
+  span {
+    line-height: rem-calc(47);
+    font-size: rem-calc(30);
+  }
+  &:hover {
+    @extend .white;
   }
 }
 
